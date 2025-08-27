@@ -1,0 +1,153 @@
+<?php
+
+return [
+    // Navigation
+    'dashboard' => 'ダッシュボード',
+    'restaurant' => 'レストラン',
+    'menu' => 'メニュー',
+    'food_items' => '食品',
+    'analytics' => '分析',
+    'ai_insights' => 'AI分析',
+    'features' => '機能',
+    'how_it_works' => '使い方',
+    'contact' => 'お問い合わせ',
+    'login' => 'ログイン',
+    'register' => '登録',
+    'get_started' => '始める',
+    'profile' => 'プロフィール',
+    'settings' => '設定',
+    'logout' => 'ログアウト',
+
+    // Hero Section
+    'hero_title' => 'レストラン向けスマート食品廃棄物管理 🍽️',
+    'hero_subtitle' => 'AI駆動の洞察と分析により、食品廃棄物を削減し、利益を増やし、持続可能な未来に貢献しましょう。',
+    'start_free_trial' => '無料トライアル開始',
+    'learn_more' => '詳細を見る',
+
+    // Features
+    'why_choose' => 'なぜ私たちのプラットフォームを選ぶのか？ ✨',
+    'ai_insights_title' => 'AI駆動の洞察',
+    'ai_insights_desc' => 'リアルタイムデータ分析に基づいて、廃棄物を削減し、メニューを最適化するためのインテリジェントな推奨事項を取得します。',
+    'analytics_title' => '高度な分析',
+    'analytics_desc' => '廃棄物パターン、コスト、改善機会を追跡するための包括的なダッシュボードとレポート。',
+    'cost_reduction_title' => 'コスト削減',
+    'cost_reduction_desc' => '食品廃棄物を削減し、在庫を最適化し、運営効率を向上させることでお金を節約します。',
+    'sustainability_title' => '持続可能性',
+    'sustainability_desc' => '食品廃棄物を最小限に抑え、持続可能な実践を促進することで環境保護に貢献します。',
+    'easy_to_use_title' => '使いやすい',
+    'easy_to_use_desc' => '最小限のトレーニング要件でレストランスタッフ向けに設計された直感的なインターフェース。',
+    'secure_title' => '安全で信頼性',
+    'secure_desc' => '99.9%の稼働時間保証と定期的なバックアップを備えたエンタープライズグレードのセキュリティ。',
+
+    // Stats
+    'restaurants' => 'レストラン',
+    'waste_reduction' => '廃棄物削減',
+    'cost_saved' => '節約されたコスト',
+    'satisfaction_rate' => '満足度',
+
+    // How It Works
+    'how_it_works_title' => '使い方 🚀',
+    'step_1_title' => 'サインアップ',
+    'step_1_desc' => 'シンプルな登録プロセスで数分以内にレストランアカウントを作成します。',
+    'step_2_title' => 'メニュー設定',
+    'step_2_desc' => 'メニュー項目、材料、価格を追加して廃棄物追跡を開始します。',
+    'step_3_title' => '廃棄物追跡',
+    'step_3_desc' => '毎日の食品廃棄物を記録し、リアルタイムの洞察と推奨事項を取得します。',
+    'step_4_title' => '最適化と節約',
+    'step_4_desc' => 'AI洞察を使用して廃棄物を削減し、コストを削減し、収益性を向上させます。',
+
+    // CTA
+    'ready_to_transform' => 'レストランを変革する準備はできていますか？ 🎯',
+    'cta_description' => 'すでに私たちのプラットフォームでお金を節約し、廃棄物を削減している何百ものレストランに参加しましょう。',
+    'login_to_account' => 'アカウントにログイン',
+
+    // Contact
+    'get_in_touch' => 'お問い合わせ 📞',
+    'contact_info' => '連絡先情報',
+    'address' => '住所',
+    'phone' => '電話番号',
+    'email' => 'メールアドレス',
+    'business_hours' => '営業時間',
+    'monday_friday' => '月曜日 - 金曜日',
+    'saturday' => '土曜日',
+    'sunday' => '日曜日',
+    'closed' => '定休日',
+    'start_your_free_trial' => '無料トライアルを開始',
+
+    // Footer
+    'smart_solutions' => '持続可能なレストランのためのスマートソリューション',
+    'all_rights_reserved' => '全著作権所有。',
+
+    // Dashboard specific
+    'total_revenue' => '総収益',
+    'total_orders' => '総注文数',
+    'waste_percentage' => '廃棄物率',
+    'ai_prediction_accuracy' => 'AI予測精度',
+    'quick_actions' => 'クイックアクション',
+    'add_menu_item' => 'メニュー項目を追加',
+    'record_waste' => '廃棄物を記録',
+    'view_analytics' => '分析を表示',
+    'low_stock_alerts' => '在庫不足アラート',
+    'recent_waste_records' => '最近の廃棄物記録',
+    'waste_analysis_by_category' => 'カテゴリ別廃棄物分析',
+
+    // Authentication
+    'Login' => 'ログイン',
+    'Email Address' => 'メールアドレス',
+    'Password' => 'パスワード',
+    'Remember Me' => 'ログイン状態を保持',
+    'Forgot Your Password?' => 'パスワードを忘れましたか？',
+    'Register' => '登録',
+    'Name' => '名前',
+    'Confirm Password' => 'パスワード確認',
+    'Verify Your Email Address' => 'メールアドレスの確認',
+    'A fresh verification link has been sent to your email address.' => '新しい確認リンクがメールアドレスに送信されました。',
+    'Before proceeding, please check your email for a verification link.' => '続行する前に、メールで確認リンクを確認してください。',
+    'If you did not receive the email' => 'メールが届かない場合',
+    'click here to request another' => 'ここをクリックして再送信をリクエスト',
+    'Please confirm your password before continuing.' => '続行する前にパスワードを確認してください。',
+    'Reset Password' => 'パスワードリセット',
+    'Send Password Reset Link' => 'パスワードリセットリンクを送信',
+    'Dashboard' => 'ダッシュボード',
+    'You are logged in!' => 'ログインしました！',
+
+    // Dashboard specific
+    'Welcome back' => 'おかえりなさい',
+    'Here\'s your restaurant overview.' => 'レストランの概要です。',
+    'AI Insights & Recommendations' => 'AI分析と推奨事項',
+    'No AI insights available yet. Continue using the system to generate personalized recommendations!' => 'AI分析はまだ利用できません。システムを使い続けて、パーソナライズされた推奨事項を生成しましょう！',
+    'Quick Actions' => 'クイックアクション',
+    'View Analytics' => '分析を表示',
+    'Recent Waste Records' => '最近の廃棄物記録',
+    'Waste Analysis by Category' => 'カテゴリ別廃棄物分析',
+
+    // Restaurant Management
+    'Create Restaurant' => 'レストラン作成',
+    'Set up your restaurant profile to start managing food waste efficiently' => 'レストランプロフィールを設定して、食品廃棄物の効率的な管理を開始しましょう',
+    'Restaurant Information' => 'レストラン情報',
+    'Restaurant Name' => 'レストラン名',
+    'Cuisine Type' => '料理タイプ',
+    'Select cuisine type' => '料理タイプを選択',
+    'Phone Number' => '電話番号',
+    'Email Address' => 'メールアドレス',
+    'Address' => '住所',
+    'Seating Capacity' => '座席数',
+    'Create Restaurant' => 'レストラン作成',
+    'Cancel' => 'キャンセル',
+
+    // Common Actions
+    'Submit' => '送信',
+    'Save' => '保存',
+    'Update' => '更新',
+    'Delete' => '削除',
+    'Edit' => '編集',
+    'Show' => '表示',
+    'Back' => '戻る',
+    'Next' => '次へ',
+    'Previous' => '前へ',
+    'Back to Dashboard' => 'ダッシュボードに戻る',
+    'Edit Restaurant' => 'レストラン編集',
+    'Delete Restaurant' => 'レストラン削除',
+    'Are you sure you want to delete this restaurant?' => 'このレストランを削除してもよろしいですか？',
+];
+

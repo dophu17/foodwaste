@@ -1,0 +1,153 @@
+<?php
+
+return [
+    // Navigation
+    'dashboard' => 'Bảng điều khiển',
+    'restaurant' => 'Nhà hàng',
+    'menu' => 'Thực đơn',
+    'food_items' => 'Món ăn',
+    'analytics' => 'Phân tích',
+    'ai_insights' => 'AI Insights',
+    'features' => 'Tính năng',
+    'how_it_works' => 'Cách hoạt động',
+    'contact' => 'Liên hệ',
+    'login' => 'Đăng nhập',
+    'register' => 'Đăng ký',
+    'get_started' => 'Bắt đầu',
+    'profile' => 'Hồ sơ',
+    'settings' => 'Cài đặt',
+    'logout' => 'Đăng xuất',
+
+    // Hero Section
+    'hero_title' => 'Quản lý thực phẩm thông minh cho nhà hàng 🍽️',
+    'hero_subtitle' => 'Giảm lãng phí thực phẩm, tăng lợi nhuận và đóng góp cho tương lai bền vững với AI-powered insights và analytics.',
+    'start_free_trial' => 'Bắt đầu dùng thử miễn phí',
+    'learn_more' => 'Tìm hiểu thêm',
+
+    // Features
+    'why_choose' => 'Tại sao chọn nền tảng của chúng tôi? ✨',
+    'ai_insights_title' => 'AI-Powered Insights',
+    'ai_insights_desc' => 'Nhận khuyến nghị thông minh để giảm lãng phí và tối ưu hóa thực đơn dựa trên phân tích dữ liệu thời gian thực.',
+    'analytics_title' => 'Phân tích nâng cao',
+    'analytics_desc' => 'Dashboard và báo cáo toàn diện để theo dõi mô hình lãng phí, chi phí và cơ hội cải thiện.',
+    'cost_reduction_title' => 'Giảm chi phí',
+    'cost_reduction_desc' => 'Tiết kiệm tiền bằng cách giảm lãng phí thực phẩm, tối ưu hóa hàng tồn kho và cải thiện hiệu quả hoạt động.',
+    'sustainability_title' => 'Bền vững',
+    'sustainability_desc' => 'Đóng góp vào bảo vệ môi trường bằng cách giảm thiểu lãng phí thực phẩm và thúc đẩy các thực hành bền vững.',
+    'easy_to_use_title' => 'Dễ sử dụng',
+    'easy_to_use_desc' => 'Giao diện trực quan được thiết kế cho nhân viên nhà hàng với yêu cầu đào tạo tối thiểu.',
+    'secure_title' => 'An toàn & Đáng tin cậy',
+    'secure_desc' => 'Bảo mật cấp doanh nghiệp với cam kết thời gian hoạt động 99.9% và sao lưu thường xuyên.',
+
+    // Stats
+    'restaurants' => 'Nhà hàng',
+    'waste_reduction' => 'Giảm lãng phí',
+    'cost_saved' => 'Chi phí tiết kiệm',
+    'satisfaction_rate' => 'Tỷ lệ hài lòng',
+
+    // How It Works
+    'how_it_works_title' => 'Cách hoạt động 🚀',
+    'step_1_title' => 'Đăng ký',
+    'step_1_desc' => 'Tạo tài khoản nhà hàng trong vài phút với quy trình đăng ký đơn giản của chúng tôi.',
+    'step_2_title' => 'Thiết lập thực đơn',
+    'step_2_desc' => 'Thêm các món ăn, nguyên liệu và giá cả để bắt đầu theo dõi lãng phí.',
+    'step_3_title' => 'Theo dõi lãng phí',
+    'step_3_desc' => 'Ghi lại lãng phí thực phẩm hàng ngày và nhận insights và khuyến nghị thời gian thực.',
+    'step_4_title' => 'Tối ưu hóa & Tiết kiệm',
+    'step_4_desc' => 'Sử dụng AI insights để giảm lãng phí, cắt giảm chi phí và cải thiện lợi nhuận.',
+
+    // CTA
+    'ready_to_transform' => 'Sẵn sàng thay đổi nhà hàng của bạn? 🎯',
+    'cta_description' => 'Tham gia cùng hàng trăm nhà hàng đã tiết kiệm tiền và giảm lãng phí với nền tảng của chúng tôi.',
+    'login_to_account' => 'Đăng nhập vào tài khoản',
+
+    // Contact
+    'get_in_touch' => 'Liên hệ 📞',
+    'contact_info' => 'Thông tin liên hệ',
+    'address' => 'Địa chỉ',
+    'phone' => 'Điện thoại',
+    'email' => 'Email',
+    'business_hours' => 'Giờ làm việc',
+    'monday_friday' => 'Thứ 2 - Thứ 6',
+    'saturday' => 'Thứ 7',
+    'sunday' => 'Chủ nhật',
+    'closed' => 'Nghỉ',
+    'start_your_free_trial' => 'Bắt đầu dùng thử miễn phí',
+
+    // Footer
+    'smart_solutions' => 'Giải pháp thông minh cho nhà hàng bền vững',
+    'all_rights_reserved' => 'Bảo lưu mọi quyền.',
+
+    // Dashboard specific
+    'total_revenue' => 'Tổng doanh thu',
+    'total_orders' => 'Tổng đơn hàng',
+    'waste_percentage' => 'Tỷ lệ lãng phí',
+    'ai_prediction_accuracy' => 'Độ chính xác dự đoán AI',
+    'quick_actions' => 'Hành động nhanh',
+    'add_menu_item' => 'Thêm món ăn',
+    'record_waste' => 'Ghi lãng phí',
+    'view_analytics' => 'Xem phân tích',
+    'low_stock_alerts' => 'Cảnh báo hết hàng',
+    'recent_waste_records' => 'Ghi lãng phí gần đây',
+    'waste_analysis_by_category' => 'Phân tích lãng phí theo danh mục',
+
+    // Authentication
+    'Login' => 'Đăng nhập',
+    'Email Address' => 'Địa chỉ Email',
+    'Password' => 'Mật khẩu',
+    'Remember Me' => 'Ghi nhớ đăng nhập',
+    'Forgot Your Password?' => 'Quên mật khẩu?',
+    'Register' => 'Đăng ký',
+    'Name' => 'Họ tên',
+    'Confirm Password' => 'Xác nhận mật khẩu',
+    'Verify Your Email Address' => 'Xác minh địa chỉ Email',
+    'A fresh verification link has been sent to your email address.' => 'Một liên kết xác minh mới đã được gửi đến địa chỉ email của bạn.',
+    'Before proceeding, please check your email for a verification link.' => 'Trước khi tiếp tục, vui lòng kiểm tra email của bạn để tìm liên kết xác minh.',
+    'If you did not receive the email' => 'Nếu bạn không nhận được email',
+    'click here to request another' => 'nhấp vào đây để yêu cầu gửi lại',
+    'Please confirm your password before continuing.' => 'Vui lòng xác nhận mật khẩu của bạn trước khi tiếp tục.',
+    'Reset Password' => 'Đặt lại mật khẩu',
+    'Send Password Reset Link' => 'Gửi liên kết đặt lại mật khẩu',
+    'Dashboard' => 'Bảng điều khiển',
+    'You are logged in!' => 'Bạn đã đăng nhập!',
+
+    // Dashboard specific
+    'Welcome back' => 'Chào mừng trở lại',
+    'Here\'s your restaurant overview.' => 'Đây là tổng quan nhà hàng của bạn.',
+    'AI Insights & Recommendations' => 'AI Insights & Khuyến nghị',
+    'No AI insights available yet. Continue using the system to generate personalized recommendations!' => 'Chưa có AI insights. Hãy tiếp tục sử dụng hệ thống để tạo khuyến nghị cá nhân hóa!',
+    'Quick Actions' => 'Hành động nhanh',
+    'View Analytics' => 'Xem phân tích',
+    'Recent Waste Records' => 'Ghi lãng phí gần đây',
+    'Waste Analysis by Category' => 'Phân tích lãng phí theo danh mục',
+
+    // Restaurant Management
+    'Create Restaurant' => 'Tạo nhà hàng',
+    'Set up your restaurant profile to start managing food waste efficiently' => 'Thiết lập hồ sơ nhà hàng để bắt đầu quản lý lãng phí thực phẩm hiệu quả',
+    'Restaurant Information' => 'Thông tin nhà hàng',
+    'Restaurant Name' => 'Tên nhà hàng',
+    'Cuisine Type' => 'Loại ẩm thực',
+    'Select cuisine type' => 'Chọn loại ẩm thực',
+    'Phone Number' => 'Số điện thoại',
+    'Email Address' => 'Địa chỉ Email',
+    'Address' => 'Địa chỉ',
+    'Seating Capacity' => 'Sức chứa',
+    'Create Restaurant' => 'Tạo nhà hàng',
+    'Cancel' => 'Hủy',
+
+    // Common Actions
+    'Submit' => 'Gửi',
+    'Save' => 'Lưu',
+    'Update' => 'Cập nhật',
+    'Delete' => 'Xóa',
+    'Edit' => 'Sửa',
+    'Show' => 'Hiển thị',
+    'Back' => 'Quay lại',
+    'Next' => 'Tiếp theo',
+    'Previous' => 'Trước đó',
+    'Back to Dashboard' => 'Quay lại Dashboard',
+    'Edit Restaurant' => 'Sửa nhà hàng',
+    'Delete Restaurant' => 'Xóa nhà hàng',
+    'Are you sure you want to delete this restaurant?' => 'Bạn có chắc chắn muốn xóa nhà hàng này không?',
+];
+

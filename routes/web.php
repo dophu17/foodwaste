@@ -1,7 +1,51 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\FoodItemController;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+// Test language route
+Route::get('/test-lang', function () {
+    return view('test-lang');
+})->name('test-lang');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+// Restaurant management (requires authentication)
+Route::middleware(['auth'])->group(function () {
+    Route::resource('restaurant', RestaurantController::class);
+    Route::resource('menu', MenuController::class);
+    Route::resource('food-item', FoodItemController::class);
+    
+    // Additional routes for waste management
+    Route::get('/waste-analytics', [DashboardController::class, 'wasteAnalytics'])->name('waste.analytics');
+    Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
 });
+
+// Redirect authenticated users to dashboard
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', function () {
+        return redirect()->route('dashboard');
+    });
+});
+
+// Language switcher route
+Route::get('/language/{locale}', function ($locale) {
+    if (in_array($locale, ['ja', 'vi'])) {
+        session()->put('locale', $locale);
+        app()->setLocale($locale);
+    }
+    return redirect()->back();
+})->name('language.switch');

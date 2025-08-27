@@ -19,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Set default locale to Japanese
+        app()->setLocale('ja');
+        
+        // Set fallback locale
+        if (!app()->getLocale()) {
+            app()->setLocale('ja');
+        }
     }
 }
