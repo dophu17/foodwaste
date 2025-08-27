@@ -1,11 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "foodwaste/management",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A comprehensive food waste management system for restaurants built with Laravel framework.",
     "keywords": [
         "laravel",
-        "framework"
+        "food-waste",
+        "restaurant-management",
+        "waste-tracking",
+        "sustainability",
+        "ai-insights"
     ],
     "license": "MIT",
     "require": {

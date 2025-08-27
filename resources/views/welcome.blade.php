@@ -403,14 +403,53 @@
                     </li>
                 </ul>
                 
-                <ul class="navbar-nav">
-                    <li class="nav-item me-2">
-                        <a class="nav-link btn btn-outline-primary" href="{{ route('login') }}">{{ __('messages.login') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary" href="{{ route('register') }}">{{ __('messages.get_started') }}</a>
-                    </li>
-                </ul>
+                @auth
+                    <!-- Profile Menu for authenticated users -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-2"></i>
+                                {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        <i class="fas fa-chart-line me-2"></i>{{ __('messages.dashboard') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('restaurant.index') }}">
+                                        <i class="fas fa-store me-2"></i>{{ __('messages.restaurant') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cog me-2"></i>{{ __('messages.settings') }}
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i>{{ __('messages.logout') }}
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                @else
+                    <!-- Login/Register buttons for guests -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item me-2">
+                            <a class="nav-link btn btn-outline-primary" href="{{ route('login') }}">{{ __('messages.login') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary" href="{{ route('register') }}">{{ __('messages.get_started') }}</a>
+                        </li>
+                    </ul>
+                @endauth
             </div>
         </div>
     </nav>
@@ -602,12 +641,23 @@
                 {{ __('messages.cta_description') }}
             </p>
             <div class="hero-buttons justify-content-center">
-                <a href="{{ route('register') }}" class="btn-hero btn-outline-hero">
-                    <i class="fas fa-rocket"></i>{{ __('messages.start_free_trial') }}
-                </a>
-                <a href="{{ route('login') }}" class="btn-hero btn-primary-hero">
-                    <i class="fas fa-sign-in-alt"></i>{{ __('messages.login_to_account') }}
-                </a>
+                @auth
+                    <!-- Buttons for authenticated users -->
+                    <a href="{{ route('dashboard') }}" class="btn-hero btn-primary-hero">
+                        <i class="fas fa-chart-line"></i>{{ __('messages.go_to_dashboard') }}
+                    </a>
+                    <a href="{{ route('restaurant.index') }}" class="btn-hero btn-outline-hero">
+                        <i class="fas fa-store"></i>{{ __('messages.manage_restaurants') }}
+                    </a>
+                @else
+                    <!-- Buttons for guests -->
+                    <a href="{{ route('register') }}" class="btn-hero btn-outline-hero">
+                        <i class="fas fa-rocket"></i>{{ __('messages.start_free_trial') }}
+                    </a>
+                    <a href="{{ route('login') }}" class="btn-hero btn-primary-hero">
+                        <i class="fas fa-sign-in-alt"></i>{{ __('messages.login_to_account') }}
+                    </a>
+                @endauth
             </div>
         </div>
     </section>
@@ -660,9 +710,15 @@
                                 </div>
                             </div>
                             <div class="text-center mt-4">
-                                <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-rocket me-2"></i>{{ __('messages.start_your_free_trial') }}
-                                </a>
+                                @auth
+                                    <a href="{{ route('dashboard') }}" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-chart-line me-2"></i>{{ __('messages.access_dashboard') }}
+                                    </a>
+                                @else
+                                    <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-rocket me-2"></i>{{ __('messages.start_your_free_trial') }}
+                                    </a>
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -683,8 +739,13 @@
                     <a href="#features">{{ __('messages.features') }}</a>
                     <a href="#how-it-works">{{ __('messages.how_it_works') }}</a>
                     <a href="#contact">{{ __('messages.contact') }}</a>
-                    <a href="{{ route('login') }}">{{ __('messages.login') }}</a>
-                    <a href="{{ route('register') }}">{{ __('messages.register') }}</a>
+                    @auth
+                        <a href="{{ route('dashboard') }}">{{ __('messages.dashboard') }}</a>
+                        <a href="{{ route('restaurant.index') }}">{{ __('messages.restaurant') }}</a>
+                    @else
+                        <a href="{{ route('login') }}">{{ __('messages.login') }}</a>
+                        <a href="{{ route('register') }}">{{ __('messages.register') }}</a>
+                    @endauth
                 </div>
             </div>
             <hr class="my-4" style="border-color: #34495e;">

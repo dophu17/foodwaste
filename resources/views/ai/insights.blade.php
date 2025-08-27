@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-    <div class="page-header">
-        <div class="container">
+    <div class="container">
+        <div class="page-header">
             <h1 class="page-title">🤖 AI Insights</h1>
             <p class="page-subtitle">Intelligent recommendations powered by artificial intelligence</p>
         </div>

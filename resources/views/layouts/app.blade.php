@@ -164,9 +164,9 @@
         .page-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 3rem 0;
+            padding: 3rem;
             margin-bottom: 2rem;
-            border-radius: 0 0 2rem 2rem;
+            border-radius: 2rem;
         }
         
         .page-title {
@@ -183,9 +183,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="container">
-            <a class="navbar-brand" href="{{ auth()->check() ? route('dashboard') : route('welcome') }}">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-left: 1rem; padding-right: 1rem;">
+        <!-- <div class="container"> -->
+            <a class="navbar-brand" href="{{ route('welcome') }}">
                 🍱 {{ config('app.name', 'Food Waste Management') }}
             </a>
             
@@ -278,8 +278,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user me-2"></i>{{ __('messages.profile') }}
+                                    <a class="dropdown-item" href="{{ route('restaurant.index') }}">
+                                        <i class="fas fa-store me-2"></i>{{ __('messages.restaurant') }}
                                     </a>
                                 </li>
                                 <li>
@@ -313,7 +313,7 @@
                     </ul>
                 @endauth
             </div>
-        </div>
+        <!-- </div> -->
     </nav>
 
     <!-- Logout Form -->

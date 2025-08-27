@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-            <div class="page-header">
-        <div class="container">
+    <div class="container">
+        <div class="page-header">
             <h1 class="page-title">🎯 {{ __('messages.dashboard') }}</h1>
             <p class="page-subtitle">{{ __('messages.Welcome back') }}, {{ Auth::user()->name }}! {{ __('messages.Here\'s your restaurant overview.') }}</p>
         </div>

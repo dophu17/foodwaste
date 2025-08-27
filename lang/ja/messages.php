@@ -60,6 +60,9 @@ return [
     'ready_to_transform' => 'レストランを変革する準備はできていますか？ 🎯',
     'cta_description' => 'すでに私たちのプラットフォームでお金を節約し、廃棄物を削減している何百ものレストランに参加しましょう。',
     'login_to_account' => 'アカウントにログイン',
+    'go_to_dashboard' => 'ダッシュボードへ',
+    'manage_restaurants' => 'レストラン管理',
+    'access_dashboard' => 'ダッシュボードにアクセス',
 
     // Contact
     'get_in_touch' => 'お問い合わせ 📞',

@@ -60,6 +60,9 @@ return [
     'ready_to_transform' => 'Sẵn sàng thay đổi nhà hàng của bạn? 🎯',
     'cta_description' => 'Tham gia cùng hàng trăm nhà hàng đã tiết kiệm tiền và giảm lãng phí với nền tảng của chúng tôi.',
     'login_to_account' => 'Đăng nhập vào tài khoản',
+    'go_to_dashboard' => 'Đi đến Bảng điều khiển',
+    'manage_restaurants' => 'Quản lý Nhà hàng',
+    'access_dashboard' => 'Truy cập Bảng điều khiển',
 
     // Contact
     'get_in_touch' => 'Liên hệ 📞',

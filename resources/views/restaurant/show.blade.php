@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-    <div class="page-header">
-        <div class="container">
+    <div class="container">
+        <div class="page-header">
             <h1 class="page-title">🏪 {{ $restaurant->name }}</h1>
             <p class="page-subtitle">{{ $restaurant->cuisine_type }} Cuisine • {{ $restaurant->address }}</p>
         </div>

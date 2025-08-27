@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-            <div class="page-header">
-        <div class="container">
+    <div class="container">
+        <div class="page-header">
             <h1 class="page-title">🏪 {{ __('messages.Create Restaurant') }}</h1>
             <p class="page-subtitle">{{ __('messages.Set up your restaurant profile to start managing food waste efficiently') }}</p>
         </div>
