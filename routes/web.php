@@ -26,7 +26,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // Restaurant management (requires authentication)
 Route::middleware(['auth'])->group(function () {
     Route::resource('restaurant', RestaurantController::class);
-    Route::resource('menu', MenuController::class);
+    
+    // Menu management routes
+    Route::resource('menus', MenuController::class);
+    Route::post('menus/{menu}/toggle-status', [MenuController::class, 'toggleStatus'])->name('menus.toggle-status');
+    Route::get('restaurants/{restaurant}/menus', [MenuController::class, 'getByRestaurant'])->name('menus.by-restaurant');
+    Route::get('menus/category/{category}', [MenuController::class, 'getByCategory'])->name('menus.by-category');
+    
     Route::resource('food-item', FoodItemController::class);
     
     // Additional routes for waste management

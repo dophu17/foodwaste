@@ -208,7 +208,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('menu.*') ? 'active' : '' }}" href="{{ route('menu.index') }}">
+                            <a class="nav-link {{ request()->routeIs('menus.*') ? 'active' : '' }}" href="{{ route('menus.index') }}">
                                 <i class="fas fa-utensils me-2"></i>{{ __('messages.menu') }}
                             </a>
                         </li>

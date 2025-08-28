@@ -104,7 +104,7 @@
                             <a href="{{ route('restaurant.create') }}" class="btn btn-outline-primary">
                                 <i class="fas fa-plus me-2"></i>Add Restaurant
                             </a>
-                            <a href="{{ route('menu.create') }}" class="btn btn-outline-success">
+                            <a href="{{ route('menus.create') }}" class="btn btn-outline-success">
                                 <i class="fas fa-utensils me-2"></i>Create Menu
                             </a>
                             <a href="{{ route('food-item.create') }}" class="btn btn-outline-info">
