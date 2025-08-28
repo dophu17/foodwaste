@@ -18,9 +18,6 @@ class FoodItem extends Model
         'ingredients',
         'allergens',
         'preparation_time',
-        'is_vegetarian',
-        'is_vegan',
-        'is_gluten_free',
         'image_path',
         'is_available',
         'stock_quantity',
@@ -30,9 +27,6 @@ class FoodItem extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'is_vegetarian' => 'boolean',
-        'is_vegan' => 'boolean',
-        'is_gluten_free' => 'boolean',
         'is_available' => 'boolean',
         'stock_quantity' => 'integer',
         'min_stock_level' => 'integer',
@@ -79,29 +73,7 @@ class FoodItem extends Model
         return $query->where('category', $category);
     }
 
-    /**
-     * Scope to get vegetarian food items.
-     */
-    public function scopeVegetarian($query)
-    {
-        return $query->where('is_vegetarian', true);
-    }
 
-    /**
-     * Scope to get vegan food items.
-     */
-    public function scopeVegan($query)
-    {
-        return $query->where('is_vegan', true);
-    }
-
-    /**
-     * Scope to get gluten-free food items.
-     */
-    public function scopeGlutenFree($query)
-    {
-        return $query->where('is_gluten_free', true);
-    }
 
     /**
      * Check if stock is low.
@@ -127,5 +99,91 @@ class FoodItem extends Model
         } else {
             return 'Low waste risk - good management';
         }
+    }
+
+    /**
+     * Get formatted price attribute.
+     */
+    public function getFormattedPriceAttribute(): string
+    {
+        return number_format($this->price) . ' VNĐ';
+    }
+
+    /**
+     * Get stock status attribute.
+     */
+    public function getStockStatusAttribute(): string
+    {
+        if ($this->stock_quantity <= 0) {
+            return 'Hết hàng';
+        } elseif ($this->isStockLow()) {
+            return 'Sắp hết';
+        } else {
+            return 'Còn hàng';
+        }
+    }
+
+    /**
+     * Get stock status class for UI.
+     */
+    public function getStockStatusClassAttribute(): string
+    {
+        if ($this->stock_quantity <= 0) {
+            return 'text-danger';
+        } elseif ($this->isStockLow()) {
+            return 'text-warning';
+        } else {
+            return 'text-success';
+        }
+    }
+
+    /**
+     * Check if food item is in stock.
+     */
+    public function isInStock(): bool
+    {
+        return $this->stock_quantity > 0;
+    }
+
+    /**
+     * Get preparation time in minutes.
+     */
+    public function getPreparationTimeMinutesAttribute(): int
+    {
+        // Extract number from preparation_time string (e.g., "30 minutes" -> 30)
+        preg_match('/(\d+)/', $this->preparation_time, $matches);
+        return isset($matches[1]) ? (int) $matches[1] : 0;
+    }
+
+    /**
+     * Scope to get food items by cuisine style.
+     */
+    public function scopeByCuisineStyle($query, $cuisineStyle)
+    {
+        return $query->where('cuisine_style', $cuisineStyle);
+    }
+
+    /**
+     * Scope to get food items by price range.
+     */
+    public function scopeByPriceRange($query, $minPrice, $maxPrice)
+    {
+        return $query->whereBetween('price', [$minPrice, $maxPrice]);
+    }
+
+    /**
+     * Scope to get food items with low stock.
+     */
+    public function scopeLowStock($query)
+    {
+        return $query->whereRaw('stock_quantity <= min_stock_level');
+    }
+
+    /**
+     * Scope to get food items by preparation time.
+     */
+    public function scopeByPreparationTime($query, $maxMinutes)
+    {
+        return $query->whereRaw('CAST(SUBSTRING_INDEX(preparation_time, " ", 1) AS UNSIGNED) <= ?', [$maxMinutes]);
     }
 }

@@ -33,7 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('restaurants/{restaurant}/menus', [MenuController::class, 'getByRestaurant'])->name('menus.by-restaurant');
     Route::get('menus/category/{category}', [MenuController::class, 'getByCategory'])->name('menus.by-category');
     
+    // Food Item management routes
     Route::resource('food-item', FoodItemController::class);
+    Route::post('food-item/{food_item}/toggle-availability', [FoodItemController::class, 'toggleAvailability'])->name('food-item.toggle-availability');
+    Route::get('menus/{menu}/food-items', [FoodItemController::class, 'getByMenu'])->name('food-item.by-menu');
+    Route::get('food-item/category/{category}', [FoodItemController::class, 'getByCategory'])->name('food-item.by-category');
+    Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
     
     // Additional routes for waste management
     Route::get('/waste-analytics', [DashboardController::class, 'wasteAnalytics'])->name('waste.analytics');

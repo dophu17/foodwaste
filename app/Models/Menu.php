@@ -253,4 +253,82 @@ class Menu extends Model
     {
         return $this->foodItems()->exists();
     }
+
+    /**
+     * Get available food items count.
+     */
+    public function getAvailableItemsCountAttribute(): int
+    {
+        return $this->foodItems()->where('is_available', true)->count();
+    }
+
+    /**
+     * Get food items by category.
+     */
+    public function getFoodItemsByCategoryAttribute()
+    {
+        return $this->foodItems()
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('category');
+    }
+
+    /**
+     * Get total stock quantity.
+     */
+    public function getTotalStockAttribute(): int
+    {
+        return $this->foodItems()->sum('stock_quantity');
+    }
+
+    /**
+     * Get low stock food items.
+     */
+    public function getLowStockItemsAttribute()
+    {
+        return $this->foodItems()
+            ->whereRaw('stock_quantity <= min_stock_level')
+            ->get();
+    }
+
+    /**
+     * Check if menu has low stock items.
+     */
+    public function hasLowStockItems(): bool
+    {
+        return $this->foodItems()
+            ->whereRaw('stock_quantity <= min_stock_level')
+            ->exists();
+    }
+
+    /**
+     * Get vegetarian food items count.
+     */
+    public function getVegetarianItemsCountAttribute(): int
+    {
+        return $this->foodItems()
+            ->where('is_vegetarian', true)
+            ->count();
+    }
+
+    /**
+     * Get vegan food items count.
+     */
+    public function getVeganItemsCountAttribute(): int
+    {
+        return $this->foodItems()
+            ->where('is_vegan', true)
+            ->count();
+    }
+
+    /**
+     * Get gluten-free food items count.
+     */
+    public function getGlutenFreeItemsCountAttribute(): int
+    {
+        return $this->foodItems()
+            ->where('is_gluten_free', true)
+            ->count();
+    }
 }

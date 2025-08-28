@@ -27,32 +27,46 @@
 
         <!-- Statistics Cards -->
         <div class="row mb-4">
-            <div class="col-lg-3 col-md-6 mb-3">
+            <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">💰</div>
                     <div class="number">{{ number_format($totalRevenue, 0) }}¥</div>
                     <div class="label">{{ __('messages.total_revenue') }}</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-3">
+            <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">🍽️</div>
                     <div class="number">{{ $totalOrders }}</div>
                     <div class="label">{{ __('messages.total_orders') }}</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-3">
+            <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">📊</div>
                     <div class="number">{{ number_format($wastePercentage, 1) }}%</div>
                     <div class="label">{{ __('messages.waste_percentage') }}</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-3">
+            <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">🤖</div>
                     <div class="number">{{ number_format($aiAccuracy, 1) }}%</div>
                     <div class="label">{{ __('messages.ai_prediction_accuracy') }}</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="stats-card text-center">
+                    <div class="icon">📋</div>
+                    <div class="number">{{ $totalMenus ?? 0 }}</div>
+                    <div class="label">Tổng số Menu</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-3">
+                <div class="stats-card text-center">
+                    <div class="icon">🍜</div>
+                    <div class="number">{{ $totalFoodItems ?? 0 }}</div>
+                    <div class="label">Tổng số món ăn</div>
                 </div>
             </div>
         </div>

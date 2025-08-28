@@ -76,6 +76,12 @@ class DashboardController extends Controller
             ->groupBy('food_items.category', 'waste_records.waste_unit')
             ->get();
 
+        // Get menu and food item counts
+        $totalMenus = $restaurant->menus()->count();
+        $totalFoodItems = FoodItem::whereHas('menu', function($query) use ($restaurant) {
+            $query->where('restaurant_id', $restaurant->id);
+        })->count();
+
         // AI insights and recommendations
         $aiInsights = $this->generateAiInsights($restaurant, $monthlyWaste);
 
@@ -88,7 +94,9 @@ class DashboardController extends Controller
             'lowStockItems',
             'recentWasteRecords',
             'wasteByCategory',
-            'aiInsights'
+            'aiInsights',
+            'totalMenus',
+            'totalFoodItems'
         ));
     }
 
