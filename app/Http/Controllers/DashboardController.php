@@ -30,11 +30,13 @@ class DashboardController extends Controller
         $currentMonth = Carbon::now()->startOfMonth();
         $currentMonthEnd = Carbon::now()->endOfMonth();
 
-        // Calculate total revenue (simulated for now)
-        $totalRevenue = 500000; // ¥500,000 - this should come from actual orders
+        // Calculate total revenue from actual orders
+        $totalRevenue = $restaurant->getTotalRevenue($currentMonth, $currentMonthEnd);
 
-        // Calculate total orders (simulated for now)
-        $totalOrders = 150; // This should come from actual orders
+        // Calculate total orders from actual orders
+        $totalOrders = $restaurant->orders()
+            ->whereBetween('order_date', [$currentMonth, $currentMonthEnd])
+            ->count();
 
         // Waste statistics
         $monthlyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
@@ -42,10 +44,10 @@ class DashboardController extends Controller
             ->get();
 
         $totalWasteCost = $monthlyWaste->sum('cost_wasted');
-        $wastePercentage = $totalRevenue > 0 ? ($totalWasteCost / $totalRevenue) * 100 : 0;
+        $wastePercentage = ($totalRevenue > 0 && is_numeric($totalRevenue)) ? ($totalWasteCost / $totalRevenue) * 100 : 0;
 
         // AI predictions accuracy
-        $aiAccuracy = $restaurant->getWastePredictionAccuracy();
+        $aiAccuracy = $restaurant->getWastePredictionAccuracy() ?: 0;
 
         // Low stock items
         $lowStockItems = FoodItem::whereHas('menu', function($query) use ($restaurant) {

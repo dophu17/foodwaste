@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('menus/{menu}/food-items', [FoodItemController::class, 'getByMenu'])->name('food-item.by-menu');
     Route::get('food-item/category/{category}', [FoodItemController::class, 'getByCategory'])->name('food-item.by-category');
     Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
+    
+    // Order management routes
+    Route::resource('orders', OrderController::class)->only(['index', 'show', 'create', 'store']);
+    Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
     
     // Additional routes for waste management
     Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');

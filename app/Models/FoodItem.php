@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class FoodItem extends Model
 {
@@ -50,11 +51,47 @@ class FoodItem extends Model
     }
 
     /**
+     * Get the order items for the food item.
+     */
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    /**
+     * Get total quantity sold for a specific period.
+     */
+    public function getTotalQuantitySold($startDate = null, $endDate = null)
+    {
+        $query = $this->orderItems()->whereHas('order', function($q) use ($startDate, $endDate) {
+            if ($startDate) {
+                $q->where('order_date', '>=', $startDate);
+            }
+            if ($endDate) {
+                $q->where('order_date', '<=', $endDate);
+            }
+        });
+        
+        return $query->sum('quantity_sold');
+    }
+
+    /**
+     * Get average daily sales for a specific period.
+     */
+    public function getAverageDailySales($startDate = null, $endDate = null)
+    {
+        $totalSold = $this->getTotalQuantitySold($startDate, $endDate);
+        $days = $startDate && $endDate ? $startDate->diffInDays($endDate) + 1 : 30;
+        
+        return $days > 0 ? $totalSold / $days : 0;
+    }
+
+    /**
      * Get the restaurant through the menu.
      */
-    public function restaurant()
+    public function getRestaurantAttribute()
     {
-        return $this->menu->restaurant;
+        return $this->menu?->restaurant;
     }
 
     /**

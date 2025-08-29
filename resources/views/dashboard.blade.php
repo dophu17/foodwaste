@@ -30,7 +30,7 @@
             <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">💰</div>
-                    <div class="number">{{ number_format($totalRevenue, 0) }}¥</div>
+                    <div class="number">{{ number_format($totalRevenue ?? 0, 0) }}¥</div>
                     <div class="label">{{ __('messages.total_revenue') }}</div>
                 </div>
             </div>
@@ -44,14 +44,14 @@
             <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">📊</div>
-                    <div class="number">{{ number_format($wastePercentage, 1) }}%</div>
+                    <div class="number">{{ number_format($wastePercentage ?? 0, 1) }}%</div>
                     <div class="label">{{ __('messages.waste_percentage') }}</div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">🤖</div>
-                    <div class="number">{{ number_format($aiAccuracy, 1) }}%</div>
+                    <div class="number">{{ number_format($aiAccuracy ?? 0, 1) }}%</div>
                     <div class="label">{{ __('messages.ai_prediction_accuracy') }}</div>
                 </div>
             </div>
@@ -223,7 +223,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="text-danger fw-bold">
-                                                        ¥{{ number_format($record->formatted_waste_cost, 0) }}
+                                                        {{ $record->formatted_waste_cost }}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -295,18 +295,18 @@
                                                 </td>
                                                 <td>
                                                     <span class="badge bg-secondary">
-                                                        {{ number_format($category->total_waste, 1) }} {{ $category->waste_unit }}
+                                                        {{ number_format($category->total_waste ?? 0, 1) }} {{ $category->waste_unit }}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span class="text-danger fw-bold">
-                                                        ¥{{ number_format($category->total_cost, 0) }}
+                                                        ¥{{ number_format($category->total_cost ?? 0, 0) }}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div class="progress" style="height: 20px;">
                                                         @php
-                                                            $percentage = ($category->total_cost / $totalRevenue) * 100;
+                                                            $percentage = ($totalRevenue > 0 && $category->total_cost) ? ($category->total_cost / $totalRevenue) * 100 : 0;
                                                         @endphp
                                                         <div class="progress-bar bg-danger" style="width: {{ min($percentage, 100) }}%">
                                                             {{ number_format($percentage, 1) }}%

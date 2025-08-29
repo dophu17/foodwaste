@@ -59,6 +59,52 @@ class Restaurant extends Model
     }
 
     /**
+     * Get the orders for the restaurant.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get total revenue for a specific period.
+     */
+    public function getTotalRevenue($startDate = null, $endDate = null)
+    {
+        $query = $this->orders();
+        
+        if ($startDate) {
+            $query->where('order_date', '>=', $startDate);
+        }
+        
+        if ($endDate) {
+            $query->where('order_date', '<=', $endDate);
+        }
+        
+        $revenue = $query->sum('total_amount');
+        return $revenue ?: 0; // Return 0 if null
+    }
+
+    /**
+     * Get total customers for a specific period.
+     */
+    public function getTotalCustomers($startDate = null, $endDate = null)
+    {
+        $query = $this->orders();
+        
+        if ($startDate) {
+            $query->where('order_date', '>=', $startDate);
+        }
+        
+        if ($endDate) {
+            $query->where('order_date', '<=', $endDate);
+        }
+        
+        $customers = $query->sum('customer_count');
+        return $customers ?: 0; // Return 0 if null
+    }
+
+    /**
      * Calculate total waste cost for a specific period.
      */
     public function getTotalWasteCost($startDate = null, $endDate = null)

@@ -218,6 +218,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}" href="{{ route('orders.index') }}">
+                                <i class="fas fa-receipt me-2"></i>{{ __('messages.Orders') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('ai.insights') ? 'active' : '' }}" href="{{ route('ai.insights') }}">
                                 <i class="fas fa-robot me-2"></i>{{ __('messages.ai_insights') }}
                             </a>
