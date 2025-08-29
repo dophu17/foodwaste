@@ -6,7 +6,12 @@
     <div class="container">
         <div class="page-header">
             <h1 class="page-title">🏪 {{ $restaurant->name }}</h1>
-            <p class="page-subtitle">{{ $restaurant->cuisine_type }} Cuisine • {{ $restaurant->address }}</p>
+            <p class="page-subtitle">
+                @if($restaurant->cuisine_type)
+                    {{ $restaurant->cuisine_type }} {{ __('messages.Cuisine Type') }} • 
+                @endif
+                {{ $restaurant->address }}
+            </p>
         </div>
     </div>
 
@@ -24,7 +29,7 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-info-circle me-2"></i>Restaurant Details
+                            <i class="fas fa-info-circle me-2"></i>{{ __('messages.Restaurant Details') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -33,8 +38,14 @@
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="fas fa-utensils text-primary me-3 fs-4"></i>
                                     <div>
-                                        <small class="text-muted">Cuisine Type</small>
-                                        <div class="fw-bold">{{ $restaurant->cuisine_type }}</div>
+                                        <small class="text-muted">{{ __('messages.Cuisine Type') }}</small>
+                                        <div class="fw-bold">
+                                            @if($restaurant->cuisine_type)
+                                                {{ $restaurant->cuisine_type }}
+                                            @else
+                                                <span class="text-muted">{{ __('messages.Not specified') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -42,8 +53,8 @@
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="fas fa-users text-success me-3 fs-4"></i>
                                     <div>
-                                        <small class="text-muted">Capacity</small>
-                                        <div class="fw-bold">{{ $restaurant->capacity }} seats</div>
+                                        <small class="text-muted">{{ __('messages.Capacity') }}</small>
+                                        <div class="fw-bold">{{ $restaurant->capacity }} {{ __('messages.seats') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +62,7 @@
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="fas fa-clock text-warning me-3 fs-4"></i>
                                     <div>
-                                        <small class="text-muted">Business Hours</small>
+                                        <small class="text-muted">{{ __('messages.Business Hours') }}</small>
                                         <div class="fw-bold">{{ $restaurant->business_hours }}</div>
                                     </div>
                                 </div>
@@ -60,14 +71,14 @@
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="fas fa-toggle-on text-info me-3 fs-4"></i>
                                     <div>
-                                        <small class="text-muted">Status</small>
+                                        <small class="text-muted">{{ __('messages.Status') }}</small>
                                         <div>
                                             @if($restaurant->status == 'active')
-                                                <span class="badge bg-success">🟢 Active</span>
+                                                <span class="badge bg-success">🟢 {{ __('messages.Active') }}</span>
                                             @elseif($restaurant->status == 'inactive')
-                                                <span class="badge bg-danger">🔴 Inactive</span>
+                                                <span class="badge bg-danger">🔴 {{ __('messages.Inactive') }}</span>
                                             @else
-                                                <span class="badge bg-warning">🔧 Maintenance</span>
+                                                <span class="badge bg-warning">🔧 {{ __('messages.Maintenance') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -79,7 +90,7 @@
                             <hr>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">
-                                    <i class="fas fa-align-left me-2"></i>Description
+                                    <i class="fas fa-align-left me-2"></i>{{ __('messages.Description') }}
                                 </label>
                                 <p class="text-muted mb-0">{{ $restaurant->description }}</p>
                             </div>
@@ -92,21 +103,21 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-chart-line me-2"></i>📊 Quick Stats
+                            <i class="fas fa-chart-line me-2"></i> {{ __('messages.Quick Stats') }}
                         </h6>
                     </div>
                     <div class="card-body">
                         <div class="text-center mb-3">
                             <div class="display-6 text-success mb-2">{{ $restaurant->menus->count() }}</div>
-                            <div class="text-muted">Active Menus</div>
+                            <div class="text-muted">{{ __('messages.Active Menus') }}</div>
                         </div>
                         <div class="text-center mb-3">
                             <div class="display-6 text-info mb-2">{{ $restaurant->foodItems->count() }}</div>
-                            <div class="text-muted">Food Items</div>
+                            <div class="text-muted">{{ __('messages.Food Items') }}</div>
                         </div>
                         <div class="text-center">
                             <div class="display-6 text-warning mb-2">{{ $restaurant->wasteRecords->count() }}</div>
-                            <div class="text-muted">Waste Records</div>
+                            <div class="text-muted">{{ __('messages.Waste Records') }}</div>
                         </div>
                     </div>
                 </div>
@@ -119,19 +130,19 @@
                 <div class="card">
                     <div class="card-header bg-info text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-bolt me-2"></i>⚡ Quick Actions
+                            <i class="fas fa-bolt me-2"></i> {{ __('messages.Quick Actions') }}
                         </h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 mb-2">
-                                <a href="{{ route('menu.create') }}" class="btn btn-outline-primary w-100">
-                                    <i class="fas fa-plus me-2"></i>Create Menu
+                                <a href="{{ route('menus.create') }}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-plus me-2"></i>{{ __('messages.Create Menu') }}
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
                                 <a href="{{ route('food-item.create') }}" class="btn btn-outline-success w-100">
-                                    <i class="fas fa-hamburger me-2"></i>Add Food Item
+                                    <i class="fas fa-hamburger me-2"></i>{{ __('messages.Add Food Item') }}
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
@@ -140,8 +151,8 @@
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <a href="{{ route('waste.analytics') }}" class="btn btn-outline-danger w-100">
-                                    <i class="fas fa-chart-pie me-2"></i>View Analytics
+                                <a href="{{ route('ai.insights') }}" class="btn btn-outline-danger w-100">
+                                    <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                                 </a>
                             </div>
                         </div>
@@ -156,7 +167,7 @@
                 <div class="card">
                     <div class="card-header bg-warning text-dark">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-utensils me-2"></i>🍽️ Restaurant Menus
+                            <i class="fas fa-utensils me-2"></i> {{ __('messages.Restaurant Menus') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -170,17 +181,25 @@
                                                     <i class="fas fa-utensils text-warning fs-1"></i>
                                                 </div>
                                                 <h6 class="card-title">{{ $menu->name }}</h6>
-                                                <p class="card-text text-muted small">{{ $menu->description }}</p>
+                                                @if($menu->description)
+                                                    <p class="card-text text-muted small">{{ $menu->description }}</p>
+                                                @else
+                                                    <p class="card-text text-muted small">&nbsp;</p>
+                                                @endif
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span class="badge bg-secondary">{{ $menu->category }}</span>
                                                     <span class="badge {{ $menu->is_active ? 'bg-success' : 'bg-danger' }}">
-                                                        {{ $menu->is_active ? '🟢 Active' : '🔴 Inactive' }}
+                                                        {{ $menu->is_active ? '🟢 ' . __('messages.Active') : '🔴 ' . __('messages.Inactive') }}
                                                     </span>
                                                 </div>
                                                 <div class="mt-3">
                                                     <small class="text-muted">
                                                         <i class="fas fa-calendar me-1"></i>
-                                                        {{ $menu->valid_from->format('M d') }} - {{ $menu->valid_until->format('M d, Y') }}
+                                                        @if($menu->valid_from && $menu->valid_until)
+                                    {{ $menu->valid_from->format('M d') }} - {{ $menu->valid_until->format('M d, Y') }}
+                                @else
+                                    {{ __('messages.Unlimited validity') }}
+                                @endif
                                                     </small>
                                                 </div>
                                             </div>
@@ -191,9 +210,9 @@
                         @else
                             <div class="text-center text-muted py-4">
                                 <i class="fas fa-utensils fs-1 mb-3"></i>
-                                <p>No menus created yet. Create your first menu to get started!</p>
-                                <a href="{{ route('menu.create') }}" class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i>Create First Menu
+                                <p>{{ __('messages.No menus created yet. Create your first menu to get started!') }}</p>
+                                <a href="{{ route('menus.create') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>{{ __('messages.Create First Menu') }}
                                 </a>
                             </div>
                         @endif
@@ -208,7 +227,7 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-star me-2"></i>⭐ Popular Food Items
+                            <i class="fas fa-star me-2"></i> {{ __('messages.Popular Food Items') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -217,10 +236,10 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
-                                            <th>Price</th>
-                                            <th>Stock</th>
-                                            <th>Status</th>
+                                            <th>{{ __('messages.Item') }}</th>
+                                            <th>{{ __('messages.Price') }}</th>
+                                            <th>{{ __('messages.Stock') }}</th>
+                                            <th>{{ __('messages.Status') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -244,9 +263,9 @@
                                                 </td>
                                                 <td>
                                                     @if($item->is_available)
-                                                        <span class="badge bg-success">🟢 Available</span>
+                                                        <span class="badge bg-success">🟢 {{ __('messages.Available') }}</span>
                                                     @else
-                                                        <span class="badge bg-danger">🔴 Unavailable</span>
+                                                        <span class="badge bg-danger">🔴 {{ __('messages.Unavailable') }}</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -257,7 +276,7 @@
                         @else
                             <div class="text-center text-muted py-4">
                                 <i class="fas fa-hamburger fs-1 mb-3"></i>
-                                <p>No food items added yet.</p>
+                                <p>{{ __('messages.No food items added yet.') }}</p>
                             </div>
                         @endif
                     </div>
@@ -268,7 +287,7 @@
                 <div class="card">
                     <div class="card-header bg-danger text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-chart-line me-2"></i>📈 AI Recommendations
+                            <i class="fas fa-chart-line me-2"></i> {{ __('messages.AI Recommendations') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -276,8 +295,8 @@
                             <div class="d-flex align-items-start">
                                 <i class="fas fa-lightbulb text-warning fs-4 me-3"></i>
                                 <div>
-                                    <h6 class="mb-1">Optimize Portion Sizes</h6>
-                                    <p class="text-muted mb-0 small">Based on waste analysis, consider reducing portion sizes for popular items.</p>
+                                    <h6 class="mb-1">{{ __('messages.Optimize Portion Sizes') }}</h6>
+                                    <p class="text-muted mb-0 small">{{ __('messages.Based on waste analysis, consider reducing portion sizes for popular items.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -285,8 +304,8 @@
                             <div class="d-flex align-items-start">
                                 <i class="fas fa-lightbulb text-warning fs-4 me-3"></i>
                                 <div>
-                                    <h6 class="mb-1">Stock Management</h6>
-                                    <p class="text-muted mb-0 small">Monitor low stock items and set up automatic reorder notifications.</p>
+                                    <h6 class="mb-1">{{ __('messages.Stock Management') }}</h6>
+                                    <p class="text-muted mb-0 small">{{ __('messages.Monitor low stock items and set up automatic reorder notifications.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -294,34 +313,12 @@
                             <div class="d-flex align-items-start">
                                 <i class="fas fa-lightbulb text-warning fs-4 me-3"></i>
                                 <div>
-                                    <h6 class="mb-1">Menu Optimization</h6>
-                                    <p class="text-muted mb-0 small">Analyze customer preferences to optimize your menu offerings.</p>
+                                    <h6 class="mb-1">{{ __('messages.Menu Optimization') }}</h6>
+                                    <p class="text-muted mb-0 small">{{ __('messages.Analyze customer preferences to optimize your menu offerings.') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="row mb-4">
-            <div class="col-12 text-center">
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-                                                        <i class="fas fa-arrow-left me-2"></i>{{ __('messages.Back to Dashboard') }}
-                    </a>
-                    <a href="{{ route('restaurant.edit', $restaurant->id) }}" class="btn btn-warning">
-                                                        <i class="fas fa-edit me-2"></i>{{ __('messages.Edit Restaurant') }}
-                    </a>
-                    <form method="POST" action="{{ route('restaurant.destroy', $restaurant->id) }}" 
-                                                      class="d-inline" onsubmit="return confirm('{{ __('messages.Are you sure you want to delete this restaurant?') }}')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                                                            <i class="fas fa-trash me-2"></i>{{ __('messages.Delete Restaurant') }}
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>

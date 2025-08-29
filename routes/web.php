@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,12 +26,31 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Restaurant management (requires authentication)
 Route::middleware(['auth'])->group(function () {
-    Route::resource('restaurant', RestaurantController::class);
-    Route::resource('menu', MenuController::class);
+    Route::get('/restaurant', [RestaurantController::class, 'index'])->name('restaurant.index');
+    Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
+    Route::post('/restaurant', [RestaurantController::class, 'store'])->name('restaurant.store');
+    Route::get('/restaurant/{restaurant}', [RestaurantController::class, 'show'])->name('restaurant.show');
+    Route::get('/restaurant/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+    Route::put('/restaurant/{restaurant}', [RestaurantController::class, 'update'])->name('restaurant.update');
+    
+    // Menu management routes
+    Route::resource('menus', MenuController::class);
+    Route::post('menus/{menu}/toggle-status', [MenuController::class, 'toggleStatus'])->name('menus.toggle-status');
+    Route::get('restaurants/{restaurant}/menus', [MenuController::class, 'getByRestaurant'])->name('menus.by-restaurant');
+    Route::get('menus/category/{category}', [MenuController::class, 'getByCategory'])->name('menus.by-category');
+    
+    // Food Item management routes
     Route::resource('food-item', FoodItemController::class);
+    Route::post('food-item/{food_item}/toggle-availability', [FoodItemController::class, 'toggleAvailability'])->name('food-item.toggle-availability');
+    Route::get('menus/{menu}/food-items', [FoodItemController::class, 'getByMenu'])->name('food-item.by-menu');
+    Route::get('food-item/category/{category}', [FoodItemController::class, 'getByCategory'])->name('food-item.by-category');
+    Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
+    
+    // Order management routes
+    Route::resource('orders', OrderController::class)->only(['index', 'show', 'create', 'store']);
+    Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
     
     // Additional routes for waste management
-    Route::get('/waste-analytics', [DashboardController::class, 'wasteAnalytics'])->name('waste.analytics');
     Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
 });
 

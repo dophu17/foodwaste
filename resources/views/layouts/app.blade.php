@@ -208,7 +208,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('menu.*') ? 'active' : '' }}" href="{{ route('menu.index') }}">
+                            <a class="nav-link {{ request()->routeIs('menus.*') ? 'active' : '' }}" href="{{ route('menus.index') }}">
                                 <i class="fas fa-utensils me-2"></i>{{ __('messages.menu') }}
                             </a>
                         </li>
@@ -218,8 +218,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('waste.analytics') ? 'active' : '' }}" href="{{ route('waste.analytics') }}">
-                                <i class="fas fa-chart-pie me-2"></i>{{ __('messages.analytics') }}
+                            <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}" href="{{ route('orders.index') }}">
+                                <i class="fas fa-receipt me-2"></i>{{ __('messages.Orders') }}
                             </a>
                         </li>
                         <li class="nav-item">

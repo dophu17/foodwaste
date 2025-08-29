@@ -20,18 +20,78 @@
 
         <!-- AI Accuracy Overview -->
         <div class="row mb-4">
-            <div class="col-lg-6 col-md-6 mb-3">
+            <div class="col-lg-3 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">🎯</div>
                     <div class="number">{{ number_format($aiAccuracy, 1) }}%</div>
                     <div class="label">AI Prediction Accuracy</div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 mb-3">
+            <div class="col-lg-3 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">💡</div>
                     <div class="number">{{ count($aiInsights) }}</div>
                     <div class="label">Active Insights</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card text-center">
+                    <div class="icon">💰</div>
+                    <div class="number">¥{{ number_format($totalWasteCost, 0) }}</div>
+                    <div class="label">Total Waste Cost</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stats-card text-center">
+                    <div class="icon">📊</div>
+                    <div class="number">{{ $wasteCount }}</div>
+                    <div class="label">Waste Records</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waste Analytics Overview -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mb-3">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-line me-2"></i>📈 Daily Waste Trend (This Month)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if($dailyWaste->count() > 0)
+                            <div class="chart-container" style="position: relative; height:300px;">
+                                <canvas id="dailyWasteChart"></canvas>
+                            </div>
+                        @else
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-chart-line fs-1 mb-3"></i>
+                                <p>No daily waste data available for charting.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>🥧 Waste by Category
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if($wasteByCategory->count() > 0)
+                            <div class="chart-container" style="position: relative; height:300px;">
+                                <canvas id="categoryWasteChart"></canvas>
+                            </div>
+                        @else
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-chart-pie fs-1 mb-3"></i>
+                                <p>No category waste data available.</p>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,23 +298,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="row mb-4">
-            <div class="col-12 text-center">
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-                                                        <i class="fas fa-arrow-left me-2"></i>{{ __('messages.Back to Dashboard') }}
-                    </a>
-                    <a href="{{ route('waste.analytics') }}" class="btn btn-primary">
-                        <i class="fas fa-chart-pie me-2"></i>View Waste Analytics
-                    </a>
-                    <a href="{{ route('restaurant.show', $restaurant->id) }}" class="btn btn-success">
-                        <i class="fas fa-store me-2"></i>Restaurant Details
-                    </a>
                 </div>
             </div>
         </div>
