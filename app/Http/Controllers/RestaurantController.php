@@ -22,11 +22,7 @@ class RestaurantController extends Controller
         $user = Auth::user();
         $restaurant = $user->restaurant;
 
-        if (!$restaurant) {
-            return redirect()->route('restaurant.create');
-        }
-
-        return view('restaurant.show', compact('restaurant'));
+        return view('restaurant.index', compact('restaurant'));
     }
 
     /**
