@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AIAnalysisController;
+use App\Http\Controllers\GeminiAIController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,6 +61,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ai-analysis/forecasting', [AIAnalysisController::class, 'getForecastingData'])->name('ai.analysis.forecasting');
     Route::get('/ai-analysis/time-series', [AIAnalysisController::class, 'getTimeSeriesData'])->name('ai.analysis.time-series');
     Route::get('/ai-analysis/sales-patterns', [AIAnalysisController::class, 'getSalesPatterns'])->name('ai.analysis.sales-patterns');
+
+// Gemini AI Routes
+Route::prefix('gemini-ai')->name('gemini.')->group(function () {
+    Route::get('/test-connection', [GeminiAIController::class, 'testConnection'])->name('test-connection');
+    Route::post('/demand-forecast', [GeminiAIController::class, 'generateDemandForecast'])->name('demand-forecast');
+    Route::post('/waste-insights', [GeminiAIController::class, 'generateWasteInsights'])->name('waste-insights');
+    Route::post('/menu-optimization', [GeminiAIController::class, 'generateMenuOptimization'])->name('menu-optimization');
+    Route::get('/comprehensive-analysis', [GeminiAIController::class, 'getComprehensiveAnalysis'])->name('comprehensive-analysis');
+});
 });
 
 // Redirect authenticated users to dashboard

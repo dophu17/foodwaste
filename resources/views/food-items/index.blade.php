@@ -22,6 +22,9 @@
                     <a href="{{ route('food-item.create') }}" class="btn btn-success">
                         <i class="fas fa-plus me-2"></i>{{ __('messages.Create Food Item') }}
                     </a>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#aiInsightsModal">
+                        <i class="fas fa-robot me-2"></i>AI Insights
+                    </button>
                     <a href="{{ route('menus.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>{{ __('messages.Back to Menus') }}
                     </a>
@@ -37,6 +40,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <!-- AI Connection Status -->
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="aiStatusAlert" style="display: none;">
+            <i class="fas fa-robot me-2"></i>
+            <span id="aiStatusMessage">Checking AI connection...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
 
         <!-- Search and Filter Form -->
         <div class="card mb-4">
@@ -97,12 +114,20 @@
             <div>
                 <h5 class="mb-0">{{ __('messages.Total Food Items') }}: {{ $foodItems->total() }}</h5>
             </div>
+            <div>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="checkAIConnection()">
+                    <i class="fas fa-wifi me-2"></i>Test AI Connection
+                </button>
+                <button type="button" class="btn btn-outline-success btn-sm" onclick="generateAIInsights()">
+                    <i class="fas fa-magic me-2"></i>Generate AI Insights
+                </button>
+            </div>
         </div>
 
         <!-- Food Items Grid -->
         <div class="row">
             @forelse($foodItems as $foodItem)
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4" data-food-item-id="{{ $foodItem->id }}">
                     <div class="card h-100 food-item-card" style="position: relative;">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <span class="badge bg-{{ $foodItem->is_available ? 'success' : 'secondary' }}">
@@ -135,6 +160,11 @@
                                         </form>
                                     </li>
                                     <li>
+                                        <button type="button" class="dropdown-item" onclick="getAIInsights({{ $foodItem->id }})">
+                                            <i class="fas fa-robot me-2"></i>AI Insights
+                                        </button>
+                                    </li>
+                                    <li>
                                         <form action="{{ route('food-item.destroy', $foodItem->id) }}" 
                                               method="POST" class="d-inline">
                                             @csrf
@@ -165,15 +195,7 @@
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1 fw-bold text-dark">{{ $foodItem->name }}</h6>
                                     <div class="mb-2">
-                                        @if($foodItem->is_vegetarian)
-                                            <span class="badge bg-success btn-sm me-1">{{ __('messages.Vegetarian') }}</span>
-                                        @endif
-                                        @if($foodItem->is_vegan)
-                                            <span class="badge bg-info btn-sm me-1">{{ __('messages.Vegan') }}</span>
-                                        @endif
-                                        @if($foodItem->is_gluten_free)
-                                            <span class="badge bg-warning btn-sm">{{ __('messages.Gluten Free') }}</span>
-                                        @endif
+                                        <!-- Dietary badges removed as columns were dropped from database -->
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +227,19 @@
                                     </a>
                                 </div>
                             </div>
+
+                            <!-- AI Waste Prediction -->
+                            @if($foodItem->ai_waste_prediction)
+                                <div class="mb-3">
+                                    <small class="text-muted d-block">{{ __('messages.AI Waste Prediction') }}</small>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-info me-2">
+                                            <i class="fas fa-robot me-1"></i>{{ number_format($foodItem->ai_waste_prediction, 1) }}%
+                                        </span>
+                                        <small class="text-muted">Predicted waste percentage</small>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -230,6 +265,61 @@
                 {{ $foodItems->links('pagination::bootstrap-5') }}
             </div>
         @endif
+    </div>
+</div>
+
+<!-- AI Insights Modal -->
+<div class="modal fade" id="aiInsightsModal" tabindex="-1" aria-labelledby="aiInsightsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="aiInsightsModalLabel">
+                    <i class="fas fa-robot me-2"></i>AI Insights & Recommendations
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="aiInsightsContent">
+                    <div class="text-center py-4">
+                        <i class="fas fa-robot fa-3x text-muted mb-3"></i>
+                        <h6 class="text-muted">Click "Generate AI Insights" to get intelligent recommendations</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="generateAIInsights()">
+                    <i class="fas fa-magic me-2"></i>Generate Insights
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Individual Food Item AI Insights Modal -->
+<div class="modal fade" id="foodItemAIInsightsModal" tabindex="-1" aria-labelledby="foodItemAIInsightsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="foodItemAIInsightsModalLabel">
+                    <i class="fas fa-robot me-2"></i>AI Insights for <span id="foodItemName"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="foodItemAIInsightsContent">
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Analyzing food item data...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -345,12 +435,221 @@
     border-top-right-radius: 0.375rem;
     border-bottom-right-radius: 0.375rem;
 }
+
+/* AI Insights Styling */
+.ai-insight-card {
+    border-left: 4px solid #0d6efd;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+}
+
+.ai-insight-card.warning {
+    border-left-color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.ai-insight-card.success {
+    border-left-color: #198754;
+    background-color: #d1e7dd;
+}
+
+.ai-insight-card.danger {
+    border-left-color: #dc3545;
+    background-color: #f8d7da;
+}
 </style>
 
 @endsection
 
 @push('scripts')
 <script>
+    // Check AI Connection
+    function checkAIConnection() {
+        const alert = document.getElementById('aiStatusAlert');
+        const message = document.getElementById('aiStatusMessage');
+        
+        alert.style.display = 'block';
+        message.innerHTML = 'Testing AI connection...';
+        
+        fetch('/gemini-ai/test-connection', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert.className = 'alert alert-success alert-dismissible fade show';
+                message.innerHTML = `<i class="fas fa-check-circle me-2"></i>${data.message}`;
+            } else {
+                alert.className = 'alert alert-danger alert-dismissible fade show';
+                message.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>${data.message}`;
+            }
+        })
+        .catch(error => {
+            alert.className = 'alert alert-danger alert-dismissible fade show';
+            message.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>Connection error: ${error.message}`;
+        });
+    }
+
+    // Generate AI Insights for all food items
+    function generateAIInsights() {
+        const content = document.getElementById('aiInsightsContent');
+        content.innerHTML = `
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Generating AI insights...</p>
+            </div>
+        `;
+
+        fetch('/gemini-ai/comprehensive-analysis', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayAIInsights(data.data);
+            } else {
+                content.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>${data.message}
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            content.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Error: ${error.message}
+                </div>
+            `;
+        });
+    }
+
+    // Display AI Insights
+    function displayAIInsights(data) {
+        const content = document.getElementById('aiInsightsContent');
+        let html = '<div class="row">';
+
+        if (data.ai_insights) {
+            if (data.ai_insights.demand_forecast) {
+                html += `
+                    <div class="col-md-6 mb-3">
+                        <div class="ai-insight-card success">
+                            <h6><i class="fas fa-chart-line me-2"></i>Demand Forecast</h6>
+                            <p class="mb-2">${data.ai_insights.demand_forecast.analysis || 'AI analysis available'}</p>
+                            <small class="text-muted">Confidence: ${data.ai_insights.demand_forecast.confidence_level || 'Medium'}</small>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (data.ai_insights.waste_insights) {
+                html += `
+                    <div class="col-md-6 mb-3">
+                        <div class="ai-insight-card warning">
+                            <h6><i class="fas fa-recycle me-2"></i>Waste Insights</h6>
+                            <p class="mb-2">${data.ai_insights.waste_insights.waste_analysis || 'AI waste analysis available'}</p>
+                            <small class="text-muted">Cost savings: ${data.ai_insights.waste_insights.cost_savings || 'Calculating...'}</small>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (data.ai_insights.menu_optimization) {
+                html += `
+                    <div class="col-md-6 mb-3">
+                        <div class="ai-insight-card info">
+                            <h6><i class="fas fa-utensils me-2"></i>Menu Optimization</h6>
+                            <p class="mb-2">${data.ai_insights.menu_optimization.menu_performance || 'AI menu analysis available'}</p>
+                            <small class="text-muted">Profit improvement: ${data.ai_insights.menu_optimization.profit_improvement || 'Calculating...'}</small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        if (html === '<div class="row">') {
+            html += `
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>No AI insights available yet. Try generating insights for specific food items.
+                    </div>
+                </div>
+            `;
+        }
+
+        html += '</div>';
+        content.innerHTML = html;
+    }
+
+    // Get AI Insights for specific food item
+    function getAIInsights(foodItemId) {
+        const modal = new bootstrap.Modal(document.getElementById('foodItemAIInsightsModal'));
+        modal.show();
+
+        // Get food item name
+        const foodItemName = document.querySelector(`[data-food-item-id="${foodItemId}"] .card-body h6`)?.textContent || 'Food Item';
+        document.getElementById('foodItemName').textContent = foodItemName;
+
+        // Generate insights for this specific item
+        fetch(`/gemini-ai/menu-optimization?food_item_id=${foodItemId}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const content = document.getElementById('foodItemAIInsightsContent');
+            if (data.success) {
+                content.innerHTML = `
+                    <div class="ai-insight-card success">
+                        <h6><i class="fas fa-robot me-2"></i>AI Analysis Results</h6>
+                        <p class="mb-2">${data.data.menu_performance || 'AI analysis completed successfully'}</p>
+                        <div class="mt-3">
+                            <h6>Recommendations:</h6>
+                            <ul class="mb-0">
+                                ${(data.data.menu_changes || []).map(change => `<li>${change}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>${data.message}
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            const content = document.getElementById('foodItemAIInsightsContent');
+            content.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Error: ${error.message}
+                </div>
+            `;
+        });
+    }
+
+    // Auto-check AI connection on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check AI connection status after a short delay
+        setTimeout(checkAIConnection, 1000);
+    });
+
     // Form will only submit when search button is clicked
     // No auto-submit on filter changes
 </script>
