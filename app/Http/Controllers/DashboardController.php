@@ -100,60 +100,6 @@ class DashboardController extends Controller
         ));
     }
 
-    public function wasteAnalytics()
-    {
-        $user = Auth::user();
-        $restaurant = $user->restaurant;
-
-        if (!$restaurant) {
-            return redirect()->route('restaurant.create')
-                ->with('warning', 'Please create restaurant information before using the system.');
-        }
-
-        // Get waste analytics data
-        $currentMonth = Carbon::now()->startOfMonth();
-        $currentMonthEnd = Carbon::now()->endOfMonth();
-
-        $monthlyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->get();
-
-        $totalWasteCost = $monthlyWaste->sum('cost_wasted');
-        $totalWasteQuantity = $monthlyWaste->sum('quantity_wasted');
-        $wasteCount = $monthlyWaste->count();
-
-        // Waste by category
-        $wasteByCategory = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->selectRaw('
-                food_items.category,
-                SUM(waste_records.quantity_wasted) as total_waste,
-                waste_records.waste_unit,
-                SUM(waste_records.cost_wasted) as total_cost,
-                COUNT(*) as count
-            ')
-            ->join('food_items', 'waste_records.food_item_id', '=', 'food_items.id')
-            ->groupBy('food_items.category', 'waste_records.waste_unit')
-            ->get();
-
-        // Daily waste trend
-        $dailyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->selectRaw('DATE(waste_date) as date, SUM(cost_wasted) as daily_cost')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        return view('waste.analytics', compact(
-            'restaurant',
-            'totalWasteCost',
-            'totalWasteQuantity',
-            'wasteCount',
-            'wasteByCategory',
-            'dailyWaste'
-        ));
-    }
-
     public function aiInsights()
     {
         $user = Auth::user();
@@ -185,11 +131,43 @@ class DashboardController extends Controller
             ->limit(10)
             ->get();
 
+        // Waste analytics data (gộp từ wasteAnalytics)
+        $totalWasteCost = $monthlyWaste->sum('cost_wasted');
+        $totalWasteQuantity = $monthlyWaste->sum('quantity_wasted');
+        $wasteCount = $monthlyWaste->count();
+
+        // Waste by category
+        $wasteByCategory = WasteRecord::where('restaurant_id', $restaurant->id)
+            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
+            ->selectRaw('
+                food_items.category,
+                SUM(waste_records.quantity_wasted) as total_waste,
+                waste_records.waste_unit,
+                SUM(waste_records.cost_wasted) as total_cost,
+                COUNT(*) as count
+            ')
+            ->join('food_items', 'waste_records.food_item_id', '=', 'food_items.id')
+            ->groupBy('food_items.category', 'waste_records.waste_unit')
+            ->get();
+
+        // Daily waste trend
+        $dailyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
+            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
+            ->selectRaw('DATE(waste_date) as date, SUM(cost_wasted) as daily_cost')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
         return view('ai.insights', compact(
             'restaurant',
             'aiInsights',
             'aiAccuracy',
-            'topWasteItems'
+            'topWasteItems',
+            'totalWasteCost',
+            'totalWasteQuantity',
+            'wasteCount',
+            'wasteByCategory',
+            'dailyWaste'
         ));
     }
 

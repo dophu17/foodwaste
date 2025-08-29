@@ -64,107 +64,142 @@
             </div>
         </div>
 
-        <!-- Menus Grid -->
-        <div class="row">
+        <!-- Menus List -->
+        <div class="menus-list">
             @forelse($menus as $menu)
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 menu-card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span class="badge bg-{{ $menu->is_active ? 'success' : 'secondary' }}">
-                                {{ $menu->status_text }}
-                            </span>
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                        type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('menus.show', $menu) }}">
-                                            <i class="fas fa-eye me-2"></i>{{ __('messages.View') }}
-                                        </a>
-                                    </li>
-                                    @if($menu->canEditByUser(auth()->user()))
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('menus.edit', $menu) }}">
-                                                <i class="fas fa-edit me-2"></i>{{ __('messages.Edit') }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <form action="{{ route('menus.toggle-status', $menu) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="fas fa-{{ $menu->is_active ? 'pause' : 'play' }} me-2"></i>
-                                                    {{ $menu->is_active ? __('messages.Deactivate') : __('messages.Activate') }}
-                                                </button>
-                                            </form>
-                                        </li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <form action="{{ route('menus.destroy', $menu) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-item text-danger" 
-                                                        onclick="return confirm('{{ __('messages.Are you sure you want to delete this menu?') }}')">
-                                                    <i class="fas fa-trash me-2"></i>{{ __('messages.Delete') }}
-                                                </button>
-                                            </form>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                        </div>
-                        
+                <div class="menu-item mb-3" style="position: relative;">
+                    <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $menu->name }}</h5>
-                            <p class="card-text text-muted">{{ Str::limit($menu->description, 100) }}</p>
-                            
-                            <div class="menu-info">
-                                <div class="row text-center">
-                                    <div class="col-4">
-                                        <small class="text-muted">{{ __('messages.Category') }}</small>
-                                        <div class="fw-bold">{{ $menu->category }}</div>
-                                    </div>
-                                    <div class="col-4">
-                                        <small class="text-muted">{{ __('messages.Items') }}</small>
-                                        <div class="fw-bold">{{ $menu->total_items }}</div>
-                                    </div>
-                                    <div class="col-4">
-                                        <small class="text-muted">{{ __('messages.Price Range') }}</small>
-                                        <div class="fw-bold">{{ $menu->price_range }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">
-                                    <i class="fas fa-store me-1"></i>{{ $menu->restaurant->name }}
-                                </small>
-                                <small class="text-muted">
-                                    <i class="fas fa-calendar me-1"></i>
-                                                                                @if($menu->valid_from && $menu->valid_until)
-                                                {{ $menu->valid_from->format('d/m/Y') }} - {{ $menu->valid_until->format('d/m/Y') }}
-                                            @else
-                                                {{ __('messages.Unlimited validity') }}
+                            <div class="row align-items-center">
+                                <!-- Menu Icon and Name -->
+                                <div class="col-lg-3 col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="menu-icon me-3">
+                                            <i class="fas fa-utensils text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1 fw-bold">{{ $menu->name }}</h5>
+                                            @if($menu->description)
+                                                <small class="text-muted">{{ Str::limit($menu->description, 60) }}</small>
                                             @endif
-                                </small>
-                            </div>
-                            @if($menu->days_remaining !== null && $menu->days_remaining > 0)
-                                <div class="mt-2">
-                                    <small class="text-info">
-                                        <i class="fas fa-clock me-1"></i>
-                                        {{ __('messages.Days remaining') }}: {{ $menu->days_remaining }}
-                                    </small>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endif
+                                
+                                <!-- Restaurant and Category -->
+                                <div class="col-lg-2 col-md-3">
+                                    <div class="mb-2">
+                                        <span class="badge bg-info bg-opacity-10 text-info">
+                                            <i class="fas fa-store me-1"></i>{{ $menu->restaurant->name }}
+                                        </span>
+                                    </div>
+                                    @if($menu->category)
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary">
+                                            {{ $menu->category }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </div>
+                                
+                                <!-- Items and Price Range -->
+                                <div class="col-lg-2 col-md-3">
+                                    <div class="mb-2">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">
+                                            <i class="fas fa-list me-1"></i>{{ $menu->total_items }} {{ __('messages.Items') }}
+                                        </span>
+                                    </div>
+                                    @if($menu->price_range)
+                                        <div class="fw-medium">{{ $menu->price_range }}</div>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </div>
+                                
+                                <!-- Status and Validity -->
+                                <div class="col-lg-2 col-md-3">
+                                    <div class="mb-2">
+                                        <span class="badge bg-{{ $menu->is_active ? 'success' : 'secondary' }}">
+                                            {{ $menu->status_text }}
+                                        </span>
+                                    </div>
+                                    @if($menu->valid_from && $menu->valid_until)
+                                        <div class="small">
+                                            <div class="fw-medium">{{ $menu->valid_from->format('d/m/Y') }}</div>
+                                            <div class="text-muted">to {{ $menu->valid_until->format('d/m/Y') }}</div>
+                                        </div>
+                                    @else
+                                        <span class="badge bg-warning bg-opacity-10 text-warning">
+                                            {{ __('messages.Unlimited validity') }}
+                                        </span>
+                                    @endif
+                                </div>
+                                
+                                <!-- Days Remaining -->
+                                <div class="col-lg-1 col-md-2">
+                                    @if($menu->days_remaining !== null && $menu->days_remaining > 0)
+                                        <span class="badge bg-info bg-opacity-10 text-info">
+                                            <i class="fas fa-clock me-1"></i>{{ $menu->days_remaining }}
+                                        </span>
+                                    @elseif($menu->days_remaining === 0)
+                                        <span class="badge bg-danger bg-opacity-10 text-danger">
+                                            {{ __('messages.Expired') }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="col-lg-2 col-md-3 text-end">
+                                    <div class="dropdown" style="position: relative;">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                type="button" data-bs-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" style="z-index: 99999 !important;">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('menus.show', $menu) }}">
+                                                    <i class="fas fa-eye me-2"></i>{{ __('messages.View') }}
+                                                </a>
+                                            </li>
+                                            @if($menu->canEditByUser(auth()->user()))
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ route('menus.edit', $menu) }}">
+                                                        <i class="fas fa-edit me-2"></i>{{ __('messages.Edit') }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form action="{{ route('menus.toggle-status', $menu) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="fas fa-{{ $menu->is_active ? 'pause' : 'play' }} me-2"></i>
+                                                            {{ $menu->is_active ? __('messages.Deactivate') : __('messages.Activate') }}
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <form action="{{ route('menus.destroy', $menu) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger" 
+                                                                onclick="return confirm('{{ __('messages.Are you sure you want to delete this menu?') }}')">
+                                                            <i class="fas fa-trash me-2"></i>{{ __('messages.Delete') }}
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="col-12">
-                    <div class="text-center py-5">
+                <div class="text-center py-5">
+                    <div class="empty-state">
                         <i class="fas fa-utensils fa-3x text-muted mb-3"></i>
                         <h5 class="text-muted">{{ __('messages.No menus found') }}</h5>
                         <p class="text-muted">{{ __('messages.Create your first menu to get started') }}</p>
@@ -178,7 +213,7 @@
 
         <!-- Pagination -->
         @if($menus->hasPages())
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-4">
                 {{ $menus->links() }}
             </div>
         @endif
@@ -186,25 +221,65 @@
 </div>
 
 <style>
-.menu-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #e9ecef;
+.menu-item {
+    transition: all 0.2s ease;
+    position: relative;
 }
 
-.menu-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.menu-item:hover {
+    z-index: 1000;
 }
 
-.menu-info {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e9ecef;
-}
-
-.card-header {
+.menu-item:hover .card {
     background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
+}
+
+.menu-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e3f2fd;
+    border-radius: 8px;
+}
+
+.empty-state {
+    padding: 2rem;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.dropdown-menu {
+    z-index: 99999 !important;
+    position: absolute !important;
+}
+
+.dropdown-menu-end {
+    right: 0;
+    left: auto;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .menu-item .row > div {
+        margin-bottom: 1rem;
+    }
+    
+    .menu-item .row > div:last-child {
+        margin-bottom: 0;
+    }
 }
 </style>
 @endsection

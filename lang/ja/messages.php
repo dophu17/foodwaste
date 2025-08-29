@@ -150,8 +150,6 @@ return [
     'Previous' => '前へ',
     'Back to Dashboard' => 'ダッシュボードに戻る',
     'Edit Restaurant' => 'レストラン編集',
-    'Delete Restaurant' => 'レストラン削除',
-    'Are you sure you want to delete this restaurant?' => 'このレストランを削除してもよろしいですか？',
 
     // Restaurant Show View
     'Restaurant Details' => 'レストラン詳細',
@@ -189,6 +187,11 @@ return [
     'Monitor low stock items and set up automatic reorder notifications.' => '在庫不足項目を監視し、自動再注文通知を設定してください。',
     'Menu Optimization' => 'メニュー最適化',
     'Analyze customer preferences to optimize your menu offerings.' => '顧客の好みを分析して、メニュー提供を最適化してください。',
+    
+    // Additional keys
+    'Unlimited validity' => '無期限の有効性',
+    'Edit Restaurant' => 'レストラン編集',
+    'Back to Dashboard' => 'ダッシュボードに戻る',
 
     // Menu Management
     'Menus' => 'メニュー',
@@ -197,7 +200,6 @@ return [
     'All Categories' => 'すべてのカテゴリ',
     'All Status' => 'すべてのステータス',
     'Search' => '検索',
-    'Total Menus' => '総メニュー数',
     'Create Menu' => 'メニュー作成',
     'View' => '表示',
     'Edit' => '編集',
@@ -346,9 +348,101 @@ return [
     'From Date' => '開始日',
     'To Date' => '終了日',
     'Filter by Validity' => '有効性でフィルター',
+    'Validity' => '有効性',
     'All' => 'すべて',
     'Expired' => '期限切れ',
     'Upcoming' => '今後の予定',
     'Currently Active' => '現在アクティブ',
+
+    // Dietary Restrictions
+    'Vegetarian' => 'ベジタリアン',
+    'Vegan' => 'ビーガン',
+    'Gluten Free' => 'グルテンフリー',
+    
+    // Food Items Management
+    'Food Items' => '食品項目',
+    'Manage food items and dishes' => '食品項目と料理の管理',
+    'Create Food Item' => '食品項目作成',
+    'Back to Menus' => 'メニューに戻る',
+    'Search food items...' => '食品項目を検索...',
+    'All Categories' => 'すべてのカテゴリ',
+    'All Status' => 'すべてのステータス',
+    'Available' => '利用可能',
+    'Unavailable' => '利用不可',
+    'All Menus' => 'すべてのメニュー',
+    'Search' => '検索',
+    'Clear Search' => '検索をクリア',
+    'View' => '表示',
+    'Edit' => '編集',
+    'Hide' => '非表示',
+    'Show' => '表示',
+    'Delete' => '削除',
+    'Are you sure you want to delete this food item?' => 'この食品項目を削除してもよろしいですか？',
+    'Category' => 'カテゴリ',
+    'Price' => '価格',
+    'Stock' => '在庫',
+    'Menu' => 'メニュー',
+    'No food items yet' => 'まだ食品項目がありません',
+    'Create your first food item to get started' => '最初の食品項目を作成して始めましょう',
+    'Create First Food Item' => '最初の食品項目を作成',
+    
+    // Restaurant Edit View
+    'Edit Restaurant' => 'レストラン編集',
+    'Update your restaurant profile information' => 'レストランのプロフィール情報を更新',
+    'Update Restaurant' => 'レストラン更新',
+    'Back to Restaurant' => 'レストランに戻る',
+    'Enter restaurant description (optional)' => 'レストランの説明を入力（オプション）',
+    'Seating Capacity' => '座席数',
+    
+    // Additional keys
+    'Select cuisine type' => '料理タイプを選択',
+    'Phone Number' => '電話番号',
+    'Email Address' => 'メールアドレス',
+    'Address' => '住所',
+    'Business Hours' => '営業時間',
+    'Description' => '説明',
+    'Status' => 'ステータス',
+    'Active' => 'アクティブ',
+    'Inactive' => '非アクティブ',
+    'Maintenance' => 'メンテナンス',
+    
+    // Tips Card
+    'Tips for Better Food Waste Management' => '食品廃棄物管理の改善のためのヒント',
+    'Set realistic portion sizes' => '現実的なポーションサイズを設定',
+    'Track waste patterns daily' => '毎日廃棄物パターンを追跡',
+    'Use AI predictions for ordering' => '注文にAI予測を使用',
+    'Train staff on waste reduction' => '廃棄物削減についてスタッフを訓練',
+    'Monitor seasonal trends' => '季節的トレンドを監視',
+    'Regular menu optimization' => '定期的なメニュー最適化',
+    
+    // Cuisine Type
+    'Enter cuisine type (optional)' => '料理タイプを入力（任意）',
+    'Not specified' => '未指定',
+    
+    // Dashboard
+    'Total Menus' => '総メニュー数',
+    'Total Food Items' => '総食品項目数',
+    'Add Restaurant' => 'レストラン追加',
+    'Create Menu' => 'メニュー作成',
+    'Add Food Item' => '食品項目追加',
+    'Item' => '項目',
+    'Current Stock' => '現在の在庫',
+    'Min Level' => '最小レベル',
+    'Status' => 'ステータス',
+    'Out of Stock' => '在庫切れ',
+    'Low Stock' => '在庫不足',
+    'All items are well stocked!' => 'すべての項目が十分に在庫されています！',
+    'Waste Amount' => '廃棄量',
+    'Cost' => 'コスト',
+    'Date' => '日付',
+    'No waste records found. Great job!' => '廃棄記録が見つかりません。素晴らしい仕事です！',
+    'Category' => 'カテゴリ',
+    'Total Waste' => '総廃棄量',
+    'Total Cost' => '総コスト',
+    'Percentage' => 'パーセンテージ',
+    'Trend' => 'トレンド',
+    'Better than predicted' => '予測より良好',
+    'Worse than predicted' => '予測より悪い',
+    'No waste data available for analysis yet' => '分析用の廃棄データがまだ利用できません',
 ];
 

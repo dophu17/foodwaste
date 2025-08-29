@@ -25,7 +25,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Restaurant management (requires authentication)
 Route::middleware(['auth'])->group(function () {
-    Route::resource('restaurant', RestaurantController::class);
+    Route::get('/restaurant', [RestaurantController::class, 'index'])->name('restaurant.index');
+    Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
+    Route::post('/restaurant', [RestaurantController::class, 'store'])->name('restaurant.store');
+    Route::get('/restaurant/{restaurant}', [RestaurantController::class, 'show'])->name('restaurant.show');
+    Route::get('/restaurant/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+    Route::put('/restaurant/{restaurant}', [RestaurantController::class, 'update'])->name('restaurant.update');
     
     // Menu management routes
     Route::resource('menus', MenuController::class);
@@ -41,7 +46,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
     
     // Additional routes for waste management
-    Route::get('/waste-analytics', [DashboardController::class, 'wasteAnalytics'])->name('waste.analytics');
     Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
 });
 

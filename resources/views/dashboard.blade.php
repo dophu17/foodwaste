@@ -59,14 +59,14 @@
                 <div class="stats-card text-center">
                     <div class="icon">📋</div>
                     <div class="number">{{ $totalMenus ?? 0 }}</div>
-                    <div class="label">Tổng số Menu</div>
+                    <div class="label">{{ __('messages.Total Menus') }}</div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-3">
                 <div class="stats-card text-center">
                     <div class="icon">🍜</div>
                     <div class="number">{{ $totalFoodItems ?? 0 }}</div>
-                    <div class="label">Tổng số món ăn</div>
+                    <div class="label">{{ __('messages.Total Food Items') }}</div>
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-robot me-2"></i>🤖 {{ __('messages.AI Insights & Recommendations') }}
+                            <i class="fas fa-robot me-2"></i> {{ __('messages.AI Insights & Recommendations') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -110,21 +110,21 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-chart-line me-2"></i>📈 {{ __('messages.Quick Actions') }}
+                            <i class="fas fa-chart-line me-2"></i> {{ __('messages.Quick Actions') }}
                         </h5>
                     </div>
                     <div class="card-body">
                         <div class="d-grid gap-2">
                             <a href="{{ route('restaurant.create') }}" class="btn btn-outline-primary">
-                                <i class="fas fa-plus me-2"></i>Add Restaurant
+                                <i class="fas fa-plus me-2"></i>{{ __('messages.Add Restaurant') }}
                             </a>
                             <a href="{{ route('menus.create') }}" class="btn btn-outline-success">
-                                <i class="fas fa-utensils me-2"></i>Create Menu
+                                <i class="fas fa-utensils me-2"></i>{{ __('messages.Create Menu') }}
                             </a>
                             <a href="{{ route('food-item.create') }}" class="btn btn-outline-info">
-                                <i class="fas fa-hamburger me-2"></i>Add Food Item
+                                <i class="fas fa-hamburger me-2"></i>{{ __('messages.Add Food Item') }}
                             </a>
-                            <a href="{{ route('waste.analytics') }}" class="btn btn-outline-warning">
+                            <a href="{{ route('ai.insights') }}" class="btn btn-outline-warning">
                                 <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                             </a>
                         </div>
@@ -139,7 +139,7 @@
                 <div class="card">
                     <div class="card-header bg-warning text-dark">
                         <h5 class="card-title mb-0">
-                                                            <i class="fas fa-exclamation-triangle me-2"></i>⚠️ {{ __('messages.low_stock_alerts') }}
+                            <i class="fas fa-exclamation-triangle me-2"></i> {{ __('messages.low_stock_alerts') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -148,10 +148,10 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
-                                            <th>Current Stock</th>
-                                            <th>Min Level</th>
-                                            <th>Status</th>
+                                            <th>{{ __('messages.Item') }}</th>
+                                            <th>{{ __('messages.Current Stock') }}</th>
+                                            <th>{{ __('messages.Min Level') }}</th>
+                                            <th>{{ __('messages.Status') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,9 +169,9 @@
                                                 <td>{{ $item->min_stock_level }}</td>
                                                 <td>
                                                     @if($item->stock_quantity == 0)
-                                                        <span class="badge bg-danger">Out of Stock</span>
+                                                        <span class="badge bg-danger">{{ __('messages.Out of Stock') }}</span>
                                                     @else
-                                                        <span class="badge bg-warning">Low Stock</span>
+                                                        <span class="badge bg-warning">{{ __('messages.Low Stock') }}</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -182,7 +182,7 @@
                         @else
                             <div class="text-center text-muted py-4">
                                 <i class="fas fa-check-circle text-success fs-1 mb-3"></i>
-                                <p>All items are well stocked! 🎉</p>
+                                <p>{{ __('messages.All items are well stocked!') }} 🎉</p>
                             </div>
                         @endif
                     </div>
@@ -192,7 +192,7 @@
                 <div class="card">
                     <div class="card-header bg-info text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-history me-2"></i>📝 {{ __('messages.Recent Waste Records') }}
+                            <i class="fas fa-history me-2"></i> {{ __('messages.Recent Waste Records') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -201,10 +201,10 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
-                                            <th>Waste Amount</th>
-                                            <th>Cost</th>
-                                            <th>Date</th>
+                                            <th>{{ __('messages.Item') }}</th>
+                                            <th>{{ __('messages.Waste Amount') }}</th>
+                                            <th>{{ __('messages.Cost') }}</th>
+                                            <th>{{ __('messages.Date') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -223,7 +223,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="text-danger fw-bold">
-                                                        {{ $record->formatted_waste_cost }}
+                                                        ¥{{ number_format($record->formatted_waste_cost, 0) }}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -239,7 +239,7 @@
                         @else
                             <div class="text-center text-muted py-4">
                                 <i class="fas fa-leaf text-success fs-1 mb-3"></i>
-                                <p>No waste records found. Great job! 🌱</p>
+                                <p>{{ __('messages.No waste records found. Great job!') }} 🌱</p>
                             </div>
                         @endif
                     </div>
@@ -253,7 +253,7 @@
                 <div class="card">
                     <div class="card-header bg-dark text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-chart-bar me-2"></i>📊 {{ __('messages.Waste Analysis by Category') }}
+                            <i class="fas fa-chart-bar me-2"></i> {{ __('messages.Waste Analysis by Category') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -262,11 +262,11 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Category</th>
-                                            <th>Total Waste</th>
-                                            <th>Total Cost</th>
-                                            <th>Percentage</th>
-                                            <th>Trend</th>
+                                            <th>{{ __('messages.Category') }}</th>
+                                            <th>{{ __('messages.Total Waste') }}</th>
+                                            <th>{{ __('messages.Total Cost') }}</th>
+                                            <th>{{ __('messages.Percentage') }}</th>
+                                            <th>{{ __('messages.Trend') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -315,9 +315,9 @@
                                                 </td>
                                                 <td>
                                                     @if($category->ai_predicted_waste > $category->actual_waste_percentage)
-                                                        <i class="fas fa-arrow-down text-success" title="Better than predicted"></i>
+                                                        <i class="fas fa-arrow-down text-success" title="{{ __('messages.Better than predicted') }}"></i>
                                                     @else
-                                                        <i class="fas fa-arrow-up text-danger" title="Worse than predicted"></i>
+                                                        <i class="fas fa-arrow-up text-danger" title="{{ __('messages.Worse than predicted') }}"></i>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -328,7 +328,7 @@
                         @else
                             <div class="text-center text-muted py-4">
                                 <i class="fas fa-chart-bar fs-1 mb-3"></i>
-                                <p>No waste data available for analysis yet.</p>
+                                <p>{{ __('messages.No waste data available for analysis yet.') }}</p>
                             </div>
                         @endif
                     </div>

@@ -6,7 +6,12 @@
     <div class="container">
         <div class="page-header">
             <h1 class="page-title">🏪 {{ $restaurant->name }}</h1>
-            <p class="page-subtitle">{{ $restaurant->cuisine_type }} {{ __('messages.Cuisine Type') }} • {{ $restaurant->address }}</p>
+            <p class="page-subtitle">
+                @if($restaurant->cuisine_type)
+                    {{ $restaurant->cuisine_type }} {{ __('messages.Cuisine Type') }} • 
+                @endif
+                {{ $restaurant->address }}
+            </p>
         </div>
     </div>
 
@@ -34,7 +39,13 @@
                                     <i class="fas fa-utensils text-primary me-3 fs-4"></i>
                                     <div>
                                         <small class="text-muted">{{ __('messages.Cuisine Type') }}</small>
-                                        <div class="fw-bold">{{ $restaurant->cuisine_type }}</div>
+                                        <div class="fw-bold">
+                                            @if($restaurant->cuisine_type)
+                                                {{ $restaurant->cuisine_type }}
+                                            @else
+                                                <span class="text-muted">{{ __('messages.Not specified') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +103,7 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-chart-line me-2"></i>📊 {{ __('messages.Quick Stats') }}
+                            <i class="fas fa-chart-line me-2"></i> {{ __('messages.Quick Stats') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -119,7 +130,7 @@
                 <div class="card">
                     <div class="card-header bg-info text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-bolt me-2"></i>⚡ {{ __('messages.Quick Actions') }}
+                            <i class="fas fa-bolt me-2"></i> {{ __('messages.Quick Actions') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -140,7 +151,7 @@
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <a href="{{ route('waste.analytics') }}" class="btn btn-outline-danger w-100">
+                                <a href="{{ route('ai.insights') }}" class="btn btn-outline-danger w-100">
                                     <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                                 </a>
                             </div>
@@ -156,7 +167,7 @@
                 <div class="card">
                     <div class="card-header bg-warning text-dark">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-utensils me-2"></i>🍽️ {{ __('messages.Restaurant Menus') }}
+                            <i class="fas fa-utensils me-2"></i> {{ __('messages.Restaurant Menus') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -170,7 +181,11 @@
                                                     <i class="fas fa-utensils text-warning fs-1"></i>
                                                 </div>
                                                 <h6 class="card-title">{{ $menu->name }}</h6>
-                                                <p class="card-text text-muted small">{{ $menu->description }}</p>
+                                                @if($menu->description)
+                                                    <p class="card-text text-muted small">{{ $menu->description }}</p>
+                                                @else
+                                                    <p class="card-text text-muted small">&nbsp;</p>
+                                                @endif
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span class="badge bg-secondary">{{ $menu->category }}</span>
                                                     <span class="badge {{ $menu->is_active ? 'bg-success' : 'bg-danger' }}">
@@ -212,7 +227,7 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-star me-2"></i>⭐ {{ __('messages.Popular Food Items') }}
+                            <i class="fas fa-star me-2"></i> {{ __('messages.Popular Food Items') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -272,7 +287,7 @@
                 <div class="card">
                     <div class="card-header bg-danger text-white">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-chart-line me-2"></i>📈 {{ __('messages.AI Recommendations') }}
+                            <i class="fas fa-chart-line me-2"></i> {{ __('messages.AI Recommendations') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -304,28 +319,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="row mb-4">
-            <div class="col-12 text-center">
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left me-2"></i>{{ __('messages.Back to Dashboard') }}
-                    </a>
-                    <a href="{{ route('restaurant.edit', $restaurant->id) }}" class="btn btn-warning">
-                        <i class="fas fa-edit me-2"></i>{{ __('messages.Edit Restaurant') }}
-                    </a>
-                    <form method="POST" action="{{ route('restaurant.destroy', $restaurant->id) }}" 
-                          class="d-inline" onsubmit="return confirm('{{ __('messages.Are you sure you want to delete this restaurant?') }}')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash me-2"></i>{{ __('messages.Delete Restaurant') }}
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>

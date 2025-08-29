@@ -130,7 +130,7 @@ class RestaurantController extends Controller
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'description' => 'nullable|string',
-            'cuisine_type' => 'required|string|max:100',
+            'cuisine_type' => 'nullable|string|max:100',
             'business_hours' => 'required|string|max:200',
             'capacity' => 'required|integer|min:1|max:1000',
         ]);
@@ -139,22 +139,5 @@ class RestaurantController extends Controller
 
         return redirect()->route('restaurant.show', $restaurant)
             ->with('success', 'Thông tin nhà hàng đã được cập nhật thành công!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Restaurant $restaurant)
-    {
-        $user = Auth::user();
-        
-        if ($restaurant->user_id !== $user->id) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $restaurant->delete();
-
-        return redirect()->route('home')
-            ->with('success', 'Nhà hàng đã được xóa thành công!');
     }
 }

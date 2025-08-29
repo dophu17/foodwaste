@@ -218,11 +218,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('waste.analytics') ? 'active' : '' }}" href="{{ route('waste.analytics') }}">
-                                <i class="fas fa-chart-pie me-2"></i>{{ __('messages.analytics') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('ai.insights') ? 'active' : '' }}" href="{{ route('ai.insights') }}">
                                 <i class="fas fa-robot me-2"></i>{{ __('messages.ai_insights') }}
                             </a>

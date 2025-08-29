@@ -23,6 +23,7 @@ class Restaurant extends Model
 
     protected $casts = [
         'capacity' => 'integer',
+        'cuisine_type' => 'string',
     ];
 
     /**
