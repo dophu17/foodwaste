@@ -7,6 +7,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AIAnalysisController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,6 +53,13 @@ Route::middleware(['auth'])->group(function () {
     
     // Additional routes for waste management
     Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
+    
+    // AI Analysis routes
+    Route::get('/ai-analysis', [AIAnalysisController::class, 'index'])->name('ai.analysis');
+    Route::get('/ai-analysis/data', [AIAnalysisController::class, 'getAnalysisData'])->name('ai.analysis.data');
+    Route::get('/ai-analysis/forecasting', [AIAnalysisController::class, 'getForecastingData'])->name('ai.analysis.forecasting');
+    Route::get('/ai-analysis/time-series', [AIAnalysisController::class, 'getTimeSeriesData'])->name('ai.analysis.time-series');
+    Route::get('/ai-analysis/sales-patterns', [AIAnalysisController::class, 'getSalesPatterns'])->name('ai.analysis.sales-patterns');
 });
 
 // Redirect authenticated users to dashboard

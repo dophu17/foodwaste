@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Carbon\Carbon;
 
 class FoodItem extends Model
 {
@@ -136,6 +137,143 @@ class FoodItem extends Model
         } else {
             return 'Low waste risk - good management';
         }
+    }
+
+    /**
+     * Get recent sales data for AI prompt engineering (last 7-14 days)
+     */
+    public function getRecentSalesData($days = 14)
+    {
+        $startDate = Carbon::now()->subDays($days);
+        
+        return $this->orderItems()
+            ->whereHas('order', function($query) use ($startDate) {
+                $query->where('order_date', '>=', $startDate);
+            })
+            ->selectRaw('
+                DATE(orders.order_date) as date,
+                SUM(quantity_sold) as daily_quantity,
+                AVG(unit_price) as avg_price,
+                COUNT(DISTINCT orders.id) as days_with_sales
+            ')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+    }
+
+    /**
+     * Get sales trend analysis for AI forecasting
+     */
+    public function getSalesTrendAnalysis($days = 14)
+    {
+        $startDate = Carbon::now()->subDays($days);
+        
+        $recentSales = $this->orderItems()
+            ->whereHas('order', function($query) use ($startDate) {
+                $query->where('order_date', '>=', $startDate);
+            })
+            ->selectRaw('
+                DATE(orders.order_date) as date,
+                SUM(quantity_sold) as daily_quantity,
+                orders.day_of_week,
+                orders.weather_condition,
+                orders.is_holiday
+            ')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->groupBy('date', 'orders.day_of_week', 'orders.weather_condition', 'orders.is_holiday')
+            ->orderBy('date')
+            ->get();
+
+        // Calculate trend metrics
+        $totalDays = $recentSales->count();
+        $totalQuantity = $recentSales->sum('daily_quantity');
+        $avgDailyQuantity = $totalDays > 0 ? $totalQuantity / $totalDays : 0;
+        
+        // Calculate day-of-week patterns
+        $dayOfWeekPatterns = $recentSales->groupBy('day_of_week')
+            ->map(function($daySales) {
+                return $daySales->avg('daily_quantity');
+            });
+
+        return [
+            'total_days' => $totalDays,
+            'total_quantity' => $totalQuantity,
+            'avg_daily_quantity' => $avgDailyQuantity,
+            'day_of_week_patterns' => $dayOfWeekPatterns,
+            'recent_sales' => $recentSales
+        ];
+    }
+
+    /**
+     * Get AI forecasting data for next day prediction
+     */
+    public function getAIForecastingData($days = 14)
+    {
+        $trendData = $this->getSalesTrendAnalysis($days);
+        
+        // Get tomorrow's day of week
+        $tomorrow = Carbon::tomorrow();
+        $tomorrowDayOfWeek = $tomorrow->format('l');
+        
+        // Get historical data for same day of week
+        $sameDayHistory = $this->orderItems()
+            ->whereHas('order', function($query) use ($days, $tomorrowDayOfWeek) {
+                $query->where('order_date', '>=', Carbon::now()->subDays($days * 2)) // Look back further for same day patterns
+                      ->where('day_of_week', $tomorrowDayOfWeek);
+            })
+            ->selectRaw('
+                DATE(orders.order_date) as date,
+                SUM(quantity_sold) as daily_quantity,
+                orders.weather_condition,
+                orders.is_holiday,
+                orders.special_event
+            ')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->groupBy('date', 'orders.weather_condition', 'orders.is_holiday', 'orders.special_event')
+            ->orderBy('date')
+            ->get();
+
+        return [
+            'tomorrow_date' => $tomorrow->format('Y-m-d'),
+            'tomorrow_day_of_week' => $tomorrowDayOfWeek,
+            'trend_data' => $trendData,
+            'same_day_history' => $sameDayHistory,
+            'forecasting_factors' => [
+                'base_demand' => $trendData['avg_daily_quantity'],
+                'day_of_week_multiplier' => $trendData['day_of_week_patterns'][$tomorrowDayOfWeek] ?? 1.0,
+                'weather_impact' => $this->getWeatherImpactMultiplier(),
+                'holiday_impact' => $this->getHolidayImpactMultiplier()
+            ]
+        ];
+    }
+
+    /**
+     * Get weather impact multiplier for forecasting
+     */
+    private function getWeatherImpactMultiplier()
+    {
+        // This could be enhanced with actual weather API data
+        $weatherMultipliers = [
+            'Sunny' => 1.1,      // Sunny days typically have higher sales
+            'Cloudy' => 1.0,     // Normal sales
+            'Rainy' => 0.8,      // Rainy days typically have lower sales
+            'Windy' => 0.9       // Slightly lower sales
+        ];
+        
+        return $weatherMultipliers;
+    }
+
+    /**
+     * Get holiday impact multiplier for forecasting
+     */
+    private function getHolidayImpactMultiplier()
+    {
+        // This could be enhanced with actual holiday calendar data
+        return [
+            'holiday' => 1.3,    // Holidays typically have higher sales
+            'normal' => 1.0      // Normal days
+        ];
     }
 
     /**
