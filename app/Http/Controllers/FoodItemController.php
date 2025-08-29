@@ -54,7 +54,7 @@ class FoodItemController extends Controller
             $query->where('menu_id', $request->menu_id);
         }
 
-        $foodItems = $query->orderBy('created_at', 'desc')->paginate(15);
+        $foodItems = $query->orderBy('created_at', 'desc')->paginate(9);
 
         // Get unique categories for filter dropdown
         $categories = FoodItem::when(Auth::check(), function ($query) {
