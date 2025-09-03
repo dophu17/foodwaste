@@ -53,14 +53,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
     
     // Additional routes for waste management
-    Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
     
     // AI Analysis routes
     Route::get('/ai-analysis', [AIAnalysisController::class, 'index'])->name('ai.analysis');
     Route::get('/ai-analysis/data', [AIAnalysisController::class, 'getAnalysisData'])->name('ai.analysis.data');
     Route::get('/ai-analysis/forecasting', [AIAnalysisController::class, 'getForecastingData'])->name('ai.analysis.forecasting');
-    Route::get('/ai-analysis/time-series', [AIAnalysisController::class, 'getTimeSeriesData'])->name('ai.analysis.time-series');
-    Route::get('/ai-analysis/sales-patterns', [AIAnalysisController::class, 'getSalesPatterns'])->name('ai.analysis.sales-patterns');
+    Route::get('/ai-analysis/waste-insights', [AIAnalysisController::class, 'getWasteInsights'])->name('ai.analysis.waste-insights');
+    Route::get('/ai-analysis/menu-optimization', [AIAnalysisController::class, 'getMenuOptimization'])->name('ai.analysis.menu-optimization');
+    Route::get('/ai-analysis/test-connection', [AIAnalysisController::class, 'testConnection'])->name('ai.analysis.test-connection');
+    Route::get('/ai-analysis/test', [AIAnalysisController::class, 'testAnalysis'])->name('ai.analysis.test');
+});
+
+// Test route without authentication
+Route::get('/test-ai-analysis', [AIAnalysisController::class, 'testAnalysis'])->name('test.ai.analysis');
 
 // Gemini AI Routes
 Route::prefix('gemini-ai')->name('gemini.')->group(function () {
@@ -69,7 +74,6 @@ Route::prefix('gemini-ai')->name('gemini.')->group(function () {
     Route::post('/waste-insights', [GeminiAIController::class, 'generateWasteInsights'])->name('waste-insights');
     Route::post('/menu-optimization', [GeminiAIController::class, 'generateMenuOptimization'])->name('menu-optimization');
     Route::get('/comprehensive-analysis', [GeminiAIController::class, 'getComprehensiveAnalysis'])->name('comprehensive-analysis');
-});
 });
 
 // Redirect authenticated users to dashboard

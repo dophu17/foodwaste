@@ -223,7 +223,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('ai.insights') ? 'active' : '' }}" href="{{ route('ai.insights') }}">
+                            <a class="nav-link {{ request()->routeIs('ai.analysis') ? 'active' : '' }}" href="{{ route('ai.analysis') }}">
                                 <i class="fas fa-robot me-2"></i>{{ __('messages.ai_insights') }}
                             </a>
                         </li>

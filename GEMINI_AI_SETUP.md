@@ -32,17 +32,25 @@ php artisan db:seed
 
 ## 🎯 Features Available
 
-### AI Insights Dashboard
-- **Route**: `/ai-insights`
-- **Controller**: `DashboardController@aiInsights`
-- **View**: `resources/views/ai/insights.blade.php`
-
-### AI Analysis Dashboard
+### AI Analysis Dashboard (Updated)
 - **Route**: `/ai-analysis`
 - **Controller**: `AIAnalysisController@index`
 - **View**: `resources/views/ai/analysis.blade.php`
+- **Features**: 
+  - Demand forecasting using Gemini AI
+  - Waste insights analysis
+  - Menu optimization recommendations
+  - Real-time AI connection testing
 
-### Gemini AI API Endpoints
+### AI Analysis API Endpoints (Updated)
+- **Test Connection**: `GET /ai-analysis/test-connection`
+- **Demand Forecast**: `GET /ai-analysis/forecasting`
+- **Waste Insights**: `GET /ai-analysis/waste-insights`
+- **Menu Optimization**: `GET /ai-analysis/menu-optimization`
+- **Analysis Data**: `GET /ai-analysis/data`
+- **Test Route**: `GET /test-ai-analysis` (for testing without authentication)
+
+### Legacy Gemini AI API Endpoints (Still Available)
 - **Test Connection**: `GET /gemini-ai/test-connection`
 - **Demand Forecast**: `POST /gemini-ai/demand-forecast`
 - **Waste Insights**: `POST /gemini-ai/waste-insights`
@@ -194,10 +202,10 @@ Enable debug logging in `config/logging.php`:
 
 ## 📈 Performance Optimization
 
-### Caching
-- AI responses được cache trong 1 giờ
-- Cache key: `gemini_{md5_hash_of_prompt}`
-- Có thể điều chỉnh TTL trong `GeminiAIService`
+### Real-time AI Responses
+- AI responses được gọi trực tiếp mỗi lần (không cache)
+- Đảm bảo dữ liệu mới nhất từ Gemini AI
+- Phù hợp cho phân tích thời gian thực
 
 ### Rate Limiting
 - Implement rate limiting cho API calls

@@ -4,17 +4,17 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 
 class GeminiAIService
 {
     protected $apiKey;
-    protected $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-    protected $cacheTtl = 3600; // 1 hour cache
+    protected $baseUrl;
 
     public function __construct()
     {
         $this->apiKey = config('services.gemini.api_key');
+        $model = config('services.gemini.model', 'gemini-1.5-flash');
+        $this->baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent";
     }
 
     /**
@@ -86,14 +86,8 @@ class GeminiAIService
     /**
      * Call Gemini AI API
      */
-    protected function callGeminiAPI($prompt)
+    public function callGeminiAPI($prompt)
     {
-        $cacheKey = 'gemini_' . md5($prompt);
-        
-        // Check cache first
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
-        }
 
         $requestData = [
             'contents' => [
@@ -137,8 +131,6 @@ class GeminiAIService
 
         if ($response->successful()) {
             $result = $response->json();
-            // Cache the response
-            Cache::put($cacheKey, $result, $this->cacheTtl);
             return $result;
         }
 

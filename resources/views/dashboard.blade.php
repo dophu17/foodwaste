@@ -124,7 +124,7 @@
                             <a href="{{ route('food-item.create') }}" class="btn btn-outline-info">
                                 <i class="fas fa-hamburger me-2"></i>{{ __('messages.Add Food Item') }}
                             </a>
-                            <a href="{{ route('ai.insights') }}" class="btn btn-outline-warning">
+                            <a href="{{ route('ai.analysis') }}" class="btn btn-outline-warning">
                                 <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                             </a>
                         </div>
