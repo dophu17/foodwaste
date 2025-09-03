@@ -165,17 +165,7 @@
                                                                 @endif
                                                                 <div class="flex-grow-1">
                                                                     <h6 class="mb-1 fw-bold text-dark">{{ $foodItem->name }}</h6>
-                                                                    <div class="mb-2">
-                                                                        @if($foodItem->is_vegetarian)
-                                                                            <span class="badge bg-success btn-sm me-1">Chay</span>
-                                                                        @endif
-                                                                        @if($foodItem->is_vegan)
-                                                                            <span class="badge bg-info btn-sm me-1">Thuần chay</span>
-                                                                        @endif
-                                                                        @if($foodItem->is_gluten_free)
-                                                                            <span class="badge bg-warning btn-sm">Không gluten</span>
-                                                                        @endif
-                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                             

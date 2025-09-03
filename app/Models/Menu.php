@@ -302,33 +302,5 @@ class Menu extends Model
             ->exists();
     }
 
-    /**
-     * Get vegetarian food items count.
-     */
-    public function getVegetarianItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_vegetarian', true)
-            ->count();
-    }
 
-    /**
-     * Get vegan food items count.
-     */
-    public function getVeganItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_vegan', true)
-            ->count();
-    }
-
-    /**
-     * Get gluten-free food items count.
-     */
-    public function getGlutenFreeItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_gluten_free', true)
-            ->count();
-    }
 }

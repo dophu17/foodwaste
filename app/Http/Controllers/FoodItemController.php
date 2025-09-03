@@ -375,4 +375,36 @@ class FoodItemController extends Controller
         return redirect()->back()
             ->with('success', __('messages.Stock quantity updated successfully'));
     }
+
+    /**
+     * Calculate AI waste prediction for a specific food item
+     */
+    public function calculateAI(Request $request, string $id)
+    {
+        $foodItem = FoodItem::with('menu')->findOrFail($id);
+
+        // Kiểm tra quyền truy cập
+        if (!$foodItem->menu->canEditByUser(Auth::user())) {
+            return redirect()->back()
+                ->with('error', __('messages.Unauthorized access'));
+        }
+
+        try {
+            // Tính toán AI waste prediction
+            $success = $foodItem->calculateAndUpdateWastePrediction();
+            
+            if ($success) {
+                $foodItem->refresh();
+                return redirect()->back()
+                    ->with('success', "AI Waste Prediction đã được tính toán: {$foodItem->ai_waste_prediction}%");
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Không thể tính toán AI Waste Prediction. Vui lòng kiểm tra lại thông tin.');
+            }
+        } catch (\Exception $e) {
+            \Log::error("Failed to calculate AI prediction for food item {$id}: " . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Có lỗi xảy ra khi tính toán AI Waste Prediction. Vui lòng thử lại.');
+        }
+    }
 }

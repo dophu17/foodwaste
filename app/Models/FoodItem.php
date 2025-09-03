@@ -10,6 +10,25 @@ use Carbon\Carbon;
 
 class FoodItem extends Model
 {
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted()
+    {
+        // Auto-calculate AI waste prediction when creating a new food item
+        static::creating(function ($foodItem) {
+            $foodItem->autoCalculateWastePrediction();
+        });
+
+        // Auto-calculate AI waste prediction when updating a food item
+        static::updating(function ($foodItem) {
+            // Only recalculate if relevant fields have changed
+            if ($foodItem->isDirty(['price', 'preparation_time', 'category', 'stock_quantity', 'min_stock_level'])) {
+                $foodItem->autoCalculateWastePrediction();
+            }
+        });
+    }
+
     protected $fillable = [
         'menu_id',
         'name',
@@ -360,5 +379,85 @@ class FoodItem extends Model
     public function scopeByPreparationTime($query, $maxMinutes)
     {
         return $query->whereRaw('CAST(SUBSTRING_INDEX(preparation_time, " ", 1) AS UNSIGNED) <= ?', [$maxMinutes]);
+    }
+
+    /**
+     * Auto-calculate AI waste prediction (used in model events)
+     */
+    private function autoCalculateWastePrediction(): void
+    {
+        try {
+            $wastePredictionService = app(\App\Services\WastePredictionService::class);
+            
+            // Check if all required factors are present
+            $factorCheck = $wastePredictionService->hasRequiredFactors($this);
+            
+            if (!$factorCheck['has_all_factors']) {
+                // Set ai_waste_prediction to null if missing required factors
+                $this->attributes['ai_waste_prediction'] = null;
+                \Log::info("Skipping AI prediction calculation for food item {$this->id} - missing factors: " . implode(', ', $factorCheck['missing_factors']));
+                return;
+            }
+            
+            $newPrediction = $wastePredictionService->calculateWastePrediction($this);
+            
+            // Set the ai_waste_prediction attribute without triggering another update
+            $this->attributes['ai_waste_prediction'] = round($newPrediction, 2);
+        } catch (\Exception $e) {
+            // Log error but don't break the save operation
+            \Log::warning("Failed to auto-calculate waste prediction for food item: " . $e->getMessage());
+            // Set to null if calculation fails due to missing factors
+            $this->attributes['ai_waste_prediction'] = null;
+        }
+    }
+
+    /**
+     * Calculate and update AI waste prediction using WastePredictionService
+     */
+    public function calculateAndUpdateWastePrediction(): bool
+    {
+        $wastePredictionService = app(\App\Services\WastePredictionService::class);
+        
+        // Check if all required factors are present
+        $factorCheck = $wastePredictionService->hasRequiredFactors($this);
+        
+        if (!$factorCheck['has_all_factors']) {
+            // Set ai_waste_prediction to null if missing required factors
+            $this->update(['ai_waste_prediction' => null]);
+            return false;
+        }
+        
+        return $wastePredictionService->updateWastePrediction($this);
+    }
+
+    /**
+     * Get detailed breakdown of waste prediction calculation
+     */
+    public function getWastePredictionBreakdown(): array
+    {
+        $wastePredictionService = app(\App\Services\WastePredictionService::class);
+        return $wastePredictionService->getPredictionBreakdown($this);
+    }
+
+    /**
+     * Get waste prediction with detailed explanation
+     */
+    public function getWastePredictionExplanation(): string
+    {
+        $breakdown = $this->getWastePredictionBreakdown();
+        
+        $explanation = "Dự đoán thất thoát AI: {$breakdown['final_prediction']}%\n\n";
+        $explanation .= "Phân tích chi tiết:\n";
+        $explanation .= "- Rủi ro cơ bản: {$breakdown['base_risk']}%\n";
+        $explanation .= "- Hệ số giá cả: {$breakdown['price_factor']}x (giá: " . number_format($this->price) . " VNĐ)\n";
+        $explanation .= "- Hệ số thời gian chuẩn bị: {$breakdown['prep_time_factor']}x ({$this->preparation_time})\n";
+        $explanation .= "- Hệ số danh mục: {$breakdown['category_factor']}x ({$this->category})\n";
+        $explanation .= "- Hệ số tồn kho: {$breakdown['stock_factor']}x (hiện tại: {$this->stock_quantity}/{$this->min_stock_level})\n";
+        $explanation .= "- Hệ số lịch sử: {$breakdown['historical_factor']}x (dựa trên dữ liệu 30 ngày qua)\n";
+        $explanation .= "- Hệ số doanh số: {$breakdown['sales_factor']}x (dựa trên bán hàng 14 ngày qua)\n";
+        $explanation .= "- Hệ số mùa vụ: {$breakdown['seasonal_factor']}x (tháng " . Carbon::now()->month . ")\n\n";
+        $explanation .= "Công thức: {$breakdown['calculation']}";
+        
+        return $explanation;
     }
 }

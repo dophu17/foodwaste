@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('menus/{menu}/food-items', [FoodItemController::class, 'getByMenu'])->name('food-item.by-menu');
     Route::get('food-item/category/{category}', [FoodItemController::class, 'getByCategory'])->name('food-item.by-category');
     Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
+    Route::post('food-item/{food_item}/calculate-ai', [FoodItemController::class, 'calculateAI'])->name('food-item.calculate-ai');
     
     // Order management routes
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'create', 'store']);
