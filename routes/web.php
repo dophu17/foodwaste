@@ -7,7 +7,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AIAnalysisController;
+
 use App\Http\Controllers\GeminiAIController;
 
 Route::get('/', function () {
@@ -54,18 +54,15 @@ Route::middleware(['auth'])->group(function () {
     
     // Additional routes for waste management
     
-    // AI Analysis routes
-    Route::get('/ai-analysis', [AIAnalysisController::class, 'index'])->name('ai.analysis');
-    Route::get('/ai-analysis/data', [AIAnalysisController::class, 'getAnalysisData'])->name('ai.analysis.data');
-    Route::get('/ai-analysis/forecasting', [AIAnalysisController::class, 'getForecastingData'])->name('ai.analysis.forecasting');
-    Route::get('/ai-analysis/waste-insights', [AIAnalysisController::class, 'getWasteInsights'])->name('ai.analysis.waste-insights');
-    Route::get('/ai-analysis/menu-optimization', [AIAnalysisController::class, 'getMenuOptimization'])->name('ai.analysis.menu-optimization');
-    Route::get('/ai-analysis/test-connection', [AIAnalysisController::class, 'testConnection'])->name('ai.analysis.test-connection');
-    Route::get('/ai-analysis/test', [AIAnalysisController::class, 'testAnalysis'])->name('ai.analysis.test');
+    // AI Analysis routes (moved to dashboard)
+    Route::get('/dashboard/ai/data', [DashboardController::class, 'getAnalysisData'])->name('dashboard.ai.data');
+    Route::get('/dashboard/ai/forecasting', [DashboardController::class, 'getForecastingData'])->name('dashboard.ai.forecasting');
+    Route::get('/dashboard/ai/waste-insights', [DashboardController::class, 'getWasteInsights'])->name('dashboard.ai.waste-insights');
+    Route::get('/dashboard/ai/menu-optimization', [DashboardController::class, 'getMenuOptimization'])->name('dashboard.ai.menu-optimization');
+    Route::get('/dashboard/ai/test-connection', [DashboardController::class, 'testConnection'])->name('dashboard.ai.test-connection');
 });
 
-// Test route without authentication
-Route::get('/test-ai-analysis', [AIAnalysisController::class, 'testAnalysis'])->name('test.ai.analysis');
+
 
 // Gemini AI Routes
 Route::prefix('gemini-ai')->name('gemini.')->group(function () {

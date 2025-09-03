@@ -151,7 +151,7 @@
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <a href="{{ route('ai.analysis') }}" class="btn btn-outline-danger w-100">
+                                <a href="{{ route('dashboard') }}" class="btn btn-outline-danger w-100">
                                     <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                                 </a>
                             </div>

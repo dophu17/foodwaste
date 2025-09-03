@@ -268,7 +268,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <a href="{{ route('ai.analysis') }}" class="btn btn-outline-danger w-100">
+                                    <a href="{{ route('dashboard') }}" class="btn btn-outline-danger w-100">
                                         <i class="fas fa-robot me-2"></i>{{ __('messages.AI Analysis') }}
                                     </a>
                                 </div>

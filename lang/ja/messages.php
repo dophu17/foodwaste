@@ -628,5 +628,6 @@ return [
     'Waste Reduction' => '廃棄物削減',
     'Profit Improvement' => '利益改善',
     'Please create restaurant information before viewing AI analysis.' => 'AI分析を表示する前に、レストラン情報を作成してください。',
+    'AI Connection successful!' => 'AI接続成功！',
 ];
 

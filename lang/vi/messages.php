@@ -543,7 +543,7 @@ return [
     'Not specified' => 'Chưa xác định',
     
     // Dashboard
-    'Total Menus' => 'Tổng số thực đơn',
+    'Total Menus' => 'Tổng thực đơn',
     'Total Food Items' => 'Tổng số món ăn',
     'Add Restaurant' => 'Thêm nhà hàng',
     'Create Menu' => 'Tạo thực đơn',
@@ -603,5 +603,6 @@ return [
     'Waste Reduction' => 'Giảm lãng phí',
     'Profit Improvement' => 'Cải thiện lợi nhuận',
     'Please create restaurant information before viewing AI analysis.' => 'Vui lòng tạo thông tin nhà hàng trước khi xem phân tích AI.',
+    'AI Connection successful!' => 'Kết nối AI thành công!',
 ];
 
