@@ -7,6 +7,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WasteRecordController;
 
 use App\Http\Controllers\GeminiAIController;
 
@@ -52,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
     // Order management routes
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'create', 'store']);
     Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
+    
+    // Waste Records management routes
+    Route::resource('waste-records', WasteRecordController::class);
+    Route::get('waste-records-test', [WasteRecordController::class, 'testAIFields'])->name('waste-records.test');
     
     // Additional routes for waste management
     

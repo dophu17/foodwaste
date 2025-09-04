@@ -64,13 +64,13 @@
                                 <label for="day_of_week" class="form-label">{{ __('messages.Day of Week') }} *</label>
                                 <select class="form-select @error('day_of_week') is-invalid @enderror" 
                                         id="day_of_week" name="day_of_week" required>
-                                    <option value="Monday" {{ $dayOfWeek == 'Monday' ? 'selected' : '' }}>Monday</option>
-                                    <option value="Tuesday" {{ $dayOfWeek == 'Tuesday' ? 'selected' : '' }}>Tuesday</option>
-                                    <option value="Wednesday" {{ $dayOfWeek == 'Wednesday' ? 'selected' : '' }}>Wednesday</option>
-                                    <option value="Thursday" {{ $dayOfWeek == 'Thursday' ? 'selected' : '' }}>Thursday</option>
-                                    <option value="Friday" {{ $dayOfWeek == 'Friday' ? 'selected' : '' }}>Friday</option>
-                                    <option value="Saturday" {{ $dayOfWeek == 'Saturday' ? 'selected' : '' }}>Saturday</option>
-                                    <option value="Sunday" {{ $dayOfWeek == 'Sunday' ? 'selected' : '' }}>Sunday</option>
+                                    <option value="Monday" {{ $dayOfWeek == 'Monday' ? 'selected' : '' }}>{{ __('messages.Monday') }}</option>
+                                    <option value="Tuesday" {{ $dayOfWeek == 'Tuesday' ? 'selected' : '' }}>{{ __('messages.Tuesday') }}</option>
+                                    <option value="Wednesday" {{ $dayOfWeek == 'Wednesday' ? 'selected' : '' }}>{{ __('messages.Wednesday') }}</option>
+                                    <option value="Thursday" {{ $dayOfWeek == 'Thursday' ? 'selected' : '' }}>{{ __('messages.Thursday') }}</option>
+                                    <option value="Friday" {{ $dayOfWeek == 'Friday' ? 'selected' : '' }}>{{ __('messages.Friday') }}</option>
+                                    <option value="Saturday" {{ $dayOfWeek == 'Saturday' ? 'selected' : '' }}>{{ __('messages.Saturday') }}</option>
+                                    <option value="Sunday" {{ $dayOfWeek == 'Sunday' ? 'selected' : '' }}>{{ __('messages.Sunday') }}</option>
                                 </select>
                                 @error('day_of_week')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -188,7 +188,7 @@
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <span>{{ __('messages.Total Amount') }}:</span>
-                                            <span id="totalAmount" class="fw-bold">¥0</span>
+                                            <span id="totalAmount" class="fw-bold">{{ __('messages.currency_suffix') }}0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <option value="{{ $foodItem->id }}" 
                                     data-price="{{ $foodItem->price }}"
                                     data-stock="{{ $foodItem->stock_quantity }}">
-                                {{ $foodItem->name }} - ¥{{ number_format($foodItem->price, 0) }}
+                                {{ $foodItem->name }} - {{ number_format($foodItem->price, 0) }}{{ __('messages.currency_suffix') }}
                                 ({{ __('messages.Stock') }}: {{ $foodItem->stock_quantity }})
                             </option>
                         @endforeach
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const unitPrice = parseFloat(row.querySelector('.unit-price-input').value) || 0;
         const total = quantity * unitPrice;
         
-        row.querySelector('.total-price-display').value = '¥' + total.toFixed(2);
+        row.querySelector('.total-price-display').value = '{{ __('messages.currency_suffix') }}' + total.toFixed(2);
         calculateTotals();
     }
     
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         document.getElementById('totalItems').textContent = totalItems;
-        document.getElementById('totalAmount').textContent = '¥' + totalAmount.toFixed(2);
+        document.getElementById('totalAmount').textContent = '{{ __('messages.currency_suffix') }}' + totalAmount.toFixed(2);
     }
     
     // Initialize first row

@@ -242,8 +242,23 @@ class GeminiAIService
     protected function formatSalesData($salesData)
     {
         $formatted = '';
+        
+        // Handle sales data from WasteRecordController (array of daily sales)
+        if (is_array($salesData) && count($salesData) > 0 && isset($salesData[0]['date'])) {
+            foreach ($salesData as $data) {
+                $formatted .= "- {$data['date']}: {$data['total_sold']} món bán được\n";
+            }
+            return $formatted;
+        }
+        
+        // Handle sales data from DashboardController (key-value format)
         foreach ($salesData as $day => $data) {
-            $formatted .= "- {$day}: {$data['orders']} đơn hàng, {$data['revenue']}¥, {$data['customers']} khách\n";
+            if (is_array($data) && isset($data['orders'])) {
+                $formatted .= "- {$day}: {$data['orders']} đơn hàng, {$data['revenue']} VNĐ, {$data['customers']} khách\n";
+            } else {
+                // Handle simple format
+                $formatted .= "- {$day}: " . json_encode($data) . "\n";
+            }
         }
         return $formatted;
     }
@@ -254,8 +269,27 @@ class GeminiAIService
     protected function formatWasteData($wasteData)
     {
         $formatted = '';
+        
+        // Handle single waste record (from WasteRecordController)
+        if (isset($wasteData['food_item'])) {
+            $formatted .= "- {$wasteData['food_item']}: {$wasteData['quantity_wasted']} {$wasteData['waste_unit']}, {$wasteData['cost_wasted']} VNĐ\n";
+            $formatted .= "  Lý do: {$wasteData['waste_reason']}\n";
+            $formatted .= "  Ngày: {$wasteData['waste_date']}\n";
+            $formatted .= "  Giá: {$wasteData['price']} VNĐ\n";
+            if (isset($wasteData['preparation_time'])) {
+                $formatted .= "  Thời gian chuẩn bị: {$wasteData['preparation_time']} phút\n";
+            }
+            return $formatted;
+        }
+        
+        // Handle multiple waste records (from DashboardController)
         foreach ($wasteData as $category => $data) {
-            $formatted .= "- {$category}: {$data['quantity']} {$data['unit']}, {$data['cost']}¥\n";
+            if (is_array($data) && isset($data['quantity'])) {
+                $formatted .= "- {$category}: {$data['quantity']} {$data['unit']}, {$data['cost']} VNĐ\n";
+            } else {
+                // Handle simple array format
+                $formatted .= "- {$category}: " . json_encode($data) . "\n";
+            }
         }
         return $formatted;
     }

@@ -222,6 +222,11 @@
                                 <i class="fas fa-receipt me-2"></i>{{ __('messages.Orders') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('waste-records.*') ? 'active' : '' }}" href="{{ route('waste-records.index') }}">
+                                <i class="fas fa-trash-alt me-2"></i>{{ __('messages.Waste Records') }}
+                            </a>
+                        </li>
 
                     </ul>
                 @else
