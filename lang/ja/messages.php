@@ -786,5 +786,23 @@ return [
     'Back to Food Items' => '食品項目に戻る',
     'Update Restaurant' => 'レストランを更新',
     'Quick Waste Record' => '廃棄記録を素早く作成',
+    
+    // Authentication Messages
+    'Login' => 'ログイン',
+    'Register' => '登録',
+    'Email Address' => 'メールアドレス',
+    'Password' => 'パスワード',
+    'Confirm Password' => 'パスワード確認',
+    'Remember Me' => 'ログイン状態を保持',
+    'Forgot Your Password?' => 'パスワードを忘れましたか？',
+    'Verify Your Email Address' => 'メールアドレスを確認してください',
+    'A fresh verification link has been sent to your email address.' => '新しい確認リンクがメールアドレスに送信されました。',
+    'Before proceeding, please check your email for a verification link.' => '続行する前に、メールで確認リンクを確認してください。',
+    'If you did not receive the email' => 'メールが届かなかった場合',
+    'click here to request another' => 'ここをクリックして再送信を要求',
+    'Reset Password' => 'パスワードリセット',
+    'Send Password Reset Link' => 'パスワードリセットリンクを送信',
+    'Please confirm your password before continuing.' => '続行する前にパスワードを確認してください。',
+    'Name' => '名前',
 ];
 

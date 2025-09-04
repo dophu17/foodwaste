@@ -780,5 +780,23 @@ return [
     'Back to Food Items' => 'Quay lại Món ăn',
     'Update Restaurant' => 'Cập nhật nhà hàng',
     'Quick Waste Record' => 'Tạo nhanh Lãng phí',
+    
+    // Authentication Messages
+    'Login' => 'Đăng nhập',
+    'Register' => 'Đăng ký',
+    'Email Address' => 'Địa chỉ Email',
+    'Password' => 'Mật khẩu',
+    'Confirm Password' => 'Xác nhận mật khẩu',
+    'Remember Me' => 'Ghi nhớ đăng nhập',
+    'Forgot Your Password?' => 'Quên mật khẩu?',
+    'Verify Your Email Address' => 'Xác minh địa chỉ Email',
+    'A fresh verification link has been sent to your email address.' => 'Một liên kết xác minh mới đã được gửi đến địa chỉ email của bạn.',
+    'Before proceeding, please check your email for a verification link.' => 'Trước khi tiếp tục, vui lòng kiểm tra email của bạn để tìm liên kết xác minh.',
+    'If you did not receive the email' => 'Nếu bạn không nhận được email',
+    'click here to request another' => 'nhấp vào đây để yêu cầu gửi lại',
+    'Reset Password' => 'Đặt lại mật khẩu',
+    'Send Password Reset Link' => 'Gửi liên kết đặt lại mật khẩu',
+    'Please confirm your password before continuing.' => 'Vui lòng xác nhận mật khẩu trước khi tiếp tục.',
+    'Name' => 'Tên',
 ];
 
