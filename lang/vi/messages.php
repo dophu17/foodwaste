@@ -756,5 +756,13 @@ return [
     // Additional order translations
     'Is Holiday' => 'Là ngày lễ',
     'Select Food Items' => 'Chọn món ăn',
+    
+    // Data Status Overview
+    'Data Status Overview' => 'Tổng quan trạng thái dữ liệu',
+    'Action Recommendations' => 'Khuyến nghị hành động',
+    'Add More Orders' => 'Thêm đơn hàng',
+    'Create more orders to unlock advanced AI analysis' => 'Tạo thêm đơn hàng để mở khóa phân tích AI nâng cao',
+    'Start Tracking Waste' => 'Bắt đầu theo dõi lãng phí',
+    'Begin recording food waste to optimize inventory and reduce costs' => 'Bắt đầu ghi lãng phí thực phẩm để tối ưu hóa kho và giảm chi phí',
 ];
 

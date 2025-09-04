@@ -201,39 +201,108 @@
                                 
                                 <div class="col-md-6">
                                     <h6 class="text-success">{{ __('messages.AI Recommendations') }}</h6>
-                                    <ul class="list-unstyled">
-                                        @if($restaurant->menus()->count() == 0)
-                                            <li class="mb-2">
-                                                <i class="fas fa-lightbulb text-warning me-2"></i>
-                                                <strong>{{ __('messages.Create Your First Menu') }}</strong>
-                                                <br><small class="text-muted">{{ __('messages.Start by creating a menu to track food items and sales') }}</small>
-                                            </li>
-                                        @endif
-                                        
-                                        @if($restaurant->foodItems()->count() < 10)
-                                            <li class="mb-2">
-                                                <i class="fas fa-lightbulb text-info me-2"></i>
-                                                <strong>{{ __('messages.Expand Food Items') }}</strong>
-                                                <br><small class="text-muted">{{ __('messages.Add more food items to increase menu variety and sales opportunities') }}</small>
-                                            </li>
-                                        @endif
-                                        
-                                        @if($restaurant->orders()->count() < 5)
-                                            <li class="mb-2">
-                                                <i class="fas fa-lightbulb text-success me-2"></i>
-                                                <strong>{{ __('messages.Start Recording Orders') }}</strong>
-                                                <br><small class="text-muted">{{ __('messages.Begin recording orders to generate AI insights and improve forecasting') }}</small>
-                                            </li>
-                                        @endif
-                                        
-                                        @if($restaurant->orders()->count() >= 10)
-                                            <li class="mb-2">
-                                                <i class="fas fa-lightbulb text-primary me-2"></i>
-                                                <strong>{{ __('messages.Ready for AI Analysis') }}</strong>
-                                                <br><small class="text-muted">{{ __('messages.You have enough data for AI-powered insights and demand forecasting') }}</small>
-                                            </li>
-                                        @endif
-                                    </ul>
+                                    
+                                    <!-- Data Status Overview -->
+                                    <div class="mb-3">
+                                        <h6 class="text-secondary mb-2">{{ __('messages.Data Status Overview') }}</h6>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    @if($restaurant->menus()->count() > 0)
+                                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                                        <small class="text-success">{{ __('messages.Menus') }}: {{ $restaurant->menus()->count() }}</small>
+                                                    @else
+                                                        <i class="fas fa-times-circle text-danger me-2"></i>
+                                                        <small class="text-danger">{{ __('messages.Menus') }}: 0</small>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    @if($restaurant->foodItems()->count() >= 10)
+                                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                                        <small class="text-success">{{ __('messages.Food Items') }}: {{ $restaurant->foodItems()->count() }}</small>
+                                                    @else
+                                                        <i class="fas fa-times-circle text-danger me-2"></i>
+                                                        <small class="text-danger">{{ __('messages.Food Items') }}: {{ $restaurant->foodItems()->count() }}/10</small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    @if($restaurant->orders()->count() >= 10)
+                                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                                        <small class="text-success">{{ __('messages.Orders') }}: {{ $restaurant->orders()->count() }}</small>
+                                                    @elseif($restaurant->orders()->count() >= 5)
+                                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                        <small class="text-warning">{{ __('messages.Orders') }}: {{ $restaurant->orders()->count() }}/10</small>
+                                                    @else
+                                                        <i class="fas fa-times-circle text-danger me-2"></i>
+                                                        <small class="text-danger">{{ __('messages.Orders') }}: {{ $restaurant->orders()->count() }}/5</small>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    @if($restaurant->wasteRecords()->count() > 0)
+                                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                                        <small class="text-success">{{ __('messages.Waste Records') }}: {{ $restaurant->wasteRecords()->count() }}</small>
+                                                    @else
+                                                        <i class="fas fa-times-circle text-danger me-2"></i>
+                                                        <small class="text-danger">{{ __('messages.Waste Records') }}: 0</small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Action Recommendations -->
+                                    <div class="mb-3">
+                                        <h6 class="text-secondary mb-2">{{ __('messages.Action Recommendations') }}</h6>
+                                        <ul class="list-unstyled">
+                                            @if($restaurant->menus()->count() == 0)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                                                    <strong>{{ __('messages.Create Your First Menu') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.Start by creating a menu to track food items and sales') }}</small>
+                                                </li>
+                                            @endif
+                                            
+                                            @if($restaurant->foodItems()->count() < 10)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-info me-2"></i>
+                                                    <strong>{{ __('messages.Expand Food Items') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.Add more food items to increase menu variety and sales opportunities') }}</small>
+                                                </li>
+                                            @endif
+                                            
+                                            @if($restaurant->orders()->count() < 5)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-success me-2"></i>
+                                                    <strong>{{ __('messages.Start Recording Orders') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.Begin recording orders to generate AI insights and improve forecasting') }}</small>
+                                                </li>
+                                            @elseif($restaurant->orders()->count() < 10)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                                                    <strong>{{ __('messages.Add More Orders') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.Create more orders to unlock advanced AI analysis') }}</small>
+                                                </li>
+                                            @endif
+                                            
+                                            @if($restaurant->orders()->count() >= 10)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-primary me-2"></i>
+                                                    <strong>{{ __('messages.Ready for AI Analysis') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.You have enough data for AI-powered insights and demand forecasting') }}</small>
+                                                </li>
+                                            @endif
+                                            
+                                            @if($restaurant->wasteRecords()->count() == 0)
+                                                <li class="mb-2">
+                                                    <i class="fas fa-lightbulb text-danger me-2"></i>
+                                                    <strong>{{ __('messages.Start Tracking Waste') }}</strong>
+                                                    <br><small class="text-muted">{{ __('messages.Begin recording food waste to optimize inventory and reduce costs') }}</small>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -762,5 +762,13 @@ return [
     // Additional order translations
     'Is Holiday' => '祝日',
     'Select Food Items' => '料理を選択',
+    
+    // Data Status Overview
+    'Data Status Overview' => 'データステータス概要',
+    'Action Recommendations' => 'アクション推奨',
+    'Add More Orders' => '注文を追加',
+    'Create more orders to unlock advanced AI analysis' => '高度なAI分析をアンロックするために注文を追加',
+    'Start Tracking Waste' => '廃棄追跡を開始',
+    'Begin recording food waste to optimize inventory and reduce costs' => '在庫を最適化し、コストを削減するために食品廃棄の記録を開始',
 ];
 
