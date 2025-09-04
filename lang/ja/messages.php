@@ -770,5 +770,19 @@ return [
     'Create more orders to unlock advanced AI analysis' => '高度なAI分析をアンロックするために注文を追加',
     'Start Tracking Waste' => '廃棄追跡を開始',
     'Begin recording food waste to optimize inventory and reduce costs' => '在庫を最適化し、コストを削減するために食品廃棄の記録を開始',
+    
+    // Units
+    'units' => '個',
+    
+    // Additional messages for menus/show.blade.php
+    'Deactivated' => '無効化済み',
+    'Menu has been deactivated' => 'メニューが無効化されています',
+    'View Details' => '詳細を見る',
+    'Add food items to complete this menu' => 'このメニューを完成させるために料理を追加してください',
+    'Food Items Overview' => '料理の概要',
+    'and' => 'と',
+    'more items' => 'その他のアイテム',
+    'Are you sure you want to delete this food item?' => 'この料理を削除してもよろしいですか？',
+    'Back to Food Items' => '食品項目に戻る',
 ];
 

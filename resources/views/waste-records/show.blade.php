@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="mb-2">
                                         <strong>{{ __('messages.Original Price') }}:</strong><br>
-                                        <span class="text-success">{{ number_format($wasteRecord->foodItem->price) }} {{ __('messages.currency_suffix') }}</span>
+                                        <span class="text-success">{{ \App\Helpers\CurrencyHelper::format($wasteRecord->foodItem->price) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <div class="mb-2">
                                         <strong>{{ __('messages.Cost Wasted') }}:</strong><br>
                                         <span class="text-danger fw-bold fs-5">
-                                            {{ number_format($wasteRecord->cost_wasted) }} {{ __('messages.currency_suffix') }}
+                                            {{ \App\Helpers\CurrencyHelper::format($wasteRecord->cost_wasted) }}
                                         </span>
                                     </div>
                                     <div class="mb-2">
@@ -219,7 +219,7 @@
                             <div class="d-flex justify-content-between">
                                 <span>{{ __('messages.Cost per Unit') }}:</span>
                                 <strong class="text-info">
-                                    {{ number_format($wasteRecord->cost_wasted / $wasteRecord->quantity_wasted, 2) }} {{ __('messages.currency_suffix') }}/{{ $wasteRecord->waste_unit }}
+                                    {{ \App\Helpers\CurrencyHelper::format($wasteRecord->cost_wasted / $wasteRecord->quantity_wasted) }}/{{ $wasteRecord->waste_unit }}
                                 </strong>
                             </div>
                         </div>

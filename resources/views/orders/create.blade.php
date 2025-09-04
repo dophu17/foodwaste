@@ -137,7 +137,7 @@
                                             <option value="{{ $foodItem->id }}" 
                                                     data-price="{{ $foodItem->price }}"
                                                     data-stock="{{ $foodItem->stock_quantity }}">
-                                                {{ $foodItem->name }} - ¥{{ number_format($foodItem->price, 0) }}
+                                                {{ $foodItem->name }} - {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}
                                                 ({{ __('messages.Stock') }}: {{ $foodItem->stock_quantity }})
                                             </option>
                                         @endforeach
@@ -188,7 +188,7 @@
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <span>{{ __('messages.Total Amount') }}:</span>
-                                            <span id="totalAmount" class="fw-bold">{{ __('messages.currency_suffix') }}0</span>
+                                            <span id="totalAmount" class="fw-bold">{{ \App\Helpers\CurrencyHelper::format(0) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <option value="{{ $foodItem->id }}" 
                                     data-price="{{ $foodItem->price }}"
                                     data-stock="{{ $foodItem->stock_quantity }}">
-                                {{ $foodItem->name }} - {{ number_format($foodItem->price, 0) }}{{ __('messages.currency_suffix') }}
+                                {{ $foodItem->name }} - {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}
                                 ({{ __('messages.Stock') }}: {{ $foodItem->stock_quantity }})
                             </option>
                         @endforeach
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const unitPrice = parseFloat(row.querySelector('.unit-price-input').value) || 0;
         const total = quantity * unitPrice;
         
-        row.querySelector('.total-price-display').value = '{{ __('messages.currency_suffix') }}' + total.toFixed(2);
+        row.querySelector('.total-price-display').value = '{{ \App\Helpers\CurrencyHelper::format(0) }}'.replace('0', total.toFixed(2));
         calculateTotals();
     }
     
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         document.getElementById('totalItems').textContent = totalItems;
-        document.getElementById('totalAmount').textContent = '{{ __('messages.currency_suffix') }}' + totalAmount.toFixed(2);
+        document.getElementById('totalAmount').textContent = '{{ \App\Helpers\CurrencyHelper::format(0) }}'.replace('0', totalAmount.toFixed(2));
     }
     
     // Initialize first row

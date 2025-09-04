@@ -764,5 +764,19 @@ return [
     'Create more orders to unlock advanced AI analysis' => 'Tạo thêm đơn hàng để mở khóa phân tích AI nâng cao',
     'Start Tracking Waste' => 'Bắt đầu theo dõi lãng phí',
     'Begin recording food waste to optimize inventory and reduce costs' => 'Bắt đầu ghi lãng phí thực phẩm để tối ưu hóa kho và giảm chi phí',
+    
+    // Units
+    'units' => 'đơn vị',
+    
+    // Additional messages for menus/show.blade.php
+    'Deactivated' => 'Đã vô hiệu hóa',
+    'Menu has been deactivated' => 'Menu đã bị vô hiệu hóa',
+    'View Details' => 'Xem chi tiết',
+    'Add food items to complete this menu' => 'Thêm món ăn để làm cho thực đơn này hoàn chỉnh',
+    'Food Items Overview' => 'Tổng quan món ăn',
+    'and' => 'và',
+    'more items' => 'món khác',
+    'Are you sure you want to delete this food item?' => 'Bạn có chắc muốn xóa món ăn này?',
+    'Back to Food Items' => 'Quay lại Món ăn',
 ];
 

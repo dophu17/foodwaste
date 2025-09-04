@@ -48,7 +48,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="fw-bold text-muted">{{ __('messages.Total Amount') }}:</label>
-                                    <div class="fs-4 fw-bold text-success">¥{{ number_format($order->total_amount, 0) }}</div>
+                                    <div class="fs-4 fw-bold text-success">{{ \App\Helpers\CurrencyHelper::format($order->total_amount) }}</div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="fw-bold text-muted">{{ __('messages.Customer Count') }}:</label>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="fw-bold text-muted">{{ __('messages.Average Order Value') }}:</label>
-                                    <div class="fs-6">¥{{ number_format($order->average_order_value, 0) }}</div>
+                                    <div class="fs-6">{{ \App\Helpers\CurrencyHelper::format($order->average_order_value) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -148,13 +148,13 @@
                                                     <span class="badge bg-primary">{{ $item->foodItem->category }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="fw-bold">¥{{ number_format($item->unit_price, 0) }}</span>
+                                                    <span class="fw-bold">{{ \App\Helpers\CurrencyHelper::format($item->unit_price) }}</span>
                                                 </td>
                                                 <td>
                                                     <span class="badge bg-info">{{ $item->quantity_sold }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="fw-bold text-success">¥{{ number_format($item->total_price, 0) }}</span>
+                                                    <span class="fw-bold text-success">{{ \App\Helpers\CurrencyHelper::format($item->total_price) }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -162,7 +162,7 @@
                                     <tfoot>
                                         <tr class="table-active">
                                             <td colspan="4" class="text-end fw-bold">{{ __('messages.Total') }}:</td>
-                                            <td class="fw-bold text-success fs-5">¥{{ number_format($order->total_amount, 0) }}</td>
+                                            <td class="fw-bold text-success fs-5">{{ \App\Helpers\CurrencyHelper::format($order->total_amount) }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>

@@ -199,7 +199,13 @@
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <small class="text-muted d-block">{{ __('messages.Stock') }}</small>
-                                    <span class="badge bg-{{ $foodItem->stock_status_class }}">{{ $foodItem->stock_status }}</span>
+                                    <span class="fw-bold {{ $foodItem->stock_status_class }}">
+                                        {{ $foodItem->stock_quantity }} {{ __('messages.units') }}
+                                    </span>
+                                    <br>
+                                    <span class="badge bg-{{ $foodItem->stock_quantity <= 0 ? 'danger' : ($foodItem->isStockLow() ? 'warning' : 'success') }}">
+                                        {{ $foodItem->stock_status }}
+                                    </span>
                                 </div>
                                 <div class="col-6">
                                     <small class="text-muted d-block">{{ __('messages.Menu') }}</small>

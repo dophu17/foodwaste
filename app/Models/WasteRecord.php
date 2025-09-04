@@ -93,7 +93,7 @@ class WasteRecord extends Model
      */
     public function getFormattedWasteCostAttribute()
     {
-        return number_format($this->cost_wasted) . ' VNĐ';
+        return \App\Helpers\CurrencyHelper::format($this->cost_wasted);
     }
 
     /**

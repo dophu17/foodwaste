@@ -225,17 +225,17 @@ class Menu extends Model
         $prices = $this->foodItems->pluck('price')->filter();
         
         if ($prices->isEmpty()) {
-            return 'Chưa có giá';
+            return __('messages.No price set');
         }
 
         $minPrice = $prices->min();
         $maxPrice = $prices->max();
 
         if ($minPrice === $maxPrice) {
-            return number_format($minPrice) . ' VNĐ';
+            return \App\Helpers\CurrencyHelper::format($minPrice);
         }
 
-        return number_format($minPrice) . ' - ' . number_format($maxPrice) . ' VNĐ';
+        return \App\Helpers\CurrencyHelper::format($minPrice) . ' - ' . \App\Helpers\CurrencyHelper::format($maxPrice);
     }
 
     /**

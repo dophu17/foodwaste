@@ -134,7 +134,7 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>{{ __('messages.Total Revenue') }}:</span>
-                                    <span class="badge bg-warning">¥{{ number_format($restaurant->getTotalRevenue(), 0) }}</span>
+                                    <span class="badge bg-warning">{{ \App\Helpers\CurrencyHelper::format($restaurant->getTotalRevenue()) }}</span>
                                 </div>
                             </div>
                         </div>

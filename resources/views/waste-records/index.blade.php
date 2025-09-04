@@ -56,11 +56,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h4 class="card-title">{{ number_format($wasteRecords->sum('cost_wasted')) }} {{ __('messages.currency_suffix') }}</h4>
+                                <h4 class="card-title">{{ \App\Helpers\CurrencyHelper::format($wasteRecords->sum('cost_wasted')) }}</h4>
                                 <p class="card-text">{{ __('messages.Total Cost') }}</p>
                             </div>
                             <div class="align-self-center">
-                                <i class="fas fa-dollar-sign fa-2x"></i>
+                                <i class="fas fa-{{ app()->getLocale() === 'ja' ? 'yen-sign' : (app()->getLocale() === 'vi' ? 'dong-sign' : 'dollar-sign') }} fa-2x"></i>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h4 class="card-title">{{ $wasteRecords->count() > 0 ? number_format($wasteRecords->sum('cost_wasted') / $wasteRecords->count()) : 0 }} {{ __('messages.currency_suffix') }}</h4>
+                                <h4 class="card-title">{{ $wasteRecords->count() > 0 ? \App\Helpers\CurrencyHelper::format($wasteRecords->sum('cost_wasted') / $wasteRecords->count()) : \App\Helpers\CurrencyHelper::format(0) }}</h4>
                                 <p class="card-text">{{ __('messages.Average Cost per Record') }}</p>
                             </div>
                             <div class="align-self-center">
@@ -184,7 +184,7 @@
                                         </td>
                                         <td>
                                             <span class="text-danger fw-bold">
-                                                {{ number_format($record->cost_wasted) }} {{ __('messages.currency_suffix') }}
+                                                {{ \App\Helpers\CurrencyHelper::format($record->cost_wasted) }}
                                             </span>
                                         </td>
                                         <td>

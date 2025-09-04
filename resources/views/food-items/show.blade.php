@@ -228,7 +228,7 @@
                                                         @if(empty($foodItem->price) || $foodItem->price <= 0)
                                                             <li><i class="fas fa-times text-danger me-2"></i><strong>Giá</strong> chưa được thiết lập hoặc không hợp lệ</li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Giá: {{ number_format($foodItem->price) }} VNĐ</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>Giá: {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}</li>
                                                         @endif
                                                         
                                                         @if($foodItem->stock_quantity < 0)

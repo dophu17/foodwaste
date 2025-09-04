@@ -119,17 +119,17 @@
                             <i class="fas fa-utensils me-2"></i>{{ __('messages.Food Items') }}
                             <span class="badge bg-secondary ms-2">{{ $menu->foodItems->count() }}</span>
                             @if(!$menu->is_active)
-                                <span class="badge bg-warning ms-2">Đã vô hiệu hóa</span>
+                                <span class="badge bg-warning ms-2">{{ __('messages.Deactivated') }}</span>
                             @endif
                         </h5>
                         @if($menu->canEditByUser(auth()->user()))
                             @if($menu->is_active)
                                 <a href="{{ route('food-item.create', ['menu_id' => $menu->id]) }}" class="btn btn-sm btn-success">
-                                    <i class="fas fa-plus me-2"></i>Thêm món ăn
+                                    <i class="fas fa-plus me-2"></i>{{ __('messages.Add Food Item') }}
                                 </a>
                             @else
-                                <button class="btn btn-sm btn-secondary" disabled title="Menu đã bị vô hiệu hóa">
-                                    <i class="fas fa-plus me-2"></i>Thêm món ăn
+                                <button class="btn btn-sm btn-secondary" disabled title="{{ __('messages.Menu has been deactivated') }}">
+                                    <i class="fas fa-plus me-2"></i>{{ __('messages.Add Food Item') }}
                                 </button>
                             @endif
                         @endif
@@ -175,44 +175,57 @@
                                                             
                                                             <div class="row mb-3">
                                                                 <div class="col-6">
-                                                                    <small class="text-muted d-block">Danh mục</small>
+                                                                    <small class="text-muted d-block">{{ __('messages.Category') }}</small>
                                                                     <span class="badge bg-primary">{{ $foodItem->category }}</span>
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    <small class="text-muted d-block">Giá</small>
+                                                                    <small class="text-muted d-block">{{ __('messages.Price') }}</small>
                                                                     <span class="fw-bold text-success fs-6">{{ $foodItem->formatted_price }}</span>
                                                                 </div>
                                                             </div>
                                                             
                                                             <div class="row mb-3">
                                                                 <div class="col-6">
-                                                                    <small class="text-muted d-block">Tồn kho</small>
-                                                                    <span class="badge bg-{{ $foodItem->stock_status_class }}">{{ $foodItem->stock_status }}</span>
+                                                                    <small class="text-muted d-block">{{ __('messages.Stock') }}</small>
+                                                                    <span class="fw-bold {{ $foodItem->stock_status_class }}">
+                                                                        {{ $foodItem->stock_quantity }} {{ __('messages.units') }}
+                                                                    </span>
+                                                                    @if($foodItem->isStockLow())
+                                                                        <small class="text-warning d-block">
+                                                                            <i class="fas fa-exclamation-triangle me-1"></i>
+                                                                            {{ __('messages.Min') }}: {{ $foodItem->min_stock_level }}
+                                                                        </small>
+                                                                    @endif
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    <small class="text-muted d-block">Trạng thái</small>
+                                                                    <small class="text-muted d-block">{{ __('messages.Status') }}</small>
                                                                     <span class="badge bg-{{ $foodItem->is_available ? 'success' : 'secondary' }}">
-                                                                        {{ $foodItem->is_available ? 'Có sẵn' : 'Hết hàng' }}
+                                                                        {{ $foodItem->is_available ? __('messages.Available') : __('messages.Out of Stock') }}
                                                                     </span>
+                                                                    <div class="mt-1">
+                                                                        <span class="badge bg-{{ $foodItem->stock_quantity <= 0 ? 'danger' : ($foodItem->isStockLow() ? 'warning' : 'success') }}">
+                                                                            {{ $foodItem->stock_status }}
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div class="action-buttons">
                                                                     <a href="{{ route('food-item.show', $foodItem->id) }}" 
-                                                                       class="btn-action btn-view" title="Xem chi tiết">
+                                                                       class="btn-action btn-view" title="{{ __('messages.View Details') }}">
                                                                         <i class="fas fa-eye"></i>
                                                                     </a>
                                                                     @if($menu->canEditByUser(auth()->user()))
                                                                         <a href="{{ route('food-item.edit', $foodItem->id) }}" 
-                                                                           class="btn-action btn-edit" title="Chỉnh sửa">
+                                                                           class="btn-action btn-edit" title="{{ __('messages.Edit') }}">
                                                                             <i class="fas fa-edit"></i>
                                                                         </a>
                                                                         <form action="{{ route('food-item.destroy', $foodItem->id) }}" method="POST" class="d-inline">
                                                                             @csrf
                                                                             @method('DELETE')
                                                                             <button type="submit" class="btn-action btn-delete" 
-                                                                                    onclick="return confirm('Bạn có chắc muốn xóa món ăn này?')" title="Xóa">
+                                                                                    onclick="return confirm('{{ __('messages.Are you sure you want to delete this food item?') }}')" title="{{ __('messages.Delete') }}">
                                                                                 <i class="fas fa-trash"></i>
                                                                             </button>
                                                                         </form>
@@ -231,16 +244,16 @@
                             <div class="text-center py-5">
                                 <div class="empty-state">
                                     <i class="fas fa-utensils fa-3x text-muted mb-3"></i>
-                                    <h6 class="text-muted mb-2">Chưa có món ăn nào</h6>
-                                    <p class="text-muted mb-3">Thêm món ăn để làm cho thực đơn này hoàn chỉnh</p>
+                                    <h6 class="text-muted mb-2">{{ __('messages.No food items yet') }}</h6>
+                                    <p class="text-muted mb-3">{{ __('messages.Add food items to complete this menu') }}</p>
                                     @if($menu->canEditByUser(auth()->user()))
                                         @if($menu->is_active)
                                             <a href="{{ route('food-item.create', ['menu_id' => $menu->id]) }}" class="btn btn-primary">
-                                                <i class="fas fa-plus me-2"></i>Thêm món ăn đầu tiên
+                                                <i class="fas fa-plus me-2"></i>{{ __('messages.Add First Food Item') }}
                                             </a>
                                         @else
                                             <button class="btn btn-secondary" disabled title="Menu đã bị vô hiệu hóa">
-                                                <i class="fas fa-plus me-2"></i>Thêm món ăn đầu tiên
+                                                <i class="fas fa-plus me-2"></i>{{ __('messages.Add First Food Item') }}
                                             </button>
                                         @endif
                                     @endif
@@ -315,7 +328,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h6 class="card-title mb-0">
-                            <i class="fas fa-utensils me-2"></i>Tổng quan món ăn
+                            <i class="fas fa-utensils me-2"></i>{{ __('messages.Food Items Overview') }}
                         </h6>
                     </div>
                     <div class="card-body">
@@ -358,7 +371,7 @@
                                             @endforeach
                                             @if(count($foodItems) > 3)
                                                 <div class="text-center text-muted small">
-                                                    <i class="fas fa-ellipsis-h"></i> và {{ count($foodItems) - 3 }} món khác
+                                                    <i class="fas fa-ellipsis-h"></i> {{ __('messages.and') }} {{ count($foodItems) - 3 }} {{ __('messages.more items') }}
                                                 </div>
                                             @endif
                                         </div>
@@ -368,14 +381,14 @@
                         @else
                             <div class="text-center text-muted py-3">
                                 <i class="fas fa-utensils fa-2x mb-2"></i>
-                                <p class="small mb-2">Chưa có món ăn nào</p>
+                                <p class="small mb-2">{{ __('messages.No food items yet') }}</p>
                                 @if($menu->is_active)
                                     <a href="{{ route('food-item.create', ['menu_id' => $menu->id]) }}" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus me-1"></i>Thêm món ăn
+                                        <i class="fas fa-plus me-1"></i>{{ __('messages.Add Food Item') }}
                                     </a>
                                 @else
-                                    <button class="btn btn-sm btn-secondary" disabled title="Menu đã bị vô hiệu hóa">
-                                        <i class="fas fa-plus me-1"></i>Thêm món ăn
+                                    <button class="btn btn-sm btn-secondary" disabled title="{{ __('messages.Menu has been deactivated') }}">
+                                        <i class="fas fa-plus me-1"></i>{{ __('messages.Add Food Item') }}
                                     </button>
                                 @endif
                             </div>

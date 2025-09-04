@@ -301,7 +301,7 @@ class FoodItem extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        return number_format($this->price) . __('messages.currency_suffix');
+        return \App\Helpers\CurrencyHelper::format($this->price);
     }
 
     /**

@@ -58,8 +58,11 @@
                 <h5 class="mb-0">{{ __('messages.Total Menus') }}: {{ $menus->total() }}</h5>
             </div>
             <div>
-                <a href="{{ route('menus.create') }}" class="btn btn-success">
+                <a href="{{ route('menus.create') }}" class="btn btn-success me-2">
                     <i class="fas fa-plus me-2"></i>{{ __('messages.Create Menu') }}
+                </a>
+                <a href="{{ route('menus.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>{{ __('messages.Clear Filters') }}
                 </a>
             </div>
         </div>
@@ -223,15 +226,12 @@
 <style>
 .menu-item {
     transition: all 0.2s ease;
-    position: relative;
-}
-
-.menu-item:hover {
-    z-index: 1000;
 }
 
 .menu-item:hover .card {
     background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .menu-icon {
@@ -266,6 +266,8 @@
 .card {
     border: 1px solid #e9ecef;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
 }
 
 .card-body {

@@ -60,7 +60,7 @@
                                                     {{ old('food_item_id', $wasteRecord->food_item_id) == $foodItem->id ? 'selected' : '' }}
                                                     data-price="{{ $foodItem->price }}">
                                                 {{ $foodItem->name }}
-                                                ({{ number_format($foodItem->price) }} {{ __('messages.currency_suffix') }})
+                                                ({{ \App\Helpers\CurrencyHelper::format($foodItem->price) }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -125,7 +125,7 @@
                                                id="cost_wasted" name="cost_wasted" 
                                                value="{{ old('cost_wasted', $wasteRecord->cost_wasted) }}" 
                                                placeholder="0.00" required>
-                                        <span class="input-group-text">{{ __('messages.currency_suffix') }}</span>
+                                        <span class="input-group-text">{{ app()->getLocale() === 'ja' ? '¥' : (app()->getLocale() === 'vi' ? '₫' : '$') }}</span>
                                     </div>
                                     @error('cost_wasted')
                                         <div class="invalid-feedback">{{ $message }}</div>

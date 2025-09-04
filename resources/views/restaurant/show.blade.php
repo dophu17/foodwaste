@@ -252,7 +252,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="fw-bold text-primary">¥{{ number_format($item->price, 0) }}</span>
+                                                    <span class="fw-bold text-primary">{{ \App\Helpers\CurrencyHelper::format($item->price) }}</span>
                                                 </td>
                                                 <td>
                                                     @if($item->stock_quantity <= $item->min_stock_level)

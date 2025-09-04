@@ -32,7 +32,7 @@
                 <div class="stats-card stats-card-revenue">
                     <div class="stats-icon">💰</div>
                     <div class="stats-content">
-                        <div class="stats-number">{{ number_format($totalRevenue ?? 0, 0) }}¥</div>
+                        <div class="stats-number">{{ \App\Helpers\CurrencyHelper::format($totalRevenue ?? 0) }}</div>
                         <div class="stats-label">{{ __('messages.total_revenue') }}</div>
                     </div>
                 </div>
@@ -387,7 +387,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="text-danger fw-bold">
-                                                        ¥{{ number_format($category->total_cost ?? 0, 0) }}
+                                                        {{ \App\Helpers\CurrencyHelper::format($category->total_cost ?? 0) }}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -652,7 +652,7 @@
             
             if (insights.cost_savings) {
                 html += `<div class="ai-insight-card success">
-                    <h6><i class="fas fa-yen-sign me-2"></i>{{ __("messages.Cost Savings") }}</h6>
+                    <h6><i class="fas fa-{{ app()->getLocale() === 'ja' ? 'yen-sign' : (app()->getLocale() === 'vi' ? 'dong-sign' : 'dollar-sign') }} me-2"></i>{{ __("messages.Cost Savings") }}</h6>
                     <p>${insights.cost_savings}</p>
                 </div>`;
             }
