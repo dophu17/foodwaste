@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class FoodItem extends Model
 {
@@ -146,15 +147,15 @@ class FoodItem extends Model
     public function getWasteInsights()
     {
         if (!$this->ai_waste_prediction) {
-            return 'No AI prediction available';
+            return __('messages.no_ai_prediction_available');
         }
 
         if ($this->ai_waste_prediction > 20) {
-            return 'High waste risk - consider reducing portion sizes or adjusting menu';
+            return __('messages.high_waste_risk');
         } elseif ($this->ai_waste_prediction > 10) {
-            return 'Moderate waste risk - monitor closely';
+            return __('messages.moderate_waste_risk');
         } else {
-            return 'Low waste risk - good management';
+            return __('messages.low_waste_risk');
         }
     }
 
@@ -300,7 +301,7 @@ class FoodItem extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        return number_format($this->price) . ' VNĐ';
+        return number_format($this->price) . __('messages.currency_suffix');
     }
 
     /**
@@ -309,11 +310,11 @@ class FoodItem extends Model
     public function getStockStatusAttribute(): string
     {
         if ($this->stock_quantity <= 0) {
-            return 'Hết hàng';
+            return __('messages.out_of_stock');
         } elseif ($this->isStockLow()) {
-            return 'Sắp hết';
+            return __('messages.low_stock');
         } else {
-            return 'Còn hàng';
+            return __('messages.in_stock');
         }
     }
 
@@ -395,7 +396,10 @@ class FoodItem extends Model
             if (!$factorCheck['has_all_factors']) {
                 // Set ai_waste_prediction to null if missing required factors
                 $this->attributes['ai_waste_prediction'] = null;
-                \Log::info("Skipping AI prediction calculation for food item {$this->id} - missing factors: " . implode(', ', $factorCheck['missing_factors']));
+                Log::info(__('messages.ai_prediction_skipped', [
+                    'id' => $this->id,
+                    'missing_factors' => implode(', ', $factorCheck['missing_factors'])
+                ]));
                 return;
             }
             
@@ -405,7 +409,7 @@ class FoodItem extends Model
             $this->attributes['ai_waste_prediction'] = round($newPrediction, 2);
         } catch (\Exception $e) {
             // Log error but don't break the save operation
-            \Log::warning("Failed to auto-calculate waste prediction for food item: " . $e->getMessage());
+            Log::warning(__('messages.ai_prediction_failed', ['message' => $e->getMessage()]));
             // Set to null if calculation fails due to missing factors
             $this->attributes['ai_waste_prediction'] = null;
         }
@@ -446,17 +450,17 @@ class FoodItem extends Model
     {
         $breakdown = $this->getWastePredictionBreakdown();
         
-        $explanation = "Dự đoán thất thoát AI: {$breakdown['final_prediction']}%\n\n";
-        $explanation .= "Phân tích chi tiết:\n";
-        $explanation .= "- Rủi ro cơ bản: {$breakdown['base_risk']}%\n";
-        $explanation .= "- Hệ số giá cả: {$breakdown['price_factor']}x (giá: " . number_format($this->price) . " VNĐ)\n";
-        $explanation .= "- Hệ số thời gian chuẩn bị: {$breakdown['prep_time_factor']}x ({$this->preparation_time})\n";
-        $explanation .= "- Hệ số danh mục: {$breakdown['category_factor']}x ({$this->category})\n";
-        $explanation .= "- Hệ số tồn kho: {$breakdown['stock_factor']}x (hiện tại: {$this->stock_quantity}/{$this->min_stock_level})\n";
-        $explanation .= "- Hệ số lịch sử: {$breakdown['historical_factor']}x (dựa trên dữ liệu 30 ngày qua)\n";
-        $explanation .= "- Hệ số doanh số: {$breakdown['sales_factor']}x (dựa trên bán hàng 14 ngày qua)\n";
-        $explanation .= "- Hệ số mùa vụ: {$breakdown['seasonal_factor']}x (tháng " . Carbon::now()->month . ")\n\n";
-        $explanation .= "Công thức: {$breakdown['calculation']}";
+        $explanation = __('messages.ai_waste_prediction', ['prediction' => $breakdown['final_prediction']]) . "\n\n";
+        $explanation .= __('messages.detailed_analysis') . "\n";
+        $explanation .= __('messages.base_risk', ['risk' => $breakdown['base_risk']]) . "\n";
+        $explanation .= __('messages.price_factor', ['factor' => $breakdown['price_factor'], 'price' => number_format($this->price)]) . "\n";
+        $explanation .= __('messages.prep_time_factor', ['factor' => $breakdown['prep_time_factor'], 'prep_time' => $this->preparation_time]) . "\n";
+        $explanation .= __('messages.category_factor', ['factor' => $breakdown['category_factor'], 'category' => $this->category]) . "\n";
+        $explanation .= __('messages.stock_factor', ['factor' => $breakdown['stock_factor'], 'current' => $this->stock_quantity, 'min' => $this->min_stock_level]) . "\n";
+        $explanation .= __('messages.historical_factor', ['factor' => $breakdown['historical_factor']]) . "\n";
+        $explanation .= __('messages.sales_factor', ['factor' => $breakdown['sales_factor']]) . "\n";
+        $explanation .= __('messages.seasonal_factor', ['factor' => $breakdown['seasonal_factor'], 'month' => Carbon::now()->month]) . "\n\n";
+        $explanation .= __('messages.formula', ['calculation' => $breakdown['calculation']]);
         
         return $explanation;
     }

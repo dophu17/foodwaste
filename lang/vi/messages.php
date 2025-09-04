@@ -604,5 +604,30 @@ return [
     'Profit Improvement' => 'Cải thiện lợi nhuận',
     'Please create restaurant information before viewing AI analysis.' => 'Vui lòng tạo thông tin nhà hàng trước khi xem phân tích AI.',
     'AI Connection successful!' => 'Kết nối AI thành công!',
+    
+    // FoodItem Model specific translations
+    'currency_suffix' => ' VNĐ',
+    'out_of_stock' => 'Hết hàng',
+    'low_stock' => 'Sắp hết',
+    'in_stock' => 'Còn hàng',
+    'ai_prediction_skipped' => 'Bỏ qua tính toán dự đoán AI cho món ăn {$id} - thiếu yếu tố: {$missing_factors}',
+    'ai_prediction_failed' => 'Tính toán dự đoán thất thoát tự động cho món ăn thất bại: {$message}',
+    'ai_waste_prediction' => 'Dự đoán thất thoát AI: {$prediction}%',
+    'detailed_analysis' => 'Phân tích chi tiết:',
+    'base_risk' => 'Rủi ro cơ bản: {$risk}%',
+    'price_factor' => 'Hệ số giá cả: {$factor}x (giá: {$price} VNĐ)',
+    'prep_time_factor' => 'Hệ số thời gian chuẩn bị: {$factor}x ({$prep_time})',
+    'category_factor' => 'Hệ số danh mục: {$factor}x ({$category})',
+    'stock_factor' => 'Hệ số tồn kho: {$factor}x (hiện tại: {$current}/{$min})',
+    'historical_factor' => 'Hệ số lịch sử: {$factor}x (dựa trên dữ liệu 30 ngày qua)',
+    'sales_factor' => 'Hệ số doanh số: {$factor}x (dựa trên bán hàng 14 ngày qua)',
+    'seasonal_factor' => 'Hệ số mùa vụ: {$factor}x (tháng {$month})',
+    'formula' => 'Công thức: {$calculation}',
+    
+    // Waste Insights translations
+    'no_ai_prediction_available' => 'Không có dự đoán AI',
+    'high_waste_risk' => 'Rủi ro thất thoát cao - cân nhắc giảm khẩu phần hoặc điều chỉnh thực đơn',
+    'moderate_waste_risk' => 'Rủi ro thất thoát trung bình - theo dõi chặt chẽ',
+    'low_waste_risk' => 'Rủi ro thất thoát thấp - quản lý tốt',
 ];
 

@@ -629,5 +629,30 @@ return [
     'Profit Improvement' => '利益改善',
     'Please create restaurant information before viewing AI analysis.' => 'AI分析を表示する前に、レストラン情報を作成してください。',
     'AI Connection successful!' => 'AI接続成功！',
+    
+    // FoodItem Model specific translations
+    'currency_suffix' => '円',
+    'out_of_stock' => '在庫切れ',
+    'low_stock' => '在庫不足',
+    'in_stock' => '在庫あり',
+    'ai_prediction_skipped' => '食品項目 {$id} のAI予測計算をスキップ - 不足要因: {$missing_factors}',
+    'ai_prediction_failed' => '食品項目の廃棄予測自動計算に失敗: {$message}',
+    'ai_waste_prediction' => 'AI廃棄予測: {$prediction}%',
+    'detailed_analysis' => '詳細分析:',
+    'base_risk' => '基本リスク: {$risk}%',
+    'price_factor' => '価格係数: {$factor}x (価格: {$price} 円)',
+    'prep_time_factor' => '準備時間係数: {$factor}x ({$prep_time})',
+    'category_factor' => 'カテゴリ係数: {$factor}x ({$category})',
+    'stock_factor' => '在庫係数: {$factor}x (現在: {$current}/{$min})',
+    'historical_factor' => '履歴係数: {$factor}x (過去30日間のデータに基づく)',
+    'sales_factor' => '売上係数: {$factor}x (過去14日間の売上に基づく)',
+    'seasonal_factor' => '季節係数: {$factor}x (月: {$month})',
+    'formula' => '計算式: {$calculation}',
+    
+    // Waste Insights translations
+    'no_ai_prediction_available' => 'AI予測が利用できません',
+    'high_waste_risk' => '高廃棄リスク - ポーションサイズの削減やメニューの調整を検討してください',
+    'moderate_waste_risk' => '中程度の廃棄リスク - 注意深く監視してください',
+    'low_waste_risk' => '低廃棄リスク - 良好な管理',
 ];
 
