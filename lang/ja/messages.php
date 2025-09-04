@@ -784,5 +784,7 @@ return [
     'more items' => 'その他のアイテム',
     'Are you sure you want to delete this food item?' => 'この料理を削除してもよろしいですか？',
     'Back to Food Items' => '食品項目に戻る',
+    'Update Restaurant' => 'レストランを更新',
+    'Quick Waste Record' => '廃棄記録を素早く作成',
 ];
 

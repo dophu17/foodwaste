@@ -419,11 +419,6 @@
                                         <i class="fas fa-store me-2"></i>{{ __('messages.restaurant') }}
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cog me-2"></i>{{ __('messages.settings') }}
-                                    </a>
-                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item text-danger" href="{{ route('logout') }}" 

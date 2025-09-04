@@ -778,5 +778,7 @@ return [
     'more items' => 'món khác',
     'Are you sure you want to delete this food item?' => 'Bạn có chắc muốn xóa món ăn này?',
     'Back to Food Items' => 'Quay lại Món ăn',
+    'Update Restaurant' => 'Cập nhật nhà hàng',
+    'Quick Waste Record' => 'Tạo nhanh Lãng phí',
 ];
 

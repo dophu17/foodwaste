@@ -201,10 +201,16 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <div class="d-grid gap-2 d-md-flex">
-                            <a href="{{ route('restaurant.create') }}" class="btn btn-outline-primary">
-                                <i class="fas fa-plus me-2"></i>{{ __('messages.Add Restaurant') }}
-                            </a>
+                        <div class="d-grid gap-2 d-md-flex flex-wrap">
+                            @if($restaurant)
+                                <a href="{{ route('restaurant.edit', $restaurant) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit me-2"></i>{{ __('messages.Update Restaurant') }}
+                                </a>
+                            @else
+                                <a href="{{ route('restaurant.create') }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-plus me-2"></i>{{ __('messages.Add Restaurant') }}
+                                </a>
+                            @endif
                             <a href="{{ route('menus.create') }}" class="btn btn-outline-success">
                                 <i class="fas fa-utensils me-2"></i>{{ __('messages.Create Menu') }}
                             </a>
@@ -213,6 +219,9 @@
                             </a>
                             <a href="{{ route('orders.create') }}" class="btn btn-outline-warning">
                                 <i class="fas fa-shopping-cart me-2"></i>{{ __('messages.Create Order') }}
+                            </a>
+                            <a href="{{ route('waste-records.create') }}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt me-2"></i>{{ __('messages.Quick Waste Record') }}
                             </a>
                         </div>
                     </div>
