@@ -742,6 +742,11 @@ return [
     'Consider reviewing preparation quantities' => '準備数量の見直しを検討',
     'Monitor this item for future waste patterns' => '将来の廃棄パターンについてこの項目を監視',
     'Review reason and implement preventive measures' => '理由を確認し、予防措置を実施',
+    'Food Item Details' => '食品項目詳細',
+    'Waste Details' => '廃棄詳細',
+    'Record Timeline' => '記録タイムライン',
+    'Insights' => 'インサイト',
+    'Waste Insights' => '廃棄インサイト',
     
     // Unit translations
     'grams' => 'グラム',
