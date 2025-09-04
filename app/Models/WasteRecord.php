@@ -33,6 +33,30 @@ class WasteRecord extends Model
     ];
 
     /**
+     * Get AI insights as array (decode JSON if needed)
+     */
+    public function getAiInsightsAttribute($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true) ?: [];
+        }
+        return $value ?: [];
+    }
+
+    /**
+     * Set AI insights (encode as JSON with UTF-8)
+     */
+    public function setAiInsightsAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['ai_insights'] = json_encode($value, JSON_UNESCAPED_UNICODE);
+        } else {
+            $this->attributes['ai_insights'] = $value;
+        }
+    }
+
+
+    /**
      * Get the restaurant that owns the waste record.
      */
     public function restaurant(): BelongsTo
@@ -69,7 +93,7 @@ class WasteRecord extends Model
      */
     public function getFormattedWasteCostAttribute()
     {
-        return '¥' . number_format($this->cost_wasted, 2);
+        return \App\Helpers\CurrencyHelper::format($this->cost_wasted);
     }
 
     /**
@@ -85,10 +109,12 @@ class WasteRecord extends Model
      */
     public function getFormattedAiInsightsAttribute()
     {
-        if (!$this->ai_insights) {
+        $insights = $this->ai_insights;
+        
+        if (!$insights || !is_array($insights) || empty($insights)) {
             return 'No AI insights available';
         }
 
-        return implode(', ', $this->ai_insights);
+        return implode(', ', $insights);
     }
 }

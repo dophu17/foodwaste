@@ -22,6 +22,7 @@
                     <a href="{{ route('food-item.create') }}" class="btn btn-success">
                         <i class="fas fa-plus me-2"></i>{{ __('messages.Create Food Item') }}
                     </a>
+
                     <a href="{{ route('menus.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>{{ __('messages.Back to Menus') }}
                     </a>
@@ -37,6 +38,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+
 
         <!-- Search and Filter Form -->
         <div class="card mb-4">
@@ -102,7 +112,7 @@
         <!-- Food Items Grid -->
         <div class="row">
             @forelse($foodItems as $foodItem)
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4" data-food-item-id="{{ $foodItem->id }}">
                     <div class="card h-100 food-item-card" style="position: relative;">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <span class="badge bg-{{ $foodItem->is_available ? 'success' : 'secondary' }}">
@@ -134,6 +144,7 @@
                                             </button>
                                         </form>
                                     </li>
+
                                     <li>
                                         <form action="{{ route('food-item.destroy', $foodItem->id) }}" 
                                               method="POST" class="d-inline">
@@ -165,15 +176,7 @@
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1 fw-bold text-dark">{{ $foodItem->name }}</h6>
                                     <div class="mb-2">
-                                        @if($foodItem->is_vegetarian)
-                                            <span class="badge bg-success btn-sm me-1">{{ __('messages.Vegetarian') }}</span>
-                                        @endif
-                                        @if($foodItem->is_vegan)
-                                            <span class="badge bg-info btn-sm me-1">{{ __('messages.Vegan') }}</span>
-                                        @endif
-                                        @if($foodItem->is_gluten_free)
-                                            <span class="badge bg-warning btn-sm">{{ __('messages.Gluten Free') }}</span>
-                                        @endif
+                                        <!-- Dietary badges removed as columns were dropped from database -->
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +199,13 @@
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <small class="text-muted d-block">{{ __('messages.Stock') }}</small>
-                                    <span class="badge bg-{{ $foodItem->stock_status_class }}">{{ $foodItem->stock_status }}</span>
+                                    <span class="fw-bold {{ $foodItem->stock_status_class }}">
+                                        {{ $foodItem->stock_quantity }} {{ __('messages.units') }}
+                                    </span>
+                                    <br>
+                                    <span class="badge bg-{{ $foodItem->stock_quantity <= 0 ? 'danger' : ($foodItem->isStockLow() ? 'warning' : 'success') }}">
+                                        {{ $foodItem->stock_status }}
+                                    </span>
                                 </div>
                                 <div class="col-6">
                                     <small class="text-muted d-block">{{ __('messages.Menu') }}</small>
@@ -205,6 +214,8 @@
                                     </a>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -232,6 +243,8 @@
         @endif
     </div>
 </div>
+
+
 
 <style>
 .food-item-card {
@@ -345,6 +358,8 @@
     border-top-right-radius: 0.375rem;
     border-bottom-right-radius: 0.375rem;
 }
+
+
 </style>
 
 @endsection

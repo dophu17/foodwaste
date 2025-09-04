@@ -38,7 +38,7 @@
                                 
                                 <div class="col-md-6 mb-3">
                                     <label for="cuisine_type" class="form-label">
-                                        <i class="fas fa-utensils me-2"></i>{{ __('messages.Cuisine Type') }}
+                                        <i class="fas fa-utensils me-2"></i>{{ __('messages.Cuisine Type') }} *
                                     </label>
                                     <input type="text" class="form-control @error('cuisine_type') is-invalid @enderror" 
                                            id="cuisine_type" name="cuisine_type" 

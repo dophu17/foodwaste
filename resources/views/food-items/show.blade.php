@@ -144,50 +144,7 @@
                                 </div>
                             </div>
 
-                            <!-- Dietary Information -->
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <h5 class="text-info mb-3">
-                                        <i class="fas fa-leaf me-2"></i>
-                                        Thông tin ăn kiêng
-                                    </h5>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="d-flex align-items-center">
-                                                @if($foodItem->is_vegetarian)
-                                                    <i class="fas fa-seedling text-success me-2"></i>
-                                                    <span class="badge bg-success">Chay</span>
-                                                @else
-                                                    <i class="fas fa-times text-muted me-2"></i>
-                                                    <span class="badge bg-secondary">Không chay</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex align-items-center">
-                                                @if($foodItem->is_vegan)
-                                                    <i class="fas fa-leaf text-info me-2"></i>
-                                                    <span class="badge bg-info">Thuần chay</span>
-                                                @else
-                                                    <i class="fas fa-times text-muted me-2"></i>
-                                                    <span class="badge bg-secondary">Không thuần chay</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="d-flex align-items-center">
-                                                @if($foodItem->is_gluten_free)
-                                                    <i class="fas fa-wheat-awn text-warning me-2"></i>
-                                                    <span class="badge bg-warning">Không gluten</span>
-                                                @else
-                                                    <i class="fas fa-times text-muted me-2"></i>
-                                                    <span class="badge bg-secondary">Có gluten</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <!-- Description -->
                             @if($foodItem->description)
@@ -229,21 +186,95 @@
                             @endif
 
                             <!-- AI Waste Prediction -->
-                            @if($foodItem->ai_waste_prediction)
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <h5 class="text-purple mb-3">
-                                            <i class="fas fa-robot me-2"></i>
-                                            Dự đoán thất thoát AI
-                                        </h5>
+                            <!-- AI Waste Prediction Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5 class="text-purple mb-3">
+                                        <i class="fas fa-robot me-2"></i>
+                                        Dự đoán thất thoát AI
+                                    </h5>
+                                    
+                                    @if($foodItem->ai_waste_prediction)
+                                        <!-- Hiển thị AI prediction khi có dữ liệu -->
                                         <div class="alert alert-info">
                                             <strong>Tỷ lệ dự đoán:</strong> {{ $foodItem->ai_waste_prediction }}%
                                             <br>
                                             <strong>Phân tích:</strong> {{ $foodItem->getWasteInsights() }}
                                         </div>
-                                    </div>
+                                    @else
+                                        <!-- Hiển thị thông báo nhắc nhở khi không có dữ liệu -->
+                                        <div class="alert alert-warning">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-exclamation-triangle me-3 fs-4"></i>
+                                                <div>
+                                                    <strong>Chưa có dự đoán AI</strong>
+                                                    <br>
+                                                    <small class="text-muted">
+                                                        Để tính toán dự đoán thất thoát AI, vui lòng đảm bảo tất cả các yếu tố bắt buộc:
+                                                    </small>
+                                                    <ul class="mb-0 mt-2">
+                                                        @if(empty($foodItem->category))
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Danh mục (Category)</strong> chưa được thiết lập</li>
+                                                        @else
+                                                            <li><i class="fas fa-check text-success me-2"></i>Danh mục: {{ $foodItem->category }}</li>
+                                                        @endif
+                                                        
+                                                        @if(empty($foodItem->preparation_time))
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Thời gian chuẩn bị</strong> chưa được thiết lập</li>
+                                                        @else
+                                                            <li><i class="fas fa-check text-success me-2"></i>Thời gian chuẩn bị: {{ $foodItem->preparation_time }}</li>
+                                                        @endif
+                                                        
+                                                        @if(empty($foodItem->price) || $foodItem->price <= 0)
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Giá</strong> chưa được thiết lập hoặc không hợp lệ</li>
+                                                        @else
+                                                            <li><i class="fas fa-check text-success me-2"></i>Giá: {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}</li>
+                                                        @endif
+                                                        
+                                                        @if($foodItem->stock_quantity < 0)
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Số lượng tồn kho</strong> không hợp lệ</li>
+                                                        @else
+                                                            <li><i class="fas fa-check text-success me-2"></i>Tồn kho: {{ $foodItem->stock_quantity }}</li>
+                                                        @endif
+                                                        
+                                                        @if($foodItem->min_stock_level < 0)
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Mức tồn kho tối thiểu</strong> không hợp lệ</li>
+                                                        @else
+                                                            <li><i class="fas fa-check text-success me-2"></i>Mức tồn kho tối thiểu: {{ $foodItem->min_stock_level }}</li>
+                                                        @endif
+                                                    </ul>
+                                                    
+                                                    @php
+                                                        $missingFactors = [];
+                                                        if (empty($foodItem->category)) $missingFactors[] = 'category';
+                                                        if (empty($foodItem->preparation_time)) $missingFactors[] = 'preparation_time';
+                                                        if (empty($foodItem->price) || $foodItem->price <= 0) $missingFactors[] = 'price';
+                                                        if ($foodItem->stock_quantity < 0) $missingFactors[] = 'stock_quantity';
+                                                        if ($foodItem->min_stock_level < 0) $missingFactors[] = 'min_stock_level';
+                                                    @endphp
+                                                    
+                                                    @if(!empty($missingFactors))
+                                                        <div class="mt-3">
+                                                            <a href="{{ route('food-item.edit', $foodItem->id) }}" class="btn btn-warning btn-sm">
+                                                                <i class="fas fa-edit me-2"></i>Cập nhật thông tin thiếu
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        <div class="mt-3">
+                                                            <form method="POST" action="{{ route('food-item.calculate-ai', $foodItem->id) }}" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-calculator me-2"></i>Tính toán AI Prediction
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>

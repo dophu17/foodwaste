@@ -7,6 +7,9 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WasteRecordController;
+
+use App\Http\Controllers\GeminiAIController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,13 +48,35 @@ Route::middleware(['auth'])->group(function () {
     Route::get('menus/{menu}/food-items', [FoodItemController::class, 'getByMenu'])->name('food-item.by-menu');
     Route::get('food-item/category/{category}', [FoodItemController::class, 'getByCategory'])->name('food-item.by-category');
     Route::post('food-item/{food_item}/update-stock', [FoodItemController::class, 'updateStock'])->name('food-item.update-stock');
+    Route::post('food-item/{food_item}/calculate-ai', [FoodItemController::class, 'calculateAI'])->name('food-item.calculate-ai');
     
     // Order management routes
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'create', 'store']);
     Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
     
+    // Waste Records management routes
+    Route::resource('waste-records', WasteRecordController::class);
+    Route::get('waste-records-test', [WasteRecordController::class, 'testAIFields'])->name('waste-records.test');
+    
     // Additional routes for waste management
-    Route::get('/ai-insights', [DashboardController::class, 'aiInsights'])->name('ai.insights');
+    
+    // AI Analysis routes (moved to dashboard)
+    Route::get('/dashboard/ai/data', [DashboardController::class, 'getAnalysisData'])->name('dashboard.ai.data');
+    Route::get('/dashboard/ai/forecasting', [DashboardController::class, 'getForecastingData'])->name('dashboard.ai.forecasting');
+    Route::get('/dashboard/ai/waste-insights', [DashboardController::class, 'getWasteInsights'])->name('dashboard.ai.waste-insights');
+    Route::get('/dashboard/ai/menu-optimization', [DashboardController::class, 'getMenuOptimization'])->name('dashboard.ai.menu-optimization');
+    Route::get('/dashboard/ai/test-connection', [DashboardController::class, 'testConnection'])->name('dashboard.ai.test-connection');
+});
+
+
+
+// Gemini AI Routes
+Route::prefix('gemini-ai')->name('gemini.')->group(function () {
+    Route::get('/test-connection', [GeminiAIController::class, 'testConnection'])->name('test-connection');
+    Route::post('/demand-forecast', [GeminiAIController::class, 'generateDemandForecast'])->name('demand-forecast');
+    Route::post('/waste-insights', [GeminiAIController::class, 'generateWasteInsights'])->name('waste-insights');
+    Route::post('/menu-optimization', [GeminiAIController::class, 'generateMenuOptimization'])->name('menu-optimization');
+    Route::get('/comprehensive-analysis', [GeminiAIController::class, 'getComprehensiveAnalysis'])->name('comprehensive-analysis');
 });
 
 // Redirect authenticated users to dashboard

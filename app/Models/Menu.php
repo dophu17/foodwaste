@@ -225,17 +225,17 @@ class Menu extends Model
         $prices = $this->foodItems->pluck('price')->filter();
         
         if ($prices->isEmpty()) {
-            return 'Chưa có giá';
+            return __('messages.No price set');
         }
 
         $minPrice = $prices->min();
         $maxPrice = $prices->max();
 
         if ($minPrice === $maxPrice) {
-            return number_format($minPrice) . ' VNĐ';
+            return \App\Helpers\CurrencyHelper::format($minPrice);
         }
 
-        return number_format($minPrice) . ' - ' . number_format($maxPrice) . ' VNĐ';
+        return \App\Helpers\CurrencyHelper::format($minPrice) . ' - ' . \App\Helpers\CurrencyHelper::format($maxPrice);
     }
 
     /**
@@ -302,33 +302,5 @@ class Menu extends Model
             ->exists();
     }
 
-    /**
-     * Get vegetarian food items count.
-     */
-    public function getVegetarianItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_vegetarian', true)
-            ->count();
-    }
 
-    /**
-     * Get vegan food items count.
-     */
-    public function getVeganItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_vegan', true)
-            ->count();
-    }
-
-    /**
-     * Get gluten-free food items count.
-     */
-    public function getGlutenFreeItemsCountAttribute(): int
-    {
-        return $this->foodItems()
-            ->where('is_gluten_free', true)
-            ->count();
-    }
 }

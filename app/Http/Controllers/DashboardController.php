@@ -7,13 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Restaurant;
 use App\Models\WasteRecord;
 use App\Models\FoodItem;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Services\GeminiAIService;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    protected $geminiService;
+
+    public function __construct(GeminiAIService $geminiService)
     {
         $this->middleware('auth');
+        $this->geminiService = $geminiService;
     }
 
     public function index()
@@ -84,9 +90,6 @@ class DashboardController extends Controller
             $query->where('restaurant_id', $restaurant->id);
         })->count();
 
-        // AI insights and recommendations
-        $aiInsights = $this->generateAiInsights($restaurant, $monthlyWaste);
-
         return view('dashboard', compact(
             'restaurant',
             'totalRevenue',
@@ -96,141 +99,246 @@ class DashboardController extends Controller
             'lowStockItems',
             'recentWasteRecords',
             'wasteByCategory',
-            'aiInsights',
             'totalMenus',
             'totalFoodItems'
         ));
     }
 
-    public function aiInsights()
+    /**
+     * Get AI analysis data as JSON for API calls
+     */
+    public function getAnalysisData(Request $request)
     {
         $user = Auth::user();
         $restaurant = $user->restaurant;
 
         if (!$restaurant) {
-            return redirect()->route('restaurant.create')
-                ->with('warning', 'Please create restaurant information before using the system.');
+            return response()->json(['error' => 'Restaurant not found'], 404);
         }
 
-        // Get AI insights data
-        $currentMonth = Carbon::now()->startOfMonth();
-        $currentMonthEnd = Carbon::now()->endOfMonth();
+        $days = $request->get('days', 14);
+        
+        // Get sales data
+        $salesData = $this->getSalesData($restaurant, $days);
+        
+        // Get waste data
+        $wasteData = $this->getWasteData($restaurant, $days);
+        
+        // Get menu data
+        $menuData = $this->getMenuData($restaurant);
+        
+        // Restaurant info
+        $restaurantInfo = [
+            'name' => $restaurant->name,
+            'cuisine_type' => $restaurant->cuisine_type,
+            'capacity' => $restaurant->capacity
+        ];
 
-        $monthlyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->get();
-
-        $aiInsights = $this->generateAiInsights($restaurant, $monthlyWaste);
-
-        // AI prediction accuracy
-        $aiAccuracy = $restaurant->getWastePredictionAccuracy();
-
-        // Top waste items
-        $topWasteItems = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->with('foodItem')
-            ->orderBy('cost_wasted', 'desc')
-            ->limit(10)
-            ->get();
-
-        // Waste analytics data (gộp từ wasteAnalytics)
-        $totalWasteCost = $monthlyWaste->sum('cost_wasted');
-        $totalWasteQuantity = $monthlyWaste->sum('quantity_wasted');
-        $wasteCount = $monthlyWaste->count();
-
-        // Waste by category
-        $wasteByCategory = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->selectRaw('
-                food_items.category,
-                SUM(waste_records.quantity_wasted) as total_waste,
-                waste_records.waste_unit,
-                SUM(waste_records.cost_wasted) as total_cost,
-                COUNT(*) as count
-            ')
-            ->join('food_items', 'waste_records.food_item_id', '=', 'food_items.id')
-            ->groupBy('food_items.category', 'waste_records.waste_unit')
-            ->get();
-
-        // Daily waste trend
-        $dailyWaste = WasteRecord::where('restaurant_id', $restaurant->id)
-            ->whereBetween('waste_date', [$currentMonth, $currentMonthEnd])
-            ->selectRaw('DATE(waste_date) as date, SUM(cost_wasted) as daily_cost')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        return view('ai.insights', compact(
-            'restaurant',
-            'aiInsights',
-            'aiAccuracy',
-            'topWasteItems',
-            'totalWasteCost',
-            'totalWasteQuantity',
-            'wasteCount',
-            'wasteByCategory',
-            'dailyWaste'
-        ));
+        return response()->json([
+            'sales_data' => $salesData,
+            'waste_data' => $wasteData,
+            'menu_data' => $menuData,
+            'restaurant_info' => $restaurantInfo,
+            'days' => $days
+        ]);
     }
 
-    private function generateAiInsights($restaurant, $monthlyWaste)
+    /**
+     * Get forecasting data using Gemini AI
+     */
+    public function getForecastingData(Request $request)
     {
-        $insights = [];
+        $user = Auth::user();
+        $restaurant = $user->restaurant;
 
-        // Analyze waste patterns
-        if ($monthlyWaste->count() > 0) {
-            $avgWasteCost = $monthlyWaste->avg('cost_wasted');
-            $avgWasteQuantity = $monthlyWaste->avg('quantity_wasted');
-
-            if ($avgWasteCost > 5000) { // ¥5000
-                $insights[] = [
-                    'title' => 'High Waste Cost Alert',
-                    'description' => 'Food waste cost is high. Consider adjusting portion sizes and demand forecasting.',
-                    'type' => 'warning'
-                ];
-            }
-
-            if ($avgWasteQuantity > 100) { // 100g
-                $insights[] = [
-                    'title' => 'Moderate Waste Level',
-                    'description' => 'Food waste is at moderate level. There is room for further optimization.',
-                    'type' => 'info'
-                ];
-            }
+        if (!$restaurant) {
+            return response()->json(['error' => 'Restaurant not found'], 404);
         }
 
-        // Check for low stock items
-        $lowStockCount = FoodItem::whereHas('menu', function($query) use ($restaurant) {
+        $days = $request->get('days', 14);
+        $forecastPeriod = $request->get('forecast_period', 7);
+        
+        // Get sales data
+        $salesData = $this->getSalesData($restaurant, $days);
+        
+        // Restaurant data
+        $restaurantData = [
+            'name' => $restaurant->name,
+            'cuisine_type' => $restaurant->cuisine_type,
+            'capacity' => $restaurant->capacity
+        ];
+
+        // Generate AI forecast
+        $forecast = $this->geminiService->generateDemandForecast($restaurantData, $salesData, $forecastPeriod);
+        
+        return response()->json([
+            'forecast' => $forecast,
+            'restaurant_data' => $restaurantData,
+            'sales_data' => $salesData,
+            'forecast_period' => $forecastPeriod
+        ]);
+    }
+
+    /**
+     * Get waste insights using Gemini AI
+     */
+    public function getWasteInsights(Request $request)
+    {
+        $user = Auth::user();
+        $restaurant = $user->restaurant;
+
+        if (!$restaurant) {
+            return response()->json(['error' => 'Restaurant not found'], 404);
+        }
+
+        $days = $request->get('days', 14);
+        
+        // Get waste and sales data
+        $wasteData = $this->getWasteData($restaurant, $days);
+        $salesData = $this->getSalesData($restaurant, $days);
+        
+        // Restaurant info
+        $restaurantInfo = [
+            'name' => $restaurant->name,
+            'cuisine_type' => $restaurant->cuisine_type,
+            'capacity' => $restaurant->capacity
+        ];
+
+        // Generate AI waste insights
+        $wasteInsights = $this->geminiService->generateWasteInsights($wasteData, $salesData, $restaurantInfo);
+        
+        return response()->json([
+            'waste_insights' => $wasteInsights,
+            'waste_data' => $wasteData,
+            'sales_data' => $salesData,
+            'restaurant_info' => $restaurantInfo
+        ]);
+    }
+
+    /**
+     * Get menu optimization using Gemini AI
+     */
+    public function getMenuOptimization(Request $request)
+    {
+        $user = Auth::user();
+        $restaurant = $user->restaurant;
+
+        if (!$restaurant) {
+            return response()->json(['error' => 'Restaurant not found'], 404);
+        }
+
+        $days = $request->get('days', 14);
+        
+        // Get all data
+        $menuData = $this->getMenuData($restaurant);
+        $salesData = $this->getSalesData($restaurant, $days);
+        $wasteData = $this->getWasteData($restaurant, $days);
+
+        // Generate AI menu optimization
+        $menuOptimization = $this->geminiService->generateMenuOptimization($menuData, $salesData, $wasteData);
+        
+        return response()->json([
+            'menu_optimization' => $menuOptimization,
+            'menu_data' => $menuData,
+            'sales_data' => $salesData,
+            'waste_data' => $wasteData
+        ]);
+    }
+
+    /**
+     * Test Gemini AI connection
+     */
+    public function testConnection()
+    {
+        $result = $this->geminiService->testConnection();
+        return response()->json($result);
+    }
+
+    /**
+     * Get sales data for the specified period
+     */
+    private function getSalesData($restaurant, $days)
+    {
+        $startDate = Carbon::now()->subDays($days);
+        $endDate = Carbon::now();
+
+        $salesData = [];
+        
+        for ($i = 0; $i < $days; $i++) {
+            $date = $startDate->copy()->addDays($i);
+            $dateStr = $date->format('Y-m-d');
+            
+            $orders = Order::where('restaurant_id', $restaurant->id)
+                ->whereDate('created_at', $date)
+                ->get();
+            
+            $revenue = $orders->sum('total_amount');
+            $orderCount = $orders->count();
+            $customerCount = $orders->sum('customer_count');
+            
+            $salesData[$dateStr] = [
+                'orders' => $orderCount,
+                'revenue' => $revenue,
+                'customers' => $customerCount
+            ];
+        }
+        
+        return $salesData;
+    }
+
+    /**
+     * Get waste data for the specified period
+     */
+    private function getWasteData($restaurant, $days)
+    {
+        $startDate = Carbon::now()->subDays($days);
+        $endDate = Carbon::now();
+
+        $wasteRecords = WasteRecord::where('restaurant_id', $restaurant->id)
+            ->whereBetween('waste_date', [$startDate, $endDate])
+            ->with('foodItem')
+            ->get();
+
+        $wasteData = [];
+        
+        foreach ($wasteRecords as $record) {
+            $category = $record->foodItem->category ?? 'Unknown';
+            
+            if (!isset($wasteData[$category])) {
+                $wasteData[$category] = [
+                    'quantity' => 0,
+                    'unit' => $record->waste_unit,
+                    'cost' => 0
+                ];
+            }
+            
+            $wasteData[$category]['quantity'] += $record->quantity_wasted;
+            $wasteData[$category]['cost'] += $record->cost_wasted;
+        }
+        
+        return $wasteData;
+    }
+
+    /**
+     * Get menu data
+     */
+    private function getMenuData($restaurant)
+    {
+        $foodItems = FoodItem::whereHas('menu', function($query) use ($restaurant) {
             $query->where('restaurant_id', $restaurant->id);
-        })->where('stock_quantity', '<=', 'min_stock_level')->count();
+        })->get();
 
-        if ($lowStockCount > 0) {
-            $insights[] = [
-                'title' => 'Low Stock Warning',
-                'description' => "{$lowStockCount} food items are running low on stock. Please replenish ingredients.",
-                'type' => 'danger'
+        $menuData = [];
+        
+        foreach ($foodItems as $item) {
+            $menuData[] = [
+                'name' => $item->name,
+                'price' => $item->price,
+                'category' => $item->category,
+                'stock' => $item->stock_quantity
             ];
         }
-
-        // Seasonal recommendations
-        $currentMonth = Carbon::now()->month;
-        if (in_array($currentMonth, [6, 7, 8])) { // Summer months
-            $insights[] = [
-                'title' => 'Seasonal Menu Adjustment',
-                'description' => 'Summer season - recommend increasing cold dishes, salads and reducing portion sizes.',
-                'type' => 'success'
-            ];
-        }
-
-        // If no insights, provide general tips
-        if (empty($insights)) {
-            $insights[] = [
-                'title' => 'Great Performance!',
-                'description' => 'Your restaurant is doing well with waste management. Keep up the good work!',
-                'type' => 'success'
-            ];
-        }
-
-        return $insights;
+        
+        return $menuData;
     }
 }

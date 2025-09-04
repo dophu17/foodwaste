@@ -151,7 +151,7 @@
                                 </a>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <a href="{{ route('ai.insights') }}" class="btn btn-outline-danger w-100">
+                                <a href="{{ route('dashboard') }}" class="btn btn-outline-danger w-100">
                                     <i class="fas fa-chart-pie me-2"></i>{{ __('messages.View Analytics') }}
                                 </a>
                             </div>
@@ -252,7 +252,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="fw-bold text-primary">¥{{ number_format($item->price, 0) }}</span>
+                                                    <span class="fw-bold text-primary">{{ \App\Helpers\CurrencyHelper::format($item->price) }}</span>
                                                 </td>
                                                 <td>
                                                     @if($item->stock_quantity <= $item->min_stock_level)

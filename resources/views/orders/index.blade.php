@@ -103,7 +103,7 @@
                                 <div class="col-lg-2 col-md-3">
                                     <div class="mb-2">
                                         <span class="badge bg-success bg-opacity-10 text-success">
-                                            <i class="fas fa-yen-sign me-1"></i>{{ number_format($order->total_amount, 0) }}
+                                            {{ \App\Helpers\CurrencyHelper::format($order->total_amount) }}
                                         </span>
                                     </div>
                                     <div class="small">
@@ -147,7 +147,7 @@
                                         </span>
                                     </div>
                                     <div class="small text-muted">
-                                        {{ __('messages.AVG') }}: ¥{{ number_format($order->average_order_value, 0) }}
+                                        {{ __('messages.AVG') }}: {{ \App\Helpers\CurrencyHelper::format($order->average_order_value) }}
                                     </div>
                                 </div>
                                 
