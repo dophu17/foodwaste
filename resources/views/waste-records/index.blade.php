@@ -213,13 +213,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="btn-group" role="group">
+                                            <div class="action-buttons">
                                                 <a href="{{ route('waste-records.show', $record) }}" 
-                                                   class="btn btn-sm btn-outline-info" title="{{ __('messages.View') }}">
+                                                   class="btn-action btn-view" title="{{ __('messages.View') }}">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 <a href="{{ route('waste-records.edit', $record) }}" 
-                                                   class="btn btn-sm btn-outline-warning" title="{{ __('messages.Edit') }}">
+                                                   class="btn-action btn-edit" title="{{ __('messages.Edit') }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('waste-records.destroy', $record) }}" 
@@ -227,7 +227,7 @@
                                                       onsubmit="return confirm('{{ __('messages.Are you sure you want to delete this waste record?') }}')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                    <button type="submit" class="btn-action btn-delete" 
                                                             title="{{ __('messages.Delete') }}">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
@@ -258,4 +258,69 @@
         </div>
     </div>
 </div>
+
+<style>
+.action-buttons {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    text-decoration: none;
+}
+
+.btn-view {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-view:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-edit {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: white;
+}
+
+.btn-delete {
+    color: #dc3545;
+    border-color: #dc3545;
+    background: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-action i {
+    font-size: 11px;
+}
+</style>
 @endsection

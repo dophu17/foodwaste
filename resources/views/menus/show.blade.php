@@ -198,20 +198,20 @@
                                                             </div>
                                                             
                                                             <div class="d-flex justify-content-between align-items-center">
-                                                                <div class="btn-group btn-group-sm">
+                                                                <div class="action-buttons">
                                                                     <a href="{{ route('food-item.show', $foodItem->id) }}" 
-                                                                       class="btn btn-outline-info btn-sm" title="Xem chi tiết">
+                                                                       class="btn-action btn-view" title="Xem chi tiết">
                                                                         <i class="fas fa-eye"></i>
                                                                     </a>
                                                                     @if($menu->canEditByUser(auth()->user()))
                                                                         <a href="{{ route('food-item.edit', $foodItem->id) }}" 
-                                                                           class="btn btn-outline-warning btn-sm" title="Chỉnh sửa">
+                                                                           class="btn-action btn-edit" title="Chỉnh sửa">
                                                                             <i class="fas fa-edit"></i>
                                                                         </a>
                                                                         <form action="{{ route('food-item.destroy', $foodItem->id) }}" method="POST" class="d-inline">
                                                                             @csrf
                                                                             @method('DELETE')
-                                                                            <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                                                            <button type="submit" class="btn-action btn-delete" 
                                                                                     onclick="return confirm('Bạn có chắc muốn xóa món ăn này?')" title="Xóa">
                                                                                 <i class="fas fa-trash"></i>
                                                                             </button>
@@ -465,6 +465,69 @@
 .badge-sm {
     font-size: 0.75em;
     padding: 0.25em 0.5em;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    text-decoration: none;
+}
+
+.btn-view {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-view:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-edit {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: white;
+}
+
+.btn-delete {
+    color: #dc3545;
+    border-color: #dc3545;
+    background: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-action i {
+    font-size: 11px;
 }
 
 .empty-state {

@@ -92,25 +92,161 @@
         .stats-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            height: 120px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
         }
         
-        .stats-card .icon {
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .stats-icon {
             font-size: 3rem;
-            opacity: 0.8;
-        }
-        
-        .stats-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: 1rem 0;
-        }
-        
-        .stats-card .label {
-            font-size: 1rem;
             opacity: 0.9;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            width: 60px;
+            text-align: center;
+        }
+        
+        .stats-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+        
+        .stats-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+        
+        .stats-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .stats-card {
+                height: 110px;
+                padding: 1.25rem;
+            }
+            .stats-number {
+                font-size: 1.6rem;
+            }
+            .stats-icon {
+                font-size: 2.5rem;
+                margin-right: 1.25rem;
+                width: 50px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .stats-card {
+                height: 100px;
+                padding: 1rem;
+            }
+            .stats-number {
+                font-size: 1.4rem;
+            }
+            .stats-icon {
+                font-size: 2.2rem;
+                margin-right: 1rem;
+                width: 45px;
+            }
+            .stats-label {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-card {
+                height: 90px;
+                padding: 0.875rem;
+            }
+            .stats-number {
+                font-size: 1.2rem;
+            }
+            .stats-icon {
+                font-size: 2rem;
+                margin-right: 0.875rem;
+                width: 40px;
+            }
+            .stats-label {
+                font-size: 0.75rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-card {
+                height: 80px;
+                padding: 0.75rem;
+            }
+            .stats-number {
+                font-size: 1.1rem;
+            }
+            .stats-icon {
+                font-size: 1.8rem;
+                margin-right: 0.75rem;
+                width: 35px;
+            }
+            .stats-label {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* Specific card variants */
+        .stats-card-revenue {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .stats-card-orders {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .stats-card-waste {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .stats-card-ai {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .stats-card-menus {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .stats-card-items {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
         
         .table {

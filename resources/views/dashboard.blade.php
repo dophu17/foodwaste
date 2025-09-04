@@ -26,47 +26,64 @@
         @endif
 
         <!-- Statistics Cards -->
+        <div class="row">
+            <!-- First Row - 3 cards -->
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-revenue">
+                    <div class="stats-icon">💰</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ number_format($totalRevenue ?? 0, 0) }}¥</div>
+                        <div class="stats-label">{{ __('messages.total_revenue') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-orders">
+                    <div class="stats-icon">🍽️</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ $totalOrders }}</div>
+                        <div class="stats-label">{{ __('messages.total_orders') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-waste">
+                    <div class="stats-icon">📊</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ number_format($wastePercentage ?? 0, 1) }}%</div>
+                        <div class="stats-label">{{ __('messages.waste_percentage') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row mb-4">
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">💰</div>
-                    <div class="number">{{ number_format($totalRevenue ?? 0, 0) }}¥</div>
-                    <div class="label">{{ __('messages.total_revenue') }}</div>
+            <!-- Second Row - 3 cards -->
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-ai">
+                    <div class="stats-icon">🤖</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ number_format($aiAccuracy ?? 0, 1) }}%</div>
+                        <div class="stats-label">{{ __('messages.ai_prediction_accuracy') }}</div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">🍽️</div>
-                    <div class="number">{{ $totalOrders }}</div>
-                    <div class="label">{{ __('messages.total_orders') }}</div>
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-menus">
+                    <div class="stats-icon">📋</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ $totalMenus ?? 0 }}</div>
+                        <div class="stats-label">{{ __('messages.Total Menus') }}</div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">📊</div>
-                    <div class="number">{{ number_format($wastePercentage ?? 0, 1) }}%</div>
-                    <div class="label">{{ __('messages.waste_percentage') }}</div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">🤖</div>
-                    <div class="number">{{ number_format($aiAccuracy ?? 0, 1) }}%</div>
-                    <div class="label">{{ __('messages.ai_prediction_accuracy') }}</div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">📋</div>
-                    <div class="number">{{ $totalMenus ?? 0 }}</div>
-                    <div class="label">{{ __('messages.Total Menus') }}</div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-6 mb-3">
-                <div class="stats-card text-center">
-                    <div class="icon">🍜</div>
-                    <div class="number">{{ $totalFoodItems ?? 0 }}</div>
-                    <div class="label">{{ __('messages.Total Food Items') }}</div>
+            <div class="col-lg-4 col-md-6 mb-1">
+                <div class="stats-card stats-card-items">
+                    <div class="stats-icon">🍜</div>
+                    <div class="stats-content">
+                        <div class="stats-number">{{ $totalFoodItems ?? 0 }}</div>
+                        <div class="stats-label">{{ __('messages.Total Food Items') }}</div>
+                    </div>
                 </div>
             </div>
         </div>

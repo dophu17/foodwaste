@@ -151,7 +151,7 @@
                         @endif
 
                         @if($wasteRecord->notes)
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col-12">
                                 <div class="border rounded p-3">
                                     <h6 class="text-secondary mb-3">
@@ -195,7 +195,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-chart-pie me-2"></i>{{ __('messages.Waste Analysis') }}
@@ -235,7 +235,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-tools me-2"></i>{{ __('messages.Actions') }}
@@ -263,7 +263,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-lightbulb me-2"></i>{{ __('messages.Insights') }}
