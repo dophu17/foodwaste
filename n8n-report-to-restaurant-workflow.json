@@ -1,0 +1,225 @@
+{
+  "name": "n8n-report-to-restaurant-workflow.json",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyDay",
+              "hour": 17,
+              "minute": 0
+            }
+          ]
+        }
+      },
+      "id": "73b1e7bf-b55b-48bf-8495-970cac6df7f7",
+      "name": "Daily 5PM Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process waste records data and create personalized email content\nconst wasteRecords = $input.all();\n\n// Format currency\nfunction formatCurrency(amount) {\n  return new Intl.NumberFormat('ja-JP', {\n    style: 'currency',\n    currency: 'JPY'\n  }).format(amount || 0);\n}\n\n// Format date\nfunction formatDate(dateString) {\n  return new Date(dateString).toLocaleDateString('ja-JP', {\n    year: 'numeric',\n    month: 'long',\n    day: 'numeric'\n  });\n}\n\n// Group waste records by user\nconst userWasteData = {};\nwasteRecords.forEach(record => {\n  const data = record.json;\n  const userId = data.user_id;\n  \n  if (!userWasteData[userId]) {\n    userWasteData[userId] = {\n      user_id: data.user_id,\n      user_name: data.user_name,\n      user_email: data.user_email,\n      user_phone: data.user_phone,\n      restaurant_name: data.restaurant_name,\n      restaurant_address: data.restaurant_address,\n      restaurant_phone: data.restaurant_phone,\n      restaurant_email: data.restaurant_email,\n      waste_records: []\n    };\n  }\n  \n  userWasteData[userId].waste_records.push({\n    waste_record_id: data.waste_record_id,\n    waste_date: data.waste_date,\n    quantity_wasted: data.quantity_wasted,\n    waste_unit: data.waste_unit,\n    cost_wasted: data.cost_wasted,\n    waste_reason: data.waste_reason,\n    notes: data.notes,\n    food_item_name: data.food_item_name,\n    food_description: data.food_description,\n    food_price: data.food_price,\n    food_category: data.food_category\n  });\n});\n\n// Create personalized email content for each user\nreturn Object.values(userWasteData).map(userData => {\n  const totalWasteCost = userData.waste_records.reduce((sum, record) => sum + (parseFloat(record.cost_wasted) || 0), 0);\n  const totalWasteQuantity = userData.waste_records.reduce((sum, record) => sum + (parseFloat(record.quantity_wasted) || 0), 0);\n  const wasteUnit = userData.waste_records[0]?.waste_unit || 'đơn vị';\n  \n  const emailContent = {\n    subject: `食品廃棄レポート - ${userData.restaurant_name} (${formatDate(new Date().toISOString().split('T')[0])})`,\n    html: `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <meta charset=\"UTF-8\">\n        <style>\n          body { \n            font-family: Arial, sans-serif; \n            margin: 0; \n            padding: 20px; \n            background-color: #f5f5f5; \n            line-height: 1.6;\n          }\n          .container { \n            max-width: 800px; \n            margin: 0 auto; \n            background: white; \n            padding: 30px; \n            border-radius: 10px; \n            box-shadow: 0 2px 10px rgba(0,0,0,0.1); \n          }\n          .header { \n            text-align: center; \n            color: #2c3e50; \n            border-bottom: 3px solid #e74c3c; \n            padding-bottom: 20px; \n            margin-bottom: 30px; \n          }\n          .summary { \n            background: #ecf0f1; \n            padding: 20px; \n            border-radius: 8px; \n            margin-bottom: 30px; \n          }\n          .summary h3 { \n            color: #e74c3c; \n            margin-top: 0; \n            border-bottom: 2px solid #e74c3c; \n            padding-bottom: 10px; \n          }\n          .stats-grid { \n            display: grid; \n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); \n            gap: 20px; \n            margin: 20px 0; \n          }\n          .stat-card { \n            background: white; \n            padding: 20px; \n            border-radius: 8px; \n            text-align: center; \n            border-left: 4px solid #e74c3c; \n          }\n          .stat-value { \n            font-size: 24px; \n            font-weight: bold; \n            color: #e74c3c; \n          }\n          .stat-label { \n            color: #7f8c8d; \n            margin-top: 5px; \n          }\n          .table { \n            width: 100%; \n            border-collapse: collapse; \n            margin: 20px 0; \n          }\n          .table th, .table td { \n            padding: 12px; \n            text-align: left; \n            border-bottom: 1px solid #ddd; \n          }\n          .table th { \n            background-color: #34495e; \n            color: white; \n          }\n          .table tr:nth-child(even) { \n            background-color: #f2f2f2; \n          }\n          .reason-badge { \n            padding: 4px 8px; \n            border-radius: 4px; \n            font-size: 12px; \n            font-weight: bold; \n          }\n          .reason-expired { background-color: #e74c3c; color: white; }\n          .reason-overcooked { background-color: #f39c12; color: white; }\n          .reason-customer-rejection { background-color: #9b59b6; color: white; }\n          .reason-other { background-color: #95a5a6; color: white; }\n          .footer { \n            text-align: center; \n            margin-top: 30px; \n            padding-top: 20px; \n            border-top: 1px solid #ddd; \n            color: #7f8c8d; \n            font-size: 14px;\n          }\n        </style>\n      </head>\n      <body>\n        <div class=\"container\">\n          <div class=\"header\">\n            <h1>🍽️ 食品廃棄レポート</h1>\n            <p>レストラン: ${userData.restaurant_name}</p>\n            <p>オーナー: ${userData.user_name}</p>\n          </div>\n          \n          <div class=\"summary\">\n            <h3>📊 本日の概要</h3>\n            <div class=\"stats-grid\">\n              <div class=\"stat-card\">\n                <div class=\"stat-value\">${userData.waste_records.length}</div>\n                <div class=\"stat-label\">記録数</div>\n              </div>\n              <div class=\"stat-card\">\n                <div class=\"stat-value\">${formatCurrency(totalWasteCost)}</div>\n                <div class=\"stat-label\">廃棄総コスト</div>\n              </div>\n              <div class=\"stat-card\">\n                <div class=\"stat-value\">${totalWasteQuantity.toFixed(2)}</div>\n                <div class=\"stat-label\">廃棄数量 (${wasteUnit})</div>\n              </div>\n            </div>\n          </div>\n          \n          <h3>📋 廃棄記録の詳細</h3>\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th>日付</th>\n                <th>料理名</th>\n                <th>数量</th>\n                <th>コスト</th>\n                <th>理由</th>\n                <th>備考</th>\n              </tr>\n            </thead>\n            <tbody>\n              ${userData.waste_records.map(record => `\n                <tr>\n                  <td>${formatDate(record.waste_date)}</td>\n                  <td>${record.food_item_name}</td>\n                  <td>${parseFloat(record.quantity_wasted).toFixed(2)} ${record.waste_unit}</td>\n                  <td>${formatCurrency(record.cost_wasted)}</td>\n                  <td><span class=\"reason-badge reason-${record.waste_reason.toLowerCase().replace(/\\s+/g, '-')}\">${record.waste_reason}</span></td>\n                  <td>${record.notes || '-'}</td>\n                </tr>\n              `).join('')}\n            </tbody>\n          </table>\n          \n          <div class=\"footer\">\n            <p>📧 このメールはFood Waste Managementシステムから自動送信されました</p>\n            <p>🕒 送信時刻: ${new Date().toLocaleString('ja-JP')}</p>\n            <p>🔗 システムアクセス: <a href=\"http://localhost:8000\" style=\"color: #3498db;\">http://localhost:8000</a></p>\n          </div>\n        </div>\n      </body>\n      </html>\n    `,\n    text: `\n食品廃棄レポート - ${userData.restaurant_name.toUpperCase()}\n\nオーナー: ${userData.user_name}\n日時: 本日\n\n📊 概要:\n- 記録数: ${userData.waste_records.length}\n- 廃棄総コスト: ${formatCurrency(totalWasteCost)}\n- 廃棄数量: ${totalWasteQuantity.toFixed(2)} ${wasteUnit}\n\n📋 廃棄記録の詳細:\n${userData.waste_records.map(record => `\n- ${formatDate(record.waste_date)}: ${record.food_item_name}\n  + 数量: ${parseFloat(record.quantity_wasted).toFixed(2)} ${record.waste_unit}\n  + コスト: ${formatCurrency(record.cost_wasted)}\n  + 理由: ${record.waste_reason}\n  + 備考: ${record.notes || 'なし'}\n`).join('')}\n\n---\n📧 このメールはFood Waste Managementシステムから自動送信されました\n🕒 送信時刻: ${new Date().toLocaleString('ja-JP')}\n🔗 システムアクセス: http://localhost:8000\n    `\n  };\n  \n  return {\n    json: {\n      ...emailContent,\n      to: userData.user_email,\n      user_name: userData.user_name,\n      user_id: userData.user_id\n    }\n  };\n});"
+      },
+      "id": "153db59d-922d-46e3-89d1-1d0a221a7e17",
+      "name": "Process Waste Data & Create Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your-email@gmail.com",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "html": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "016a37f7-4429-40bf-8dae-4fe473f89efa",
+      "name": "Send Email to User",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        -16
+      ],
+      "webhookId": "5d29d750-8de0-4fc5-a17b-d1aad4039033",
+      "credentials": {
+        "smtp": {
+          "id": "ujp8DOxrKUjHpOqP",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.to }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            },
+            {
+              "id": "b01c1b5e-0947-44e8-8f79-47620627b156",
+              "leftValue": "to",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "c659fd3e-ff48-4a9d-a897-412035fc80c9",
+      "name": "Check Email Valid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        112
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "293f77b1-5a07-44a8-9c8c-75c26250b8aa",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        32
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f0d1bc99-dfd4-4628-a065-21a8dc5a82a4",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  wr.id as waste_record_id,\n  wr.waste_date,\n  wr.quantity_wasted,\n  wr.waste_unit,\n  wr.cost_wasted,\n  wr.waste_reason,\n  wr.notes,\n  wr.created_at as waste_created_at,\n  fi.name as food_item_name,\n  fi.description as food_description,\n  fi.price as food_price,\n  fi.category as food_category,\n  u.id as user_id,\n  u.name as user_name,\n  u.email as user_email,\n  u.phone as user_phone,\n  r.name as restaurant_name,\n  r.address as restaurant_address,\n  r.phone as restaurant_phone,\n  r.email as restaurant_email\nFROM waste_records wr\nINNER JOIN food_items fi ON wr.food_item_id = fi.id\nINNER JOIN restaurants r ON wr.restaurant_id = r.id\nINNER JOIN users u ON r.user_id = u.id\nWHERE DATE(wr.waste_date) = CURDATE()\nORDER BY wr.waste_date DESC, r.name ASC;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -688,
+        112
+      ],
+      "id": "c02b8de5-b472-48e5-9886-b3329a455d07",
+      "name": "Get Waste Records with User Info",
+      "credentials": {
+        "mySql": {
+          "id": "ZrB8w9cyZDVTR6qx",
+          "name": "MySQL account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Process Waste Data & Create Email": {
+      "main": [
+        [
+          {
+            "node": "Check Email Valid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Email Valid": {
+      "main": [
+        [
+          {
+            "node": "Send Email to User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email to User": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every 5 Minutes Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Waste Records with User Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Waste Records with User Info": {
+      "main": [
+        [
+          {
+            "node": "Process Waste Data & Create Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0ce5d5f6-9dcb-490c-a0ff-839c5bb76551",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f6b1f53999d3f8081d67af8261fc35d4c2e58bb71fc44917b8c8c1d1daf1d36e"
+  },
+  "id": "TT1XplgbaaZVZ9NU",
+  "tags": []
+}

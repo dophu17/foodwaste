@@ -40,7 +40,7 @@
                             <option value="">{{ __('messages.All Days') }}</option>
                             @foreach($dayOfWeeks as $day)
                                 <option value="{{ $day }}" {{ request('day_of_week') == $day ? 'selected' : '' }}>
-                                    {{ $day }}
+                                    {{ __('messages.' . $day) }}
                                 </option>
                             @endforeach
                         </select>
@@ -50,7 +50,7 @@
                             <option value="">{{ __('messages.All Weather') }}</option>
                             @foreach($weatherConditions as $weather)
                                 <option value="{{ $weather }}" {{ request('weather') == $weather ? 'selected' : '' }}>
-                                    {{ $weather }}
+                                    {{ __('messages.' . $weather) }}
                                 </option>
                             @endforeach
                         </select>
@@ -115,12 +115,12 @@
                                 <div class="col-lg-2 col-md-3">
                                     <div class="mb-2">
                                         <span class="badge bg-info bg-opacity-10 text-info">
-                                            <i class="fas fa-calendar me-1"></i>{{ $order->day_of_week }}
+                                            <i class="fas fa-calendar me-1"></i>{{ __('messages.' . $order->day_of_week) }}
                                         </span>
                                     </div>
                                     @if($order->weather_condition)
                                         <div class="small">
-                                            <i class="fas fa-cloud me-1"></i>{{ $order->weather_condition }}
+                                            <i class="fas fa-cloud me-1"></i>{{ __('messages.' . $order->weather_condition) }}
                                         </div>
                                     @endif
                                 </div>

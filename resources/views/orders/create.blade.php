@@ -82,7 +82,7 @@
                                 <select class="form-select" id="weather_condition" name="weather_condition">
                                     <option value="">{{ __('messages.Select Weather') }}</option>
                                     @foreach($weatherConditions as $weather)
-                                        <option value="{{ $weather }}">{{ $weather }}</option>
+                                        <option value="{{ $weather }}">{{ __('messages.' . $weather) }}</option>
                                     @endforeach
                                 </select>
                             </div>

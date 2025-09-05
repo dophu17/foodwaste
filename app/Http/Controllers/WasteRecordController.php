@@ -60,12 +60,26 @@ class WasteRecordController extends Controller
         
         // Filter by reason
         if ($request->filled('waste_reason')) {
-            $query->where('waste_reason', 'like', '%' . $request->waste_reason . '%');
+            $query->where('waste_reason', $request->waste_reason);
         }
         
         $wasteRecords = $query->orderBy('waste_date', 'desc')->paginate(15);
         
-        return view('waste-records.index', compact('wasteRecords', 'foodItems', 'restaurant'));
+        // Common waste reasons
+        $wasteReasons = [
+            'Food left over after meal time',
+            'Expired ingredients',
+            'Damaged during preparation',
+            'Customer dissatisfaction',
+            'Over-preparation',
+            'Equipment malfunction',
+            'End of day closure',
+            'Special event cancelled',
+            'Customer allergy',
+            'Tasting during cooking'
+        ];
+        
+        return view('waste-records.index', compact('wasteRecords', 'foodItems', 'restaurant', 'wasteReasons'));
     }
 
     /**
@@ -90,16 +104,16 @@ class WasteRecordController extends Controller
         
         // Common waste reasons
         $wasteReasons = [
-            'Thức ăn thừa sau giờ ăn',
-            'Hết hạn sử dụng',
-            'Làm hỏng trong quá trình chế biến',
-            'Khách hàng không hài lòng',
-            'Chuẩn bị quá nhiều',
-            'Hỏng hóc thiết bị',
-            'Đóng cửa cuối ngày',
-            'Sự kiện đặc biệt bị hủy',
-            'Dị ứng khách hàng',
-            'Nếm thử trong quá trình nấu'
+            'Food left over after meal time',
+            'Expired ingredients',
+            'Damaged during preparation',
+            'Customer dissatisfaction',
+            'Over-preparation',
+            'Equipment malfunction',
+            'End of day closure',
+            'Special event cancelled',
+            'Customer allergy',
+            'Tasting during cooking'
         ];
         
         return view('waste-records.create', compact('foodItems', 'wasteReasons'));
@@ -191,16 +205,16 @@ class WasteRecordController extends Controller
         
         // Common waste reasons
         $wasteReasons = [
-            'Thức ăn thừa sau giờ ăn',
-            'Hết hạn sử dụng',
-            'Làm hỏng trong quá trình chế biến',
-            'Khách hàng không hài lòng',
-            'Chuẩn bị quá nhiều',
-            'Hỏng hóc thiết bị',
-            'Đóng cửa cuối ngày',
-            'Sự kiện đặc biệt bị hủy',
-            'Dị ứng khách hàng',
-            'Nếm thử trong quá trình nấu'
+            'Food left over after meal time',
+            'Expired ingredients',
+            'Damaged during preparation',
+            'Customer dissatisfaction',
+            'Over-preparation',
+            'Equipment malfunction',
+            'End of day closure',
+            'Special event cancelled',
+            'Customer allergy',
+            'Tasting during cooking'
         ];
         
         return view('waste-records.edit', compact('wasteRecord', 'foodItems', 'wasteReasons'));

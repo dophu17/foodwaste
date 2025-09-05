@@ -36,13 +36,13 @@
                             <div class="col-md-6">
                                 <h5 class="mb-3">
                                     <i class="fas fa-info-circle me-2"></i>
-                                    Thông tin cơ bản
+                                    {{ __('messages.Basic Information') }}
                                 </h5>
 
                                 <div class="mb-3">
-                                    <label for="menu_id" class="form-label">Menu <span class="text-danger">*</span></label>
+                                    <label for="menu_id" class="form-label">{{ __('messages.Menu') }} <span class="text-danger">*</span></label>
                                     <select name="menu_id" id="menu_id" class="form-select @error('menu_id') is-invalid @enderror" required>
-                                        <option value="">Chọn menu</option>
+                                        <option value="">{{ __('messages.Select Menu') }}</option>
                                         @foreach($menus as $menu)
                                             <option value="{{ $menu->id }}" {{ old('menu_id', $foodItem->menu_id) == $menu->id ? 'selected' : '' }}>
                                                 {{ $menu->name }} 
@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Tên món ăn <span class="text-danger">*</span></label>
+                                    <label for="name" class="form-label">{{ __('messages.Food Name') }} <span class="text-danger">*</span></label>
                                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" 
                                            value="{{ old('name', $foodItem->name) }}" required>
                                     @error('name')
@@ -67,7 +67,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Mô tả</label>
+                                    <label for="description" class="form-label">{{ __('messages.Description') }}</label>
                                     <textarea name="description" id="description" rows="3" class="form-control @error('description') is-invalid @enderror">{{ old('description', $foodItem->description) }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -75,7 +75,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="price" class="form-label">Giá (VNĐ) <span class="text-danger">*</span></label>
+                                    <label for="price" class="form-label">{{ __('messages.Price (JPY)') }} <span class="text-danger">*</span></label>
                                     <input type="number" name="price" id="price" class="form-control @error('price') is-invalid @enderror" 
                                            value="{{ old('price', $foodItem->price) }}" min="0" step="1000" required>
                                     @error('price')
@@ -86,9 +86,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="category" class="form-label">Danh mục</label>
+                                            <label for="category" class="form-label">{{ __('messages.Category') }}</label>
                                             <input type="text" name="category" id="category" class="form-control @error('category') is-invalid @enderror" 
-                                                   value="{{ old('category', $foodItem->category) }}" placeholder="VD: Món chính, Khai vị, Tráng miệng...">
+                                                   value="{{ old('category', $foodItem->category) }}" placeholder="{{ __('messages.e.g. Main Course, Appetizer, Dessert...') }}">
                                             @error('category')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -96,9 +96,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="cuisine_style" class="form-label">Phong cách ẩm thực</label>
+                                            <label for="cuisine_style" class="form-label">{{ __('messages.Cuisine Style') }}</label>
                                             <input type="text" name="cuisine_style" id="cuisine_style" class="form-control @error('cuisine_style') is-invalid @enderror" 
-                                                   value="{{ old('cuisine_style', $foodItem->cuisine_style) }}" placeholder="VD: Truyền thống Nhật, Hiện đại, Fusion...">
+                                                   value="{{ old('cuisine_style', $foodItem->cuisine_style) }}" placeholder="{{ __('messages.e.g. Traditional Japanese, Modern, Fusion...') }}">
                                             @error('cuisine_style')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -111,31 +111,31 @@
                             <div class="col-md-6">
                                 <h5 class="mb-3">
                                     <i class="fas fa-list-alt me-2"></i>
-                                    Thông tin bổ sung
+                                    {{ __('messages.Additional Information') }}
                                 </h5>
 
                                 <div class="mb-3">
-                                    <label for="ingredients" class="form-label">Nguyên liệu</label>
+                                    <label for="ingredients" class="form-label">{{ __('messages.Ingredients') }}</label>
                                     <textarea name="ingredients" id="ingredients" rows="3" class="form-control @error('ingredients') is-invalid @enderror" 
-                                              placeholder="Liệt kê các nguyên liệu chính...">{{ old('ingredients', $foodItem->ingredients) }}</textarea>
+                                              placeholder="{{ __('messages.List main ingredients...') }}">{{ old('ingredients', $foodItem->ingredients) }}</textarea>
                                     @error('ingredients')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="allergens" class="form-label">Dị ứng</label>
+                                    <label for="allergens" class="form-label">{{ __('messages.Allergens') }}</label>
                                     <textarea name="allergens" id="allergens" rows="2" class="form-control @error('allergens') is-invalid @enderror" 
-                                              placeholder="Các thành phần có thể gây dị ứng...">{{ old('allergens', $foodItem->allergens) }}</textarea>
+                                              placeholder="{{ __('messages.Allergenic ingredients...') }}">{{ old('allergens', $foodItem->allergens) }}</textarea>
                                     @error('allergens')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="preparation_time" class="form-label">Thời gian chuẩn bị <span class="text-danger">*</span></label>
+                                    <label for="preparation_time" class="form-label">{{ __('messages.Preparation Time') }} <span class="text-danger">*</span></label>
                                     <input type="text" name="preparation_time" id="preparation_time" class="form-control @error('preparation_time') is-invalid @enderror" 
-                                           value="{{ old('preparation_time', $foodItem->preparation_time) }}" placeholder="VD: 15 phút" required>
+                                           value="{{ old('preparation_time', $foodItem->preparation_time) }}" placeholder="{{ __('messages.e.g. 15 minutes') }}" required>
                                     @error('preparation_time')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -144,7 +144,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="stock_quantity" class="form-label">Số lượng tồn kho <span class="text-danger">*</span></label>
+                                            <label for="stock_quantity" class="form-label">{{ __('messages.Stock Quantity') }} <span class="text-danger">*</span></label>
                                             <input type="number" name="stock_quantity" id="stock_quantity" class="form-control @error('stock_quantity') is-invalid @enderror" 
                                                    value="{{ old('stock_quantity', $foodItem->stock_quantity) }}" min="0" required>
                                             @error('stock_quantity')
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="min_stock_level" class="form-label">Mức tồn kho tối thiểu <span class="text-danger">*</span></label>
+                                            <label for="min_stock_level" class="form-label">{{ __('messages.Minimum Stock Level') }} <span class="text-danger">*</span></label>
                                             <input type="number" name="min_stock_level" id="min_stock_level" class="form-control @error('min_stock_level') is-invalid @enderror" 
                                                    value="{{ old('min_stock_level', $foodItem->min_stock_level) }}" min="0" required>
                                             @error('min_stock_level')
@@ -165,23 +165,23 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Ảnh món ăn</label>
+                                    <label for="image" class="form-label">{{ __('messages.Food Image') }}</label>
                                     
                                     <!-- Current Image Preview -->
                                     @if($foodItem->image_path)
                                         <div class="mb-2">
-                                            <label class="form-label">Ảnh hiện tại:</label>
+                                            <label class="form-label">{{ __('messages.Current Image') }}:</label>
                                             <div class="d-flex align-items-center">
                                                 <img src="{{ Storage::url($foodItem->image_path) }}" 
                                                      alt="{{ $foodItem->name }}" 
                                                      class="img-thumbnail me-2" 
                                                      style="width: 100px; height: 100px; object-fit: cover;">
                                                 <div>
-                                                    <small class="text-muted d-block">Ảnh hiện tại</small>
+                                                    <small class="text-muted d-block">{{ __('messages.Current Image') }}</small>
                                                     <button type="button" class="btn btn-sm btn-outline-danger" 
                                                             onclick="removeCurrentImage()">
                                                         <i class="fas fa-trash me-1"></i>
-                                                        Xóa ảnh
+                                                        {{ __('messages.Delete Image') }}
                                                     </button>
                                                 </div>
                                             </div>
@@ -190,7 +190,7 @@
                                     
                                     <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" 
                                            accept="image/*">
-                                    <small class="form-text text-muted">Định dạng: JPEG, PNG, JPG, GIF. Kích thước tối đa: 2MB</small>
+                                    <small class="form-text text-muted">{{ __('messages.Format: JPEG, PNG, JPG, GIF. Max size: 2MB') }}</small>
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -208,7 +208,7 @@
                                            value="1" {{ old('is_available', $foodItem->is_available) ? 'checked' : '' }}>
                                     <label for="is_available" class="form-check-label">
                                         <i class="fas fa-check-circle me-1 text-success"></i>
-                                        Món ăn có sẵn
+                                        {{ __('messages.Food Available') }}
                                     </label>
                                 </div>
                             </div>
@@ -218,11 +218,11 @@
                     <div class="card-footer text-end">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-1"></i>
-                            Cập nhật món ăn
+                            {{ __('messages.Update Food Item') }}
                         </button>
                         <a href="{{ route('food-item.show', $foodItem->id) }}" class="btn btn-secondary ms-2">
                             <i class="fas fa-times me-1"></i>
-                            Hủy
+                            {{ __('messages.Cancel') }}
                         </a>
                     </div>
                 </form>
@@ -252,7 +252,7 @@
 
     // Function to remove current image
     function removeCurrentImage() {
-        if (confirm('Bạn có chắc chắn muốn xóa ảnh hiện tại?')) {
+        if (confirm('{{ __("messages.Are you sure you want to delete the current image?") }}')) {
             document.getElementById('remove_current_image').value = '1';
             // Hide the current image preview
             const currentImageContainer = document.querySelector('.mb-2');
