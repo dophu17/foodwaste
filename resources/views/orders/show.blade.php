@@ -75,14 +75,14 @@
                         <div class="mb-3">
                             <label class="fw-bold text-muted">{{ __('messages.Day of Week') }}:</label>
                             <div class="badge bg-info bg-opacity-10 text-info">
-                                <i class="fas fa-calendar me-1"></i>{{ $order->day_of_week }}
+                                <i class="fas fa-calendar me-1"></i>{{ __('messages.' . $order->day_of_week) }}
                             </div>
                         </div>
                         @if($order->weather_condition)
                             <div class="mb-3">
                                 <label class="fw-bold text-muted">{{ __('messages.Weather') }}:</label>
                                 <div class="badge bg-secondary bg-opacity-10 text-secondary">
-                                    <i class="fas fa-cloud me-1"></i>{{ $order->weather_condition }}
+                                    <i class="fas fa-cloud me-1"></i>{{ __('messages.' . $order->weather_condition) }}
                                 </div>
                             </div>
                         @endif

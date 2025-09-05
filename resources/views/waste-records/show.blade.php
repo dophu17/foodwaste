@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="mb-2">
                                         <strong>{{ __('messages.Waste Reason') }}:</strong><br>
-                                        <span class="badge bg-warning text-dark">{{ $wasteRecord->waste_reason }}</span>
+                                        <span class="badge bg-warning text-dark">{{ __('messages.' . $wasteRecord->waste_reason) }}</span>
                                     </div>
                                 </div>
                             </div>

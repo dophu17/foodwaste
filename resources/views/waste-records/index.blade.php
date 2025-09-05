@@ -122,9 +122,14 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="waste_reason" 
-                               placeholder="{{ __('messages.Search by reason') }}" 
-                               value="{{ request('waste_reason') }}">
+                        <select class="form-select" name="waste_reason">
+                            <option value="">{{ __('messages.All Reasons') }}</option>
+                            @foreach($wasteReasons as $reason)
+                                <option value="{{ $reason }}" {{ request('waste_reason') == $reason ? 'selected' : '' }}>
+                                    {{ __('messages.' . $reason) }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary me-2">
@@ -189,7 +194,7 @@
                                         </td>
                                         <td>
                                             <span class="badge bg-warning text-dark">
-                                                {{ $record->waste_reason }}
+                                                {{ __('messages.' . $record->waste_reason) }}
                                             </span>
                                         </td>
                                         <td>

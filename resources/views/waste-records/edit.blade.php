@@ -143,7 +143,7 @@
                                         <option value="">{{ __('messages.Select Reason') }}</option>
                                         @foreach($wasteReasons as $reason)
                                             <option value="{{ $reason }}" {{ old('waste_reason', $wasteRecord->waste_reason) == $reason ? 'selected' : '' }}>
-                                                {{ $reason }}
+                                                {{ __('messages.' . $reason) }}
                                             </option>
                                         @endforeach
                                     </select>
