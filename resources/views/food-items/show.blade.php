@@ -51,7 +51,7 @@
                                      style="height: 300px;">
                                     <div class="text-center text-muted">
                                         <i class="fas fa-image fa-4x mb-3"></i>
-                                        <p>Không có ảnh</p>
+                                        <p>{{ __('messages.No image') }}</p>
                                     </div>
                                 </div>
                             @endif
@@ -63,16 +63,16 @@
                                 <div class="col-md-6">
                                     <h5 class="text-primary mb-3">
                                         <i class="fas fa-info-circle me-2"></i>
-                                        Thông tin cơ bản
+                                        {{ __('messages.Basic Information') }}
                                     </h5>
                                     
                                     <table class="table table-borderless">
                                         <tr>
-                                            <td class="fw-bold">Tên món:</td>
+                                            <td class="fw-bold">{{ __('messages.Food Name') }}:</td>
                                             <td>{{ $foodItem->name }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Menu:</td>
+                                            <td class="fw-bold">{{ __('messages.Menu') }}:</td>
                                             <td>
                                                 <a href="{{ route('menus.show', $foodItem->menu_id) }}" 
                                                    class="text-decoration-none">
@@ -81,17 +81,17 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Danh mục:</td>
+                                            <td class="fw-bold">{{ __('messages.Category') }}:</td>
                                             <td>
                                                 <span class="badge bg-secondary">{{ $foodItem->category }}</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Phong cách:</td>
+                                            <td class="fw-bold">{{ __('messages.Style') }}:</td>
                                             <td>{{ $foodItem->cuisine_style }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Giá:</td>
+                                            <td class="fw-bold">{{ __('messages.Price') }}:</td>
                                             <td>
                                                 <span class="h5 text-primary mb-0">{{ $foodItem->formatted_price }}</span>
                                             </td>
@@ -102,16 +102,16 @@
                                 <div class="col-md-6">
                                     <h5 class="text-success mb-3">
                                         <i class="fas fa-list-alt me-2"></i>
-                                        Thông tin bổ sung
+                                        {{ __('messages.Additional Information') }}
                                     </h5>
                                     
                                     <table class="table table-borderless">
                                         <tr>
-                                            <td class="fw-bold">Thời gian chuẩn bị:</td>
+                                            <td class="fw-bold">{{ __('messages.Preparation Time') }}:</td>
                                             <td>{{ $foodItem->preparation_time }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tồn kho:</td>
+                                            <td class="fw-bold">{{ __('messages.Stock') }}:</td>
                                             <td>
                                                 <span class="badge {{ $foodItem->stock_status_class }}">
                                                     {{ $foodItem->stock_status }}
@@ -123,21 +123,21 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Trạng thái:</td>
+                                            <td class="fw-bold">{{ __('messages.Status') }}:</td>
                                             <td>
                                                 @if($foodItem->is_available)
-                                                    <span class="badge bg-success">Có sẵn</span>
+                                                    <span class="badge bg-success">{{ __('messages.Available') }}</span>
                                                 @else
-                                                    <span class="badge bg-danger">Không có sẵn</span>
+                                                    <span class="badge bg-danger">{{ __('messages.Unavailable') }}</span>
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Ngày tạo:</td>
+                                            <td class="fw-bold">{{ __('messages.Created Date') }}:</td>
                                             <td>{{ $foodItem->created_at->format('d/m/Y H:i') }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Cập nhật lần cuối:</td>
+                                            <td class="fw-bold">{{ __('messages.Last Updated') }}:</td>
                                             <td>{{ $foodItem->updated_at->format('d/m/Y H:i') }}</td>
                                         </tr>
                                     </table>
@@ -152,7 +152,7 @@
                                     <div class="col-12">
                                         <h5 class="text-dark mb-3">
                                             <i class="fas fa-align-left me-2"></i>
-                                            Mô tả
+                                            {{ __('messages.Description') }}
                                         </h5>
                                         <p class="text-muted">{{ $foodItem->description }}</p>
                                     </div>
@@ -165,7 +165,7 @@
                                     <div class="col-12">
                                         <h5 class="text-dark mb-3">
                                             <i class="fas fa-list me-2"></i>
-                                            Nguyên liệu
+                                            {{ __('messages.Ingredients') }}
                                         </h5>
                                         <p class="text-muted">{{ $foodItem->ingredients }}</p>
                                     </div>
@@ -178,7 +178,7 @@
                                     <div class="col-12">
                                         <h5 class="text-warning mb-3">
                                             <i class="fas fa-exclamation-triangle me-2"></i>
-                                            Thông tin dị ứng
+                                            {{ __('messages.Allergen Information') }}
                                         </h5>
                                         <p class="text-muted">{{ $foodItem->allergens }}</p>
                                     </div>
@@ -191,15 +191,15 @@
                                 <div class="col-12">
                                     <h5 class="text-purple mb-3">
                                         <i class="fas fa-robot me-2"></i>
-                                        Dự đoán thất thoát AI
+                                        {{ __('messages.AI Waste Prediction') }}
                                     </h5>
                                     
                                     @if($foodItem->ai_waste_prediction)
                                         <!-- Hiển thị AI prediction khi có dữ liệu -->
                                         <div class="alert alert-info">
-                                            <strong>Tỷ lệ dự đoán:</strong> {{ $foodItem->ai_waste_prediction }}%
+                                            <strong>{{ __('messages.Prediction Rate') }}:</strong> {{ $foodItem->ai_waste_prediction }}%
                                             <br>
-                                            <strong>Phân tích:</strong> {{ $foodItem->getWasteInsights() }}
+                                            <strong>{{ __('messages.Analysis') }}:</strong> {{ $foodItem->getWasteInsights() }}
                                         </div>
                                     @else
                                         <!-- Hiển thị thông báo nhắc nhở khi không có dữ liệu -->
@@ -207,40 +207,40 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="fas fa-exclamation-triangle me-3 fs-4"></i>
                                                 <div>
-                                                    <strong>Chưa có dự đoán AI</strong>
+                                                    <strong>{{ __('messages.No AI prediction yet') }}</strong>
                                                     <br>
                                                     <small class="text-muted">
-                                                        Để tính toán dự đoán thất thoát AI, vui lòng đảm bảo tất cả các yếu tố bắt buộc:
+                                                        {{ __('messages.To calculate AI waste prediction, please ensure all required factors') }}:
                                                     </small>
                                                     <ul class="mb-0 mt-2">
                                                         @if(empty($foodItem->category))
-                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Danh mục (Category)</strong> chưa được thiết lập</li>
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>{{ __('messages.Category (Category) not set') }}</strong></li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Danh mục: {{ $foodItem->category }}</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>{{ __('messages.Category') }}: {{ $foodItem->category }}</li>
                                                         @endif
                                                         
                                                         @if(empty($foodItem->preparation_time))
-                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Thời gian chuẩn bị</strong> chưa được thiết lập</li>
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>{{ __('messages.Preparation time not set') }}</strong></li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Thời gian chuẩn bị: {{ $foodItem->preparation_time }}</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>{{ __('messages.Preparation Time') }}: {{ $foodItem->preparation_time }}</li>
                                                         @endif
                                                         
                                                         @if(empty($foodItem->price) || $foodItem->price <= 0)
-                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Giá</strong> chưa được thiết lập hoặc không hợp lệ</li>
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>{{ __('messages.Price not set or invalid') }}</strong></li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Giá: {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>{{ __('messages.Price') }}: {{ \App\Helpers\CurrencyHelper::format($foodItem->price) }}</li>
                                                         @endif
                                                         
                                                         @if($foodItem->stock_quantity < 0)
-                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Số lượng tồn kho</strong> không hợp lệ</li>
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>{{ __('messages.Stock quantity invalid') }}</strong></li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Tồn kho: {{ $foodItem->stock_quantity }}</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>{{ __('messages.Stock') }}: {{ $foodItem->stock_quantity }}</li>
                                                         @endif
                                                         
                                                         @if($foodItem->min_stock_level < 0)
-                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>Mức tồn kho tối thiểu</strong> không hợp lệ</li>
+                                                            <li><i class="fas fa-times text-danger me-2"></i><strong>{{ __('messages.Minimum stock level invalid') }}</strong></li>
                                                         @else
-                                                            <li><i class="fas fa-check text-success me-2"></i>Mức tồn kho tối thiểu: {{ $foodItem->min_stock_level }}</li>
+                                                            <li><i class="fas fa-check text-success me-2"></i>{{ __('messages.Minimum stock level') }}: {{ $foodItem->min_stock_level }}</li>
                                                         @endif
                                                     </ul>
                                                     
@@ -256,7 +256,7 @@
                                                     @if(!empty($missingFactors))
                                                         <div class="mt-3">
                                                             <a href="{{ route('food-item.edit', $foodItem->id) }}" class="btn btn-warning btn-sm">
-                                                                <i class="fas fa-edit me-2"></i>Cập nhật thông tin thiếu
+                                                                <i class="fas fa-edit me-2"></i>{{ __('messages.Update missing information') }}
                                                             </a>
                                                         </div>
                                                     @else
@@ -264,7 +264,7 @@
                                                             <form method="POST" action="{{ route('food-item.calculate-ai', $foodItem->id) }}" class="d-inline">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-calculator me-2"></i>Tính toán AI Prediction
+                                                                    <i class="fas fa-calculator me-2"></i>{{ __('messages.Calculate AI Prediction') }}
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -288,7 +288,7 @@
                 <div class="card-header">
                     <h6 class="card-title mb-0">
                         <i class="fas fa-store me-2"></i>
-                        Thông tin nhà hàng
+                        {{ __('messages.Restaurant Information') }}
                     </h6>
                 </div>
                 <div class="card-body">
@@ -309,7 +309,7 @@
                 <div class="card-header">
                     <h6 class="card-title mb-0">
                         <i class="fas fa-clipboard-list me-2"></i>
-                        Thông tin menu
+                        {{ __('messages.Menu Information') }}
                     </h6>
                 </div>
                 <div class="card-body">
@@ -330,7 +330,7 @@
                 <div class="card-header">
                     <h6 class="card-title mb-0">
                         <i class="fas fa-tools me-2"></i>
-                        Thao tác nhanh
+                        {{ __('messages.Quick Actions') }}
                     </h6>
                 </div>
                 <div class="card-body">
@@ -339,23 +339,23 @@
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary w-100">
                                 <i class="fas fa-{{ $foodItem->is_available ? 'eye-slash' : 'eye' }} me-1"></i>
-                                {{ $foodItem->is_available ? 'Ẩn món ăn' : 'Hiện món ăn' }}
+                                {{ $foodItem->is_available ? __('messages.Hide Food Item') : __('messages.Show Food Item') }}
                             </button>
                         </form>
                         
                         <button type="button" class="btn btn-outline-primary w-100" 
                                 data-bs-toggle="modal" data-bs-target="#updateStockModal">
                             <i class="fas fa-boxes me-1"></i>
-                            Cập nhật tồn kho
+                            {{ __('messages.Update Stock') }}
                         </button>
                         
                         <form action="{{ route('food-item.destroy', $foodItem->id) }}" method="POST" 
-                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa món ăn này?')">
+                              onsubmit="return confirm('{{ __('messages.Are you sure you want to delete this food item?') }}')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-outline-danger w-100">
                                 <i class="fas fa-trash me-1"></i>
-                                Xóa món ăn
+                                {{ __('messages.Delete Food Item') }}
                             </button>
                         </form>
                     </div>
@@ -372,7 +372,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-boxes me-2"></i>
-                    Cập nhật tồn kho
+                    {{ __('messages.Update Stock') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -380,15 +380,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="stock_quantity" class="form-label">Số lượng tồn kho</label>
+                        <label for="stock_quantity" class="form-label">{{ __('messages.Stock Quantity') }}</label>
                         <input type="number" name="stock_quantity" id="stock_quantity" 
                                class="form-control" value="{{ $foodItem->stock_quantity }}" 
                                min="0" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('messages.Update') }}</button>
                 </div>
             </form>
         </div>

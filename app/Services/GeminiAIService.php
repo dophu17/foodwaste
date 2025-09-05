@@ -29,7 +29,7 @@ class GeminiAIService
             case 'vi':
                 return 'vietnamese';
             default:
-                return 'english';
+                return 'japanese';
         }
     }
 
