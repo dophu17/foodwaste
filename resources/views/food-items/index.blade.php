@@ -14,7 +14,7 @@
                             • Menu: {{ $menu->name }}
                         @endif
                         @if(isset($category))
-                            • Danh mục: {{ $category }}
+                            • {{ __('messages.Category') }}: {{ $category }}
                         @endif
                     </p>
                 </div>
@@ -151,7 +151,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item text-danger" 
-                                                    onclick="return confirm('{{ __('messages.Are you sure you want to delete this food item?') }}')">
+                                                    onclick="return confirm(&quot;{{ __('messages.Are you sure you want to delete this food item?') }}&quot;)">
                                                 <i class="fas fa-trash me-2"></i>{{ __('messages.Delete') }}
                                             </button>
                                         </form>
