@@ -187,6 +187,16 @@ php artisan serve
    - **Tối Ưu Hóa Thực Đơn**: `/dashboard/ai/menu-optimization`
    - **Phân Tích Toàn Diện**: `/gemini-ai/comprehensive-analysis`
 
+### 📖 Tài Liệu Chi Tiết AI
+Để hiểu rõ hơn về các tính năng AI và cách sử dụng, vui lòng tham khảo:
+**[🤖 Hướng Dẫn Tính Năng AI - AI_FEATURES_README.md](AI_FEATURES_README.md)**
+
+Tài liệu này bao gồm:
+- Chi tiết các trang có tích hợp AI
+- Hướng dẫn sử dụng từng tính năng AI
+- Danh sách yếu tố cần thiết cho phân tích AI
+- Kế hoạch phát triển AI trong tương lai
+
 ## 📧 Thiết Lập N8N Workflow
 
 Hệ thống bao gồm workflow báo cáo hàng ngày tự động sử dụng N8N:
